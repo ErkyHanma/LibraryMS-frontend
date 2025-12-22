@@ -1,7 +1,7 @@
-import React from "react";
+import { Outlet } from "react-router";
 
 const App = () => {
-  return <div className="min-h-screen w-full ">Hello</div>;
+  return <Outlet />;
 };
 
 export default App;
