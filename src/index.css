@@ -120,6 +120,12 @@
   }
 }
 
+@layer utilities {
+  .book-title {
+    @apply line-clamp-2 text-lg leading-5 font-semibold;
+  }
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;

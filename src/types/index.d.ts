@@ -4,10 +4,12 @@ export type NavLink = {
 };
 
 export type Book = {
+  id: string;
   title: string;
   author: string;
   categories: string[];
   description: string;
+  summary: string;
   pages: number;
   date: string;
   image?: string;
