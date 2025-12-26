@@ -66,7 +66,23 @@ const Search = () => {
                 </p>
               </div>
             </div>
-            {/* Better responsive grid */}
+
+            {/* Not result ui */}
+            {/* <div className="flex flex-col items-center justify-center py-16">
+              <div className="mb-6 flex h-32 w-32 items-center justify-center rounded-full bg-gray-200">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" strokeWidth="1.5" className="h-12 w-12 text-gray-600" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607"/></svg>
+              </div>
+              <h2 className="mb-2 text-2xl font-bold text-gray-900">
+                No results found
+              </h2>
+              <p className="max-w-lg text-center text-gray-500">
+                We couldn't find any books matching{" "}
+                <span className="font-semibold text-black">"Discover"</span>.
+                Try using different keywords or check for typos.
+              </p>
+            </div> */}
+
+            {/* Books result */}
             <div className="grid w-full grid-cols-2 gap-6 md:grid-cols-3">
               {mockBooks.map((book) => (
                 <BookCard book={book} key={book.id} />
@@ -200,10 +216,7 @@ const Search = () => {
             </label>
           </div>
           <div className="flex items-center gap-3">
-            <Checkbox
-              className="cursor-pointer"
-              id={`filter-borrowed`}
-            />
+            <Checkbox className="cursor-pointer" id={`filter-borrowed`} />
             <label
               htmlFor={`filter-borrowed`}
               className="cursor-pointer text-sm"
