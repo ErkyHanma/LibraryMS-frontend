@@ -1,4 +1,4 @@
-import type { Book, NavLink } from "@/types";
+import type { Book, BorrowedBook, NavLink, Student } from "@/types";
 
 export const NAV_LINKS: NavLink[] = [
   { label: "Home", href: "/home" },
@@ -113,3 +113,91 @@ export const mockBooks: Book[] = [
     image: "/public/images/book-6.png",
   },
 ];
+
+export const mockBorrowedBooks: BorrowedBook[] = [
+  {
+    book: {
+      id: "2",
+      title: "The Design of Everyday Things",
+      author: "Don Norman",
+      categories: ["Design", "User Experience", "Psychology"],
+      description:
+        "A groundbreaking exploration of how design serves as communication between objects and users. The book examines the psychology behind good and bad design, introducing concepts like affordances and signifiers while advocating for user-centered design principles.",
+      summary:
+        "The Design of Everyday Things is a powerful exploration of the psychology behind good and bad design. Don Norman, a cognitive scientist and design pioneer, demonstrates how everyday objects—from doors and light switches to smartphones and websites—communicate with users through their design.\n\nThe book introduces fundamental design principles including affordances (what actions an object suggests), signifiers (clues that indicate how to interact), mapping (the relationship between controls and their effects), feedback (how systems communicate their status), and constraints (how design limits possible actions). Norman shows how good design makes these elements obvious and intuitive, while poor design creates confusion and frustration.\n\nThrough entertaining real-world examples of both brilliant and terrible design, Norman reveals why we blame ourselves when we can't figure out how to use something, when the fault actually lies with the designer. He argues passionately for human-centered design that puts the user's needs, capabilities, and limitations first.\n\nThis revised and expanded edition includes updated examples from modern technology and digital interfaces, making the principles relevant to today's designers working on everything from physical products to mobile apps and websites. Essential reading for designers, engineers, and anyone who wants to understand why some things work beautifully while others drive us crazy.",
+      pages: 368,
+      date: "2013-11-05",
+      image: "/public/images/book-3.png",
+    },
+    borrowedDate: "Oct 15, 2023",
+    dueDate: "Nov 01, 2023",
+    status: "active",
+  },
+  {
+    book: {
+      id: "3",
+      title:
+        "Everything You Need to Ace Computer Science and Coding in One Big Fat Notebook",
+      author: "Grant Smith",
+      categories: [
+        "Computer Science",
+        "Education",
+        "Programming",
+        "Middle School",
+      ],
+      description:
+        "A comprehensive middle school study guide covering computer science fundamentals, coding concepts, and programming languages including Scratch, Python, HTML, and CSS. Written in an accessible notebook format with key concepts, diagrams, and practice exercises.",
+      summary:
+        "A fun, visual study guide that makes computer science and coding easy to understand for middle schoolers and beginners.",
+      pages: 576,
+      date: "2020-04-14",
+      image: "/public/images/book-4.png",
+    },
+    borrowedDate: "Oct 20, 2023",
+    dueDate: "Nov 05, 2023",
+    status: "overdue",
+  },
+  {
+    book: {
+      id: "3",
+      title:
+        "Everything You Need to Ace Computer Science and Coding in One Big Fat Notebook",
+      author: "Grant Smith",
+      categories: [
+        "Computer Science",
+        "Education",
+        "Programming",
+        "Middle School",
+      ],
+      description:
+        "A comprehensive middle school study guide covering computer science fundamentals, coding concepts, and programming languages including Scratch, Python, HTML, and CSS. Written in an accessible notebook format with key concepts, diagrams, and practice exercises.",
+      summary:
+        "A fun, visual study guide that makes computer science and coding easy to understand for middle schoolers and beginners.",
+      pages: 576,
+      date: "2020-04-14",
+      image: "/public/images/book-4.png",
+    },
+    borrowedDate: "Aug 10, 2023",
+    dueDate: "Sept 15, 2023",
+    returnedDate: "Sept 15, 2023",
+    status: "returned",
+  },
+];
+
+export const student1: Student = {
+  id: "a1b2c3d4-e5f6-4789-a012-3456789abcde",
+  name: "María",
+  lastName: "García",
+  profileImage: "https://i.pravatar.cc/150?img=5",
+  email: "maria.garcia@university.edu",
+  studentId: "2024-001234",
+};
+
+export const student2: Student = {
+  id: "f9e8d7c6-b5a4-4321-9876-543210fedcba",
+  name: "Carlos",
+  lastName: "Rodríguez",
+  profileImage: "https://i.pravatar.cc/150?img=12",
+  email: "carlos.rodriguez@university.edu",
+  studentId: "2023-005678",
+};

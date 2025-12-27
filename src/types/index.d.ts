@@ -14,3 +14,20 @@ export type Book = {
   date: string;
   image?: string;
 };
+
+export type BorrowedBook = {
+  book: Book;
+  borrowedDate: string;
+  dueDate: string;
+  returnedDate?: string;
+  status: "active" | "returned" | "overdue";
+};
+
+export type Student = {
+  id: string;
+  name: string;
+  lastName: string;
+  profileImage: string;
+  email: string;
+  studentId: string;
+};

@@ -7,6 +7,9 @@ import MainLayout from "./layouts/MainLayout.tsx";
 import Home from "./pages/books/Home.tsx";
 import Search from "./pages/books/Search.tsx";
 import BookDetails from "./pages/books/BookDetails.tsx";
+import AdminLayout from "./layouts/AdminLayout.tsx";
+import Dashboard from "./pages/admin/Dashboard.tsx";
+import Profile from "./pages/books/Profile.tsx";
 
 const router = createBrowserRouter([
   {
@@ -24,8 +27,15 @@ const router = createBrowserRouter([
         Component: MainLayout,
         children: [
           { index: true, path: "home", Component: Home },
+          { path: "profile", Component: Profile },
           { path: "search", Component: Search },
           { path: "book/:id", Component: BookDetails },
+        ],
+      },
+      {
+        Component: AdminLayout,
+        children: [
+          { index: true, path: "admin/dashboard", Component: Dashboard },
         ],
       },
     ],

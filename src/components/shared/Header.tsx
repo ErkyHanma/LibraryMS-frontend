@@ -6,7 +6,7 @@ const Header = () => {
   const { pathname } = useLocation();
 
   return (
-    <header className="fixed top-0  w-full bg-white">
+    <header className="fixed top-0 z-50 w-full bg-white">
       <div className="flex items-center justify-between px-6 shadow-md md:px-12">
         <Logo />
         <div className="flex items-center gap-3">
@@ -19,14 +19,14 @@ const Header = () => {
               {label}
             </Link>
           ))}
-          <div className="flex items-center">
+          <Link to={"/profile"} className="flex items-center">
             <img
               className="h-auto w-12 cursor-pointer"
               src="/public/images/default-profileImage.png"
               alt=""
             />
             <p className="font-medium">Erky</p>
-          </div>
+          </Link>
 
           <button className="ml-4 cursor-pointer rounded-md p-1 hover:bg-red-100">
             <img
