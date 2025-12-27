@@ -1,3 +1,5 @@
+import ProfileSidebar from "@/components/books/ProfileSidebar";
+import StatCard from "@/components/shared/StatCard";
 import { mockBorrowedBooks, student2 as student } from "@/constants";
 
 import {
@@ -6,8 +8,6 @@ import {
   BookOpen,
   Calendar,
   Filter,
-  IdCard,
-  Mail,
   ReceiptText,
   Search,
 } from "lucide-react";
@@ -28,99 +28,35 @@ const Profile = () => {
       <div className="mx-auto max-w-7xl p-6">
         <div className="flex flex-col gap-6 md:flex-row">
           {/* Left Sidebar - Profile Card */}
-          <div className="w-full md:max-w-75 lg:max-w-87.5">
-            <div className="sticky top-22 rounded-lg bg-white p-6 shadow-sm">
-              <div className="flex flex-col items-center">
-                <img
-                  src={student.profileImage}
-                  alt={`${student.name} ${student.lastName}`}
-                  className="mb-4 h-32 w-32 rounded-full object-cover"
-                />
-                <h2 className="text-xl font-bold text-gray-900">
-                  {student.name} {student.lastName}
-                </h2>
-                <span className="mt-3 rounded-full bg-green-100 px-3 py-1 text-xs font-medium text-green-700">
-                  Active Member
-                </span>
-              </div>
-
-              <div className="mt-6 space-y-4 border-t pt-6">
-                <div className="flex items-start gap-3">
-                  <Mail className="mt-0.5 h-5 w-5 text-gray-400" />
-                  <div>
-                    <p className="text-xs text-gray-500">Email</p>
-                    <p className="text-sm break-all text-gray-900">
-                      {student.email}
-                    </p>
-                  </div>
-                </div>
-
-                <div className="flex items-start gap-3">
-                  <IdCard className="mt-0.5 h-5 w-5 text-gray-400" />
-                  <div>
-                    <p className="text-xs text-gray-500">University ID</p>
-                    <p className="text-sm text-wrap text-gray-900">
-                      {student.studentId}
-                    </p>
-                  </div>
-                </div>
-
-                <div className="flex items-start gap-3">
-                  <Calendar className="mt-0.5 h-5 w-5 text-gray-400" />
-                  <div>
-                    <p className="text-xs text-gray-500">Member Since</p>
-                    <p className="text-sm text-gray-900">August 24, 2021</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+          <ProfileSidebar student={student} />
 
           {/* Main Content Area */}
           <div className="flex w-full flex-col">
             {/* Stats Cards */}
             <div className="mb-6 flex grid-cols-3 flex-col gap-4 md:grid">
-              <div className="rounded-lg bg-white p-5 shadow-sm">
-                <div className="flex items-center gap-3">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-blue-100">
-                    <BookOpen className="h-5 w-5 text-blue-600" />
-                  </div>
-                  <div>
-                    <p className="text-2xl font-bold text-gray-900">
-                      {stats.totalBorrowed}
-                    </p>
-                    <p className="text-sm text-gray-500">Total Borrowed</p>
-                  </div>
-                </div>
-              </div>
+              <StatCard
+                icon={<BookOpen className="h-5 w-5" />}
+                value={stats.totalBorrowed}
+                label="Total Borrowed"
+                iconBgColor="bg-blue-100"
+                iconColor="text-blue-600"
+              />
 
-              <div className="rounded-lg bg-white p-5 shadow-sm">
-                <div className="flex items-center gap-3">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-green-100">
-                    <Bookmark className="h-5 w-5 text-green-600" />
-                  </div>
-                  <div>
-                    <p className="text-2xl font-bold text-gray-900">
-                      {stats.currentlyActive}
-                    </p>
-                    <p className="text-sm text-gray-500">Currently Active</p>
-                  </div>
-                </div>
-              </div>
+              <StatCard
+                icon={<Bookmark className="h-5 w-5" />}
+                value={150}
+                label="Currently Active"
+                iconBgColor="bg-green-100"
+                iconColor="text-green-600"
+              />
 
-              <div className="rounded-lg bg-white p-5 shadow-sm">
-                <div className="flex items-center gap-3">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-orange-100">
-                    <AlertTriangle className="h-5 w-5 text-orange-600" />
-                  </div>
-                  <div>
-                    <p className="text-2xl font-bold text-gray-900">
-                      {stats.overdueBooks}
-                    </p>
-                    <p className="text-sm text-gray-500">Overdue Books</p>
-                  </div>
-                </div>
-              </div>
+              <StatCard
+                icon={<AlertTriangle className="h-5 w-5" />}
+                value={stats.overdueBooks}
+                label="Overdue Books"
+                iconBgColor="bg-orange-100"
+                iconColor="text-orange-600"
+              />
             </div>
 
             {/* Borrowing History Section */}
@@ -189,7 +125,7 @@ const Profile = () => {
                         alt={book.book.title}
                         className="h-24 w-16 rounded object-cover shadow-sm"
                       />
-                      <div className="flex-1 relative">
+                      <div className="relative flex-1">
                         <div className="flex items-start justify-between">
                           <div>
                             <h4 className="font-semibold text-gray-900">
@@ -230,7 +166,7 @@ const Profile = () => {
                               )}
                             </div>
                           </div>
-                          <div className="flex flex-col  items-center gap-2">
+                          <div className="flex flex-col items-center gap-2">
                             {book.status === "returned" ? (
                               <span className="rounded bg-gray-100 px-3 py-1 text-xs font-medium text-gray-700">
                                 Returned
@@ -247,7 +183,7 @@ const Profile = () => {
                               </>
                             )}
 
-                            <button className="cursor-pointer absolute bottom-0 rounded-md bg-gray-200 p-2 transition-all duration-200 hover:scale-105 hover:bg-gray-300 active:scale-95">
+                            <button className="absolute bottom-0 cursor-pointer rounded-md bg-gray-200 p-2 transition-all duration-200 hover:scale-105 hover:bg-gray-300 active:scale-95">
                               <ReceiptText className="size-4 text-gray-500" />
                             </button>
                           </div>

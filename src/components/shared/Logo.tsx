@@ -1,8 +1,12 @@
 import { Link } from "react-router";
 
-const Logo = () => {
+type LogoProps = {
+  route: string;
+};
+
+const Logo = ({ route }: LogoProps) => {
   return (
-    <Link to={"home"} className="flex items-center gap-1 py-4">
+    <Link to={route} className="flex items-center gap-1">
       <img className="h-auto w-8" src="/public/images/Logo.png" alt="Logo" />
       <p className="text-2xl font-semibold">LibraryMs</p>
     </Link>

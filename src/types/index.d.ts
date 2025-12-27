@@ -1,6 +1,12 @@
+import type { ReactNode } from "react";
+
 export type NavLink = {
   label: string;
-  href: string;
+  route: string;
+};
+
+export type SidebarNavLink = NavLink & {
+  image: ReactNode;
 };
 
 export type Book = {
@@ -30,4 +36,5 @@ export type Student = {
   profileImage: string;
   email: string;
   studentId: string;
+  createdAt: string;
 };

@@ -10,6 +10,10 @@ import BookDetails from "./pages/books/BookDetails.tsx";
 import AdminLayout from "./layouts/AdminLayout.tsx";
 import Dashboard from "./pages/admin/Dashboard.tsx";
 import Profile from "./pages/books/Profile.tsx";
+import Users from "./pages/admin/Users.tsx";
+import Books from "./pages/admin/Books.tsx";
+import BorrowRequest from "./pages/admin/BorrowRequest.tsx";
+import AccountRequest from "./pages/admin/AccountRequest.tsx";
 
 const router = createBrowserRouter([
   {
@@ -35,7 +39,11 @@ const router = createBrowserRouter([
       {
         Component: AdminLayout,
         children: [
-          { index: true, path: "admin/dashboard", Component: Dashboard },
+          { index: true, path: "/admin", Component: Dashboard },
+          { path: "/admin/users", Component: Users },
+          { path: "/admin/books", Component: Books },
+          { path: "/admin/book-requests", Component: BorrowRequest },
+          { path: "/admin/account-requests", Component: AccountRequest },
         ],
       },
     ],
