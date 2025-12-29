@@ -46,7 +46,7 @@ const Modal = ({ open, onClose, children }: ModalProps) => {
       }`}
     >
       <div className="w-full">{children}</div>
-      <div className="flex w-full gap-3 border-t-1 pt-4">
+      <div className="flex w-full gap-3 border-t pt-4">
         <Button
           onClick={onClose}
           variant="outline"
