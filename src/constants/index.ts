@@ -153,14 +153,7 @@ export const student3: Student = {
   createdAt: "June 12, 2024",
 };
 
-export const mockStudents: Student[] = [
-  student1,
-  student2,
-  student3,
-  student2,
-  student1,
-  student3,
-];
+export const mockStudents: Student[] = [student1, student2, student3];
 
 export const mockBorrowRequestBooks = [
   {
@@ -181,12 +174,6 @@ export const mockBorrowRequestBooks = [
 
   {
     book: mockBooks[3],
-    requestDate: "Aug 10, 2024",
-    student: student3,
-  },
-
-  {
-    book: mockBooks[1],
     requestDate: "Aug 10, 2024",
     student: student3,
   },

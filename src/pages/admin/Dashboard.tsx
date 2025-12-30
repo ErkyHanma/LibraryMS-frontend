@@ -5,8 +5,10 @@ import {
   BookOpen,
   Calendar,
   Eye,
+  LibraryBig,
   PlusCircle,
   TriangleAlert,
+  UserRound,
   Users,
 } from "lucide-react";
 import { Link } from "react-router";
@@ -32,7 +34,7 @@ const Dashboard = () => {
             iconColor="text-green-600"
             value={163}
             label="Total Books"
-            icon={<BookOpen />}
+            icon={<LibraryBig />}
           />
           <StatCard
             iconBgColor="bg-blue-100"
@@ -62,7 +64,7 @@ const Dashboard = () => {
         <div className="flex flex-col justify-between gap-6 md:flex-row">
           <div className="flex w-full flex-col gap-4 lg:max-w-[60%]">
             {/* Borrow Books Request section */}
-            <section className="flex max-h-100 w-full flex-col rounded-lg bg-white p-4 shadow-sm md:max-h-88">
+            <section className="flex h-100 max-h-100 w-full flex-col rounded-lg bg-white p-4 shadow-sm md:max-h-88">
               <div className="mb-4 flex w-full shrink items-center justify-between">
                 <h1 className="text-xl font-[550]">Borrow Requests</h1>
                 <button className="text-primary cursor-pointer rounded-md bg-gray-50 p-1 px-2 text-sm font-medium shadow transition-colors duration-100 hover:opacity-65 active:scale-95">
@@ -121,6 +123,19 @@ const Dashboard = () => {
                   </div>
                 ))}
               </div>
+
+              {/* Not Borrow Requests View */}
+              {/* <div className="flex flex-1 flex-col items-center justify-center text-center">
+                <div className="bg-primary/10 flex h-22 w-22 items-center justify-center rounded-full">
+                  <BookOpen className="size-14 text-white" />
+                </div>
+                <h3 className="mt-2 mb-1 text-xl font-semibold text-gray-900">
+                  No Pending Account Requests
+                </h3>
+                <p className="text-sm text-gray-500">
+                  There are currently no account requests awaiting approval.
+                </p>
+              </div> */}
             </section>
 
             {/* Account Requests Section */}
@@ -134,7 +149,10 @@ const Dashboard = () => {
 
               <div className="hide-scrollbar grid grid-cols-2 gap-4 overflow-y-auto lg:grid-cols-3">
                 {mockStudents.map((student) => (
-                  <div className="flex w-full max-w-80 flex-col items-center rounded-lg bg-gray-50 px-2 py-4">
+                  <div
+                    key={student.id}
+                    className="flex w-full max-w-80 flex-col items-center rounded-lg bg-gray-50 px-2 py-4"
+                  >
                     <img
                       className="h-auto w-12 rounded-full"
                       src={student.profileImage}
@@ -149,6 +167,19 @@ const Dashboard = () => {
                   </div>
                 ))}
               </div>
+
+              {/* Not Account Requests View */}
+              {/* <div className="flex flex-col items-center overflow-hidden text-center">
+                <div className="bg-primary/10 flex h-16 w-16 items-center justify-center rounded-full">
+                  <UserRound className="size-10 text-white" />
+                </div>
+                <h3 className="mt-2 mb-1 text-xl font-semibold text-gray-900">
+                  No Pending Account Requests
+                </h3>
+                <p className="text-sm text-gray-500">
+                  There are currently no account requests awaiting approval.
+                </p>
+              </div> */}
             </section>
           </div>
 
