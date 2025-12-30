@@ -2,6 +2,55 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
+@layer components {
+  .form-btn {
+    @apply bg-primary cursor-pointer rounded-sm py-5 text-white;
+  }
+}
+
+@layer utilities {
+  .book-title {
+    @apply line-clamp-2 text-lg leading-5 font-semibold;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground font-['jost'];
+  }
+
+  .hide-scrollbar::-webkit-scrollbar {
+    width: 0px;
+    height: 0px;
+    border-radius: 0px;
+  }
+
+  .hide-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .hide-scrollbar::-webkit-scrollbar-thumb {
+    background: transparent;
+    border-radius: 0px;
+  }
+
+  .hide-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: transparent;
+  }
+}
+
+.glassmorphism {
+  backdrop-filter: blur(5px) saturate(145%);
+  -webkit-backdrop-filter: blur(5px) saturate(145%);
+  background-color: rgba(17, 25, 40, 0);
+}
+
+
+
+
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
@@ -112,31 +161,4 @@
   --sidebar-accent-foreground: oklch(0.985 0 0);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.556 0 0);
-}
-
-@layer components {
-  .form-btn {
-    @apply bg-primary cursor-pointer rounded-sm py-5 text-white;
-  }
-}
-
-@layer utilities {
-  .book-title {
-    @apply line-clamp-2 text-lg leading-5 font-semibold;
-  }
-}
-
-@layer base {
-  * {
-    @apply border-border outline-ring/50;
-  }
-  body {
-    @apply bg-background text-foreground font-['jost'];
-  }
-}
-
-.glassmorphism {
-  backdrop-filter: blur(5px) saturate(145%);
-  -webkit-backdrop-filter: blur(5px) saturate(145%);
-  background-color: rgba(17, 25, 40, 0);
 }

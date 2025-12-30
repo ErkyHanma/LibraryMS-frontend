@@ -114,7 +114,7 @@ export const mockBorrowedBooks: BorrowedBook[] = [
     status: "overdue",
   },
   {
-    book: mockBooks[2],
+    book: mockBooks[4],
     borrowedDate: "Aug 10, 2023",
     dueDate: "Sept 15, 2023",
     returnedDate: "Sept 15, 2023",
@@ -143,4 +143,51 @@ export const student2: Student = {
   createdAt: "August 24, 2021",
 };
 
-export const mockStudents: Student[] = [student1, student2];
+export const student3: Student = {
+  id: "f9e8d7c6-cc96-4321-9876-543210fedcba",
+  name: "Marco",
+  lastName: "Navarro",
+  profileImage: "https://i.pravatar.cc/150?img=10",
+  email: "marco.navarro@university.eduwwwwwwww",
+  studentId: "2024-008879",
+  createdAt: "June 12, 2024",
+};
+
+export const mockStudents: Student[] = [
+  student1,
+  student2,
+  student3,
+  student2,
+  student1,
+  student3,
+];
+
+export const mockBorrowRequestBooks = [
+  {
+    book: mockBooks[1],
+    requestDate: "Oct 15, 2023",
+    student: student1,
+  },
+  {
+    book: mockBooks[2],
+    requestDate: "Oct 20, 2023",
+    student: student2,
+  },
+  {
+    book: mockBooks[4],
+    requestDate: "Aug 10, 2024",
+    student: student3,
+  },
+
+  {
+    book: mockBooks[3],
+    requestDate: "Aug 10, 2024",
+    student: student3,
+  },
+
+  {
+    book: mockBooks[1],
+    requestDate: "Aug 10, 2024",
+    student: student3,
+  },
+];
