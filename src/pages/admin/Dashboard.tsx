@@ -1,5 +1,6 @@
 import StatCard from "@/components/shared/StatCard";
-import { mockBorrowRequestBooks, mockStudents } from "@/constants";
+import { mockBorrowRequestBooks, mockUsers } from "@/mocks";
+
 import {
   BookMarked,
   BookOpen,
@@ -15,7 +16,7 @@ import { Link } from "react-router";
 
 const Dashboard = () => {
   return (
-    <div className="h-screen w-full pt-18 md:pt-4">
+    <div className="h-screen w-full pt-20 md:pt-4">
       {/* Header Section */}
       <div className="">
         <h1 className="text-3xl font-semibold text-gray-900 lg:text-2xl">
@@ -80,7 +81,7 @@ const Dashboard = () => {
                   >
                     <div className="flex items-start gap-4">
                       <img
-                        src={book.book.image}
+                        src={book.book.coverUrl}
                         alt={book.book.title}
                         className="h-auto w-16 shrink rounded object-cover shadow-sm"
                       />
@@ -97,13 +98,11 @@ const Dashboard = () => {
                               <span className="flex items-center gap-1 truncate">
                                 <img
                                   className="h-6 w-6 shrink rounded-full"
-                                  src={book.student.profileImage}
+                                  src={book.user.profileImage}
                                   alt=""
                                 />
                                 <span className="truncate">
-                                  {book.student.name +
-                                    " " +
-                                    book.student.lastName}
+                                  {book.user.name + " " + book.user.lastName}
                                 </span>
                               </span>
                               <span className="sshrink flex items-center gap-1">
@@ -148,21 +147,21 @@ const Dashboard = () => {
               </div>
 
               <div className="hide-scrollbar grid grid-cols-2 gap-4 overflow-y-auto lg:grid-cols-3">
-                {mockStudents.map((student) => (
+                {mockUsers.map((user) => (
                   <div
-                    key={student.id}
+                    key={user.id}
                     className="flex w-full max-w-80 flex-col items-center rounded-lg bg-gray-50 px-2 py-4"
                   >
                     <img
                       className="h-auto w-12 rounded-full"
-                      src={student.profileImage}
+                      src={user.profileImage}
                       alt={`User profile image`}
                     />
                     <p className="line-clamp-1 font-medium">
-                      {student.name + " " + student.lastName}
+                      {user.name + " " + user.lastName}
                     </p>
                     <p className="max-w-[95%] truncate text-sm text-gray-400">
-                      {student.email}
+                      {user.email}
                     </p>
                   </div>
                 ))}
@@ -210,7 +209,7 @@ const Dashboard = () => {
                 <div key={book.book.id} className="px-2 py-2 transition-colors">
                   <div className="flex items-start gap-4">
                     <img
-                      src={book.book.image}
+                      src={book.book.coverUrl}
                       alt={book.book.title}
                       className="h-auto w-14 rounded object-cover shadow-sm"
                     />

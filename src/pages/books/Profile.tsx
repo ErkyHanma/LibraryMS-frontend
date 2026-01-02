@@ -1,7 +1,7 @@
 import BorrowedBookCard from "@/components/books/BorrowedBookCard";
 import ProfileSidebar from "@/components/books/ProfileSidebar";
 import StatCard from "@/components/shared/StatCard";
-import { mockBorrowedBooks, student2 as student } from "@/constants";
+import { mockBorrowedBooks, user1 } from "@/mocks";
 
 import {
   AlertTriangle,
@@ -27,7 +27,7 @@ const Profile = () => {
       <div className="mx-auto max-w-7xl p-6">
         <div className="flex flex-col gap-6 md:flex-row">
           {/* Left Sidebar - Profile Card */}
-          <ProfileSidebar student={student} />
+          <ProfileSidebar user={user1} />
 
           {/* Main Content Area */}
           <div className="flex w-full flex-col">

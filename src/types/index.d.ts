@@ -9,7 +9,7 @@ export type SidebarNavLink = NavLink & {
   image: ReactNode;
 };
 
-export type Book = {
+export interface Book {
   id: string;
   title: string;
   author: string;
@@ -18,8 +18,11 @@ export type Book = {
   summary: string;
   pages: number;
   date: string;
-  image?: string;
-};
+  coverUrl?: string;
+  totalCopies: number;
+  availableCopies: number;
+  createdAt: string | null;
+}
 
 export type BorrowedBook = {
   book: Book;
@@ -29,12 +32,66 @@ export type BorrowedBook = {
   status: "active" | "returned" | "overdue";
 };
 
-export type Student = {
+export type ROLE = "USER" | "ADMIN" | null;
+
+export interface User {
   id: string;
   name: string;
   lastName: string;
-  profileImage: string;
+  profileImage?: string;
   email: string;
-  studentId: string;
+  role: ROLE;
   createdAt: string;
-};
+  universityId: string;
+}
+
+export interface TableUser extends User {
+  info: {
+    name: string;
+    lastname: string;
+    profileImage: string;
+  };
+  dateJoined: string;
+  booksBorrowed: number;
+}
+
+export interface TableBook extends Book {
+  info: {
+    title: string;
+    coverUrl: string;
+  };
+}
+
+export type BorrowedBookStatus =
+  | "BORROWED"
+  | "RETURNED"
+  | "LATE RETURN"
+  | "OVERDUE";
+
+export interface TableBorrowedBook {
+  userInfo: {
+    name: string;
+    lastname: string;
+    email: string;
+    profileImage: string;
+  };
+  bookInfo: {
+    title: string;
+    coverUrl: string;
+  };
+  status: BorrowedBookStatus;
+  borrowDate: string;
+  returnDate: string;
+  dueDate: string;
+}
+
+export interface TableAccountRequest {
+  userInfo: {
+    name: string;
+    lastname: string;
+    email: string;
+    profileImage: string;
+  };
+  dateJoined: string;
+  universityId: string;
+}

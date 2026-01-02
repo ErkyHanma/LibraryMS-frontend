@@ -2,7 +2,7 @@ import type { Book } from "@/types";
 import { GetYear } from "@/utils";
 
 const BookCard = ({ book }: { book: Book }) => {
-  const { id, title, author, image, categories, date, pages } = book;
+  const { id, title, author, coverUrl, categories, date, pages } = book;
 
   return (
     <a
@@ -14,7 +14,7 @@ const BookCard = ({ book }: { book: Book }) => {
       <div className="flex items-center justify-center p-8 transition-transform duration-300">
         <img
           className="h-auto w-full max-w-32 lg:max-w-36 rounded-lg shadow-lg"
-          src={image}
+          src={coverUrl}
           alt={`${title} cover`}
         />
       </div>

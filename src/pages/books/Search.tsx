@@ -4,7 +4,7 @@ import Modal from "@/components/shared/Modal";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
-import { mockBooks } from "@/constants";
+import { mockBooks } from "@/mocks";
 import { useState } from "react";
 
 const Search = () => {
@@ -95,18 +95,18 @@ const Search = () => {
             <div className="my-8 flex w-full items-center justify-center gap-2">
               <button type="button" aria-label="Previous" className="mr-4">
                 <svg
+                  xmlns="http://www.w3.org/2000/svg"
                   width="9"
                   height="16"
-                  viewBox="0 0 12 18"
                   fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 12 18"
                 >
                   <path
-                    d="M11 1L2 9.24242L11 17"
                     stroke="#111820"
-                    stroke-opacity="0.7"
-                    stroke-width="2"
-                    stroke-linecap="round"
+                    strokeLinecap="round"
+                    strokeOpacity=".7"
+                    strokeWidth="2"
+                    d="M11 1 2 9.242 11 17"
                   />
                 </svg>
               </button>
@@ -161,9 +161,9 @@ const Search = () => {
                   <path
                     d="M1 1L10 9.24242L1 17"
                     stroke="#111820"
-                    stroke-opacity="0.7"
-                    stroke-width="2"
-                    stroke-linecap="round"
+                    strokeOpacity="0.7"
+                    strokeWidth="2"
+                    strokeLinecap="round"
                   />
                 </svg>
               </button>

@@ -7,11 +7,11 @@ import {
   UserPlus,
 } from "lucide-react";
 import { Link, useLocation } from "react-router";
-import { student2 } from "@/constants";
 import type { SidebarNavLink } from "@/types";
 import Logo from "../shared/Logo";
 import { useState } from "react";
 import SidebarMobile from "./SidebarMobile";
+import { user2 } from "@/mocks";
 
 const Sidebar = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -103,18 +103,16 @@ const Sidebar = () => {
               <div className="h-11 w-11 shrink-0 overflow-hidden rounded-full">
                 <img
                   className="h-full w-full object-cover"
-                  src={student2.profileImage}
+                  src={user2.profileImage}
                   alt="User profile"
                 />
               </div>
 
               <div className={`overflow-hidden transition-all`}>
                 <p className="truncate text-sm font-semibold text-gray-900">
-                  {student2.name + " " + student2.lastName}
+                  {user2.name + " " + user2.lastName}
                 </p>
-                <p className="truncate text-xs text-gray-500">
-                  {student2.email}
-                </p>
+                <p className="truncate text-xs text-gray-500">{user2.email}</p>
               </div>
             </div>
 

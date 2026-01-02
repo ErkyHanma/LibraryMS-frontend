@@ -6,7 +6,7 @@ const BorrowedBookCard = ({ book }: { book: BorrowedBook }) => {
     <div key={book.book.id} className="p-6 transition-colors hover:bg-gray-50">
       <div className="flex items-start gap-4">
         <img
-          src={book.book.image}
+          src={book.book.coverUrl}
           alt={book.book.title}
           className="h-24 w-16 rounded object-cover shadow-sm"
         />

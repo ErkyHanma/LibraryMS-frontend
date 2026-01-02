@@ -2,12 +2,16 @@ import { Button } from "../ui/button";
 import type { Book } from "@/types";
 
 const BookOverview = ({ book }: { book: Book }) => {
-  const { title, author, image, categories, description } = book;
+  const { title, author, coverUrl, categories, description } = book;
 
   return (
     <section className="flex w-full flex-col justify-between gap-6 md:flex-row-reverse">
       <div className="flex w-full flex-1 items-center justify-center">
-        <img className="h-auto w-full max-w-xs" src={image} alt="Book image" />
+        <img
+          className="h-auto w-full max-w-xs"
+          src={coverUrl}
+          alt="Book cover"
+        />
       </div>
       <div className="flex w-full flex-1 flex-col space-y-1">
         <h1 className="mb-4 text-4xl font-bold lg:text-5xl">{title}</h1>
@@ -18,13 +22,7 @@ const BookOverview = ({ book }: { book: Book }) => {
           <p>
             Category:{" "}
             <span className="text-primary font-semibold">
-              {categories.map((item, i) => {
-                return (
-                  <>
-                    {item} {categories.length !== i + 1 && "/"}{" "}
-                  </>
-                );
-              })}
+              {categories.join(" / ")}
             </span>
           </p>
         </div>

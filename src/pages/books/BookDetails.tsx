@@ -1,5 +1,5 @@
 import BookOverview from "@/components/books/BookOverview";
-import { mockBook, mockBooks } from "@/constants";
+import { mockBook, mockBooks } from "@/mocks";
 import { useParams } from "react-router";
 
 const BookDetails = () => {
@@ -21,7 +21,7 @@ const BookDetails = () => {
           <div className="flex w-full flex-col gap-2">
             <h1 className="text-2xl font-semibold">Similar Books</h1>
             <div className="grid grid-cols-2 gap-4 md:grid-cols-3">
-              {mockBooks.map(({ id, image, title }) => (
+              {mockBooks.map(({ id, coverUrl, title }) => (
                 <a
                   href={`/book/${id}`}
                   className="w-full max-w-50 cursor-pointer transition duration-200 hover:opacity-80 sm:max-w-62.5 md:max-w-37.5"
@@ -29,8 +29,8 @@ const BookDetails = () => {
                 >
                   <img
                     className="h-auto w-full"
-                    src={image}
-                    alt={`${title} image`}
+                    src={coverUrl}
+                    alt={`${title} cover`}
                   />
                 </a>
               ))}

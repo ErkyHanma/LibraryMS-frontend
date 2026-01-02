@@ -3,7 +3,7 @@ import { Outlet } from "react-router";
 
 const AdminLayout = () => {
   return (
-    <div className="flex min-h-screen w-full bg-gray-50">
+    <div className="flex min-h-screen w-full bg-primary/5">
       <Sidebar />
 
       <main className="w-full md:pl-80">

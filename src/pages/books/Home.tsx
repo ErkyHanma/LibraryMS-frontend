@@ -1,6 +1,6 @@
 import BookList from "@/components/books/BookList";
 import BookOverview from "@/components/books/BookOverview";
-import { mockBook, mockBooks } from "@/constants";
+import { mockBook, mockBooks } from "@/mocks";
 
 const Home = () => {
   return (
