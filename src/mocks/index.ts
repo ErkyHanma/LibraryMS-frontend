@@ -17,7 +17,7 @@ export const HEADER_NAV_LINKS: NavLink[] = [
 
 // Books Data
 export const mockBook: Book = {
-  id: "1",
+  bookId: "1",
   title: "Cracking the Coding Interview",
   author: "Gayle Laakmann McDowell",
   categories: ["Programming", "Interview Preparation", "Computer Science"],
@@ -35,7 +35,7 @@ export const mockBook: Book = {
 
 export const mockBooks: Book[] = [
   {
-    id: "1",
+    bookId: "1",
     title: "Cracking the Coding Interview",
     author: "Gayle Laakmann McDowell",
     categories: ["Programming", "Interview Preparation", "Computer Science"],
@@ -51,7 +51,7 @@ export const mockBooks: Book[] = [
     createdAt: "2024-01-15T10:30:00Z",
   },
   {
-    id: "2",
+    bookId: "2",
     title: "The Design of Everyday Things",
     author: "Don Norman",
     categories: ["Design", "User Experience", "Psychology"],
@@ -67,7 +67,7 @@ export const mockBooks: Book[] = [
     createdAt: "2024-02-20T14:15:00Z",
   },
   {
-    id: "3",
+    bookId: "3",
     title:
       "Everything You Need to Ace Computer Science and Coding in One Big Fat Notebook",
     author: "Grant Smith",
@@ -89,7 +89,7 @@ export const mockBooks: Book[] = [
     createdAt: "2023-11-10T09:00:00Z",
   },
   {
-    id: "4",
+    bookId: "4",
     title: "Designing Data-Intensive Applications",
     author: "Martin Kleppmann",
     categories: ["Software Architecture", "Distributed Systems", "Databases"],
@@ -105,7 +105,7 @@ export const mockBooks: Book[] = [
     createdAt: "2024-03-05T16:45:00Z",
   },
   {
-    id: "5",
+    bookId: "5",
     title: "The Pragmatic Programmer: Your Journey to Mastery",
     author: "David Thomas and Andrew Hunt",
     categories: [
@@ -125,7 +125,7 @@ export const mockBooks: Book[] = [
     createdAt: "2024-01-28T11:20:00Z",
   },
   {
-    id: "6",
+    bookId: "6",
     title:
       "Everything You Need to Ace Computer Science and Coding in One Big Fat Notebook",
     author: "Grant Smith",
@@ -320,7 +320,7 @@ export const mockTableUsers: TableUser[] = [
 
 export const mockTableBooks: TableBook[] = [
   {
-    id: "1",
+    bookId: "1",
     title: "Cracking the Coding Interview",
     author: "Gayle Laakmann McDowell",
     categories: ["Programming", "Interview Preparation", "Computer Science"],
@@ -340,7 +340,7 @@ export const mockTableBooks: TableBook[] = [
     },
   },
   {
-    id: "2",
+    bookId: "2",
     title: "The Design of Everyday Things",
     author: "Don Norman",
     categories: ["Design", "User Experience", "Psychology"],
@@ -360,7 +360,7 @@ export const mockTableBooks: TableBook[] = [
     },
   },
   {
-    id: "3",
+    bookId: "3",
     title:
       "Everything You Need to Ace Computer Science and Coding in One Big Fat Notebook",
     author: "Grant Smith",
@@ -387,7 +387,7 @@ export const mockTableBooks: TableBook[] = [
     },
   },
   {
-    id: "4",
+    bookId: "4",
     title: "Designing Data-Intensive Applications",
     author: "Martin Kleppmann",
     categories: ["Software Architecture", "Distributed Systems", "Databases"],
@@ -407,7 +407,7 @@ export const mockTableBooks: TableBook[] = [
     },
   },
   {
-    id: "5",
+    bookId: "5",
     title: "The Pragmatic Programmer: Your Journey to Mastery",
     author: "David Thomas and Andrew Hunt",
     categories: [

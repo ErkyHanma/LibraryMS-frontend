@@ -10,7 +10,7 @@ export type SidebarNavLink = NavLink & {
 };
 
 export interface Book {
-  id: string;
+  bookId: string;
   title: string;
   author: string;
   categories: string[];
