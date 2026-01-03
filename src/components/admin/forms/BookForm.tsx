@@ -1,12 +1,12 @@
 import { useForm } from "react-hook-form";
-import { FormField } from "../auth/FormField";
+import { FormField } from "../../auth/FormField";
 import { bookSchema } from "@/lib/validation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import z from "zod";
-import { Button } from "../ui/button";
-import { Textarea } from "../ui/textarea";
-import { Label } from "../ui/label";
-import { Input } from "../ui/input";
+import { Button } from "../../ui/button";
+import { Textarea } from "../../ui/textarea";
+import { Label } from "../../ui/label";
+import { Input } from "../../ui/input";
 import type { Book } from "@/types";
 import { cn } from "@/lib/utils";
 
@@ -156,7 +156,7 @@ const BookForm = ({ type = "CREATE", book }: BookFormProps) => {
         id="totalCopies"
         label="Total Number of Copies"
         register={register}
-        // error={errors.totalCopies}
+        error={errors.totalCopies}
         placeholder="e.g., 50"
         type="number"
       />

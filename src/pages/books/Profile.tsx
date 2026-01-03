@@ -43,7 +43,7 @@ const Profile = () => {
 
               <StatCard
                 icon={<Bookmark className="h-5 w-5" />}
-                value={150}
+                value={"3/5"}
                 label="Currently Active"
                 iconBgColor="bg-green-100"
                 iconColor="text-green-600"

@@ -48,7 +48,7 @@ export function DataTable<
                     className="mx-4 px-6 py-3.5 text-left text-sm font-semibold tracking-tight text-gray-700"
                   >
                     <span
-                      className={`${header.column.id === "Action" && "flex justify-center"}`}
+                      className={`${header.column.id === "Action" && "flex justify-center"} ${header.column.id === "status" && "flex justify-center"}`}
                     >
                       {header.isPlaceholder
                         ? null
@@ -80,7 +80,7 @@ export function DataTable<
                       className="px-6 py-3 align-middle text-sm text-gray-900"
                     >
                       <div
-                        className={`max-w-60 truncate ${cell.column.id === "Action" && "flex justify-center"}`}
+                        className={`max-w-60 truncate ${cell.column.id === "Action" && "flex justify-center"} ${cell.column.id === "status" && "flex justify-center"}`}
                       >
                         {flexRender(
                           cell.column.columnDef.cell,

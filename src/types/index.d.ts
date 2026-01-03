@@ -9,6 +9,12 @@ export type SidebarNavLink = NavLink & {
   image: ReactNode;
 };
 
+export type BorrowedBookStatus =
+  | "ACTIVE"
+  | "RETURNED"
+  | "LATE RETURN"
+  | "OVERDUE";
+
 export interface Book {
   bookId: string;
   title: string;
@@ -29,7 +35,7 @@ export type BorrowedBook = {
   borrowedDate: string;
   dueDate: string;
   returnedDate?: string;
-  status: "active" | "returned" | "overdue";
+  status: BorrowedBookStatus;
 };
 
 export type ROLE = "USER" | "ADMIN" | null;

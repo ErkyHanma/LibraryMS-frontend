@@ -1,5 +1,5 @@
+import { GetYear } from "@/lib/utils";
 import type { Book } from "@/types";
-import { GetYear } from "@/utils";
 
 const BookCard = ({ book }: { book: Book }) => {
   const { bookId, title, author, coverUrl, categories, date, pages } = book;

@@ -3,7 +3,10 @@ import { Calendar, ReceiptText } from "lucide-react";
 
 const BorrowedBookCard = ({ book }: { book: BorrowedBook }) => {
   return (
-    <div key={book.book.bookId} className="p-6 transition-colors hover:bg-gray-50">
+    <div
+      key={book.book.bookId}
+      className="p-6 transition-colors hover:bg-gray-50"
+    >
       <div className="flex items-start gap-4">
         <img
           src={book.book.coverUrl}
@@ -15,16 +18,33 @@ const BorrowedBookCard = ({ book }: { book: BorrowedBook }) => {
             <div>
               <h4 className="font-semibold text-gray-900">{book.book.title}</h4>
               <p className="mt-1 text-sm text-gray-500">
-                {book.book.author} • {book.book.categories[0]}
+                {book.book.author} • {book.book.categories.split(", ")[0]}
               </p>
               <div className="mt-3 flex items-center gap-4 text-sm text-gray-600">
                 <span className="flex items-center gap-1">
                   <Calendar className="h-4 w-4" />
                   Borrowed: {book.borrowedDate}
                 </span>
-                {book.status === "returned" ? (
+                {book.status === "RETURNED" ? (
                   <span className="flex items-center gap-1 text-green-600">
-                    <div className="flex h-4 w-4 items-center justify-center rounded-full bg-green-500">
+                    <div className="flex h-3 w-3 items-center justify-center rounded-full bg-green-500">
+                      <svg
+                        fill="currentColor"
+                        className="h-3 w-3 text-white"
+                        viewBox="0 0 20 20"
+                      >
+                        <path
+                          fillRule="evenodd"
+                          d="M16.707 5.293a1 1 0 0 1 0 1.414l-8 8a1 1 0 0 1-1.414 0l-4-4a1 1 0 0 1 1.414-1.414L8 12.586l7.293-7.293a1 1 0 0 1 1.414 0"
+                          clipRule="evenodd"
+                        />
+                      </svg>
+                    </div>
+                    Returned: {book.returnedDate}
+                  </span>
+                ) : book.status === "LATE RETURN" ? (
+                  <span className="text-status-lateReturn flex items-center gap-1">
+                    <div className="flex h-3 w-3 items-center justify-center rounded-full bg-pink-500">
                       <svg
                         fill="currentColor"
                         className="h-3 w-3 text-white"
@@ -41,7 +61,7 @@ const BorrowedBookCard = ({ book }: { book: BorrowedBook }) => {
                   </span>
                 ) : (
                   <span
-                    className={`flex items-center gap-1 ${book.status === "overdue" ? "text-orange-600" : "text-blue-600"}`}
+                    className={`flex items-center gap-1 ${book.status === "OVERDUE" && "text-status-overdue"}`}
                   >
                     <Calendar className="h-4 w-4" />
                     Due: {book.dueDate}
@@ -50,17 +70,21 @@ const BorrowedBookCard = ({ book }: { book: BorrowedBook }) => {
               </div>
             </div>
             <div className="flex flex-col items-center gap-2">
-              {book.status === "returned" ? (
-                <span className="rounded bg-gray-100 px-3 py-1 text-xs font-medium text-gray-700">
+              {book.status === "RETURNED" ? (
+                <span className="bg-status-returned text-status-returned rounded px-3 py-1 text-xs font-medium">
                   Returned
                 </span>
-              ) : book.status === "overdue" ? (
-                <span className="rounded bg-red-100 px-3 py-1 text-xs font-medium text-red-700">
+              ) : book.status === "OVERDUE" ? (
+                <span className="bg-status-overdue text-status-overdue rounded px-3 py-1 text-xs font-medium">
                   Overdue
+                </span>
+              ) : book.status === "LATE RETURN" ? (
+                <span className="bg-status-lateReturn text-status-lateReturn rounded px-3 py-1 text-center text-xs font-medium">
+                  Late Return
                 </span>
               ) : (
                 <>
-                  <span className="rounded bg-blue-100 px-3 py-1 text-xs font-medium text-blue-700">
+                  <span className="bg-status-active text-status-active rounded px-3 py-1 text-xs font-medium">
                     Active
                   </span>
                 </>

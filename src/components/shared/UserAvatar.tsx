@@ -1,5 +1,6 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { getInitials } from "@/utils";
+import { getInitials } from "@/lib/utils";
+
 
 type UserAvatarProps = {
   name: string;

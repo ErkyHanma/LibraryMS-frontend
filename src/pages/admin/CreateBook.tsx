@@ -1,4 +1,4 @@
-import BookForm from "@/components/admin/BookForm";
+import BookForm from "@/components/admin/forms/BookForm";
 import BackButton from "./BackButton";
 
 const CreateBook = () => {

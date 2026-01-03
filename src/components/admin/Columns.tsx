@@ -8,7 +8,7 @@ import type {
   TableBorrowedBook,
   TableUser,
 } from "@/types";
-import { capitalize, dateConverter } from "@/utils";
+import { capitalize, dateConverter } from "@/lib/utils";
 import type { ColumnDef } from "@tanstack/react-table";
 import UserAvatar from "../shared/UserAvatar";
 import { Check, Edit3, ReceiptText, Trash2Icon, X } from "lucide-react";
@@ -194,21 +194,21 @@ export const booksColumns: ColumnDef<TableBook>[] = [
 
 const STATUS_STYLES: Record<BorrowedBookStatus, { bg: string; text: string }> =
   {
-    BORROWED: {
-      bg: "bg-indigo-50",
-      text: "text-indigo-700",
+    ACTIVE: {
+      bg: "bg-status-active",
+      text: "text-status-active",
     },
     RETURNED: {
-      bg: "bg-green-50",
-      text: "text-green-700",
+      bg: "bg-status-returned",
+      text: "text-status-returned",
     },
     OVERDUE: {
-      bg: "bg-red-50",
-      text: "text-red-700",
+      bg: "bg-status-overdue",
+      text: "text-status-overdue",
     },
     "LATE RETURN": {
-      bg: "bg-pink-50",
-      text: "text-pink-700",
+      bg: "bg-status-lateReturn",
+      text: "text-status-lateReturn",
     },
   };
 

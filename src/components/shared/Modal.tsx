@@ -8,7 +8,7 @@ interface ModalProps {
 }
 
 const Modal = ({ open, onClose, children }: ModalProps) => {
-  // close modal if window size is > 1024px
+  // Close modal if window size is > 1024px
   useEffect(() => {
     const handleResize = () => {
       const BREAKPOINT = 1024;

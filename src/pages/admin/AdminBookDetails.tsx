@@ -1,9 +1,10 @@
 import { Button } from "@/components/ui/button";
 import { mockBook, mockBooks } from "@/mocks";
-import { dateConverter } from "@/utils";
+
 import { Calendar, Edit } from "lucide-react";
 import { Link, useParams } from "react-router";
 import BackButton from "./BackButton";
+import { dateConverter } from "@/lib/utils";
 
 const AdminBookDetails = () => {
   const { id } = useParams();

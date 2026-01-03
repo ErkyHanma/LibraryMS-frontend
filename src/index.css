@@ -40,6 +40,24 @@
   .hide-scrollbar::-webkit-scrollbar-thumb:hover {
     background: transparent;
   }
+
+  /* 
+    ACTIVE: {
+      bg: "bg-indigo-50",
+      text: "text-indigo-700",
+    },
+    RETURNED: {
+      bg: "bg-green-50",
+      text: "text-green-700",
+    },
+    OVERDUE: {
+      bg: "bg-red-50",
+      text: "text-red-700",
+    },
+    "LATE RETURN": {
+      bg: "bg-pink-50",
+      text: "text-pink-700",
+    }, */
 }
 
 .glassmorphism {
@@ -47,9 +65,6 @@
   -webkit-backdrop-filter: blur(5px) saturate(145%);
   background-color: rgba(17, 25, 40, 0);
 }
-
-
-
 
 @custom-variant dark (&:is(.dark *));
 
@@ -92,6 +107,18 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
+
+  /* Status Colors - Background*/
+  --background-color-status-active: #eef2ff;
+  --background-color-status-returned: #dcfce7;
+  --background-color-status-lateReturn: #fdf2f8;
+  --background-color-status-overdue: #fef2f2;
+
+  /* Status Colors - Text */
+  --color-status-active: #1447e6;
+  --color-status-returned: oklch(52.7% 0.154 150.069);
+  --color-status-lateReturn: oklch(52.5% 0.223 3.958);
+  --color-status-overdue: oklch(50.5% 0.213 27.518);
 }
 
 :root {

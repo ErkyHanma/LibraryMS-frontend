@@ -95,7 +95,8 @@ const Dashboard = () => {
                               {book.book.title}
                             </h4>
                             <p className="truncate text-sm text-gray-500">
-                              {book.book.author} • {book.book.categories[0]}
+                              {book.book.author} •{" "}
+                              {book.book.categories.split(", ")[0]}
                             </p>
                             <div className="mt-3 flex items-center gap-4 text-sm text-gray-600">
                               <span className="flex items-center gap-1 truncate">
@@ -236,7 +237,8 @@ const Dashboard = () => {
                             {book.book.title}
                           </h4>
                           <p className="mt-1 text-sm text-gray-500">
-                            {book.book.author} • {book.book.categories[0]}
+                            {book.book.author} •{" "}
+                            {book.book.categories.split(", ")[0]}
                           </p>
                           <div className="mt-3 flex items-center gap-4 text-sm text-gray-600">
                             <span className="flex items-center gap-1">

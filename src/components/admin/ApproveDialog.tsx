@@ -20,7 +20,7 @@ const ApproveDialog = ({ children, type, onConfirm }: ApproveDialogProps) => {
   return (
     <Dialog>
       <DialogTrigger asChild>{children}</DialogTrigger>
-      <DialogContent className="sm:max-w-[400px]">
+      <DialogContent className="sm:max-w-100">
         <DialogHeader className="flex flex-col items-center gap-4">
           <div className="flex h-22 w-22 items-center justify-center rounded-full bg-green-800/25">
             <div className="flex h-16 w-16 items-center justify-center rounded-full bg-green-800">
