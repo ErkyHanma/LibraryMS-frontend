@@ -114,7 +114,7 @@ const Profile = () => {
               {/* Books List */}
               <div className="divide-y divide-gray-200">
                 {mockBorrowedBooks.map((book) => (
-                  <BorrowedBookCard key={book.book.id} book={book} />
+                  <BorrowedBookCard key={book.book.bookId} book={book} />
                 ))}
               </div>
 

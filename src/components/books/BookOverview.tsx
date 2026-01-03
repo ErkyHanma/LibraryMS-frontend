@@ -22,7 +22,7 @@ const BookOverview = ({ book }: { book: Book }) => {
           <p>
             Category:{" "}
             <span className="text-primary font-semibold">
-              {categories.join(" / ")}
+              {categories.split(", ").join(" / ")}
             </span>
           </p>
         </div>

@@ -21,6 +21,7 @@ const SignUp = () => {
       confirmPassword: "",
     },
   });
+
   function handleOnSubmit(data: z.infer<typeof signUpFormSchema>) {
     console.log(data);
   }
@@ -37,6 +38,7 @@ const SignUp = () => {
         <FormField
           id="name"
           label="Name"
+          placeholder="John"
           register={register}
           error={errors.name}
         />
@@ -44,6 +46,7 @@ const SignUp = () => {
         <FormField
           id="lastName"
           label="Last Name"
+          placeholder="Doe"
           register={register}
           error={errors.lastName}
         />
@@ -51,6 +54,7 @@ const SignUp = () => {
         <FormField
           id="email"
           label="Email"
+          placeholder="johndoe@example.com"
           type="email"
           register={register}
           error={errors.email}
@@ -59,6 +63,7 @@ const SignUp = () => {
         <FormField
           id="password"
           label="Password"
+          placeholder="••••••••"
           type="password"
           register={register}
           error={errors.password}
@@ -67,6 +72,7 @@ const SignUp = () => {
         <FormField
           id="confirmPassword"
           label="Confirm Password"
+          placeholder="Re-enter your password"
           type="password"
           register={register}
           error={errors.confirmPassword}

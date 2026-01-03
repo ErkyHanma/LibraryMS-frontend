@@ -85,10 +85,10 @@ const Search = () => {
             {/* Books result */}
             <div className="grid w-full grid-cols-2 gap-6 md:grid-cols-3">
               {mockBooks.map((book) => (
-                <BookCard book={book} key={book.id} />
+                <BookCard book={book} key={book.bookId} />
               ))}
               {mockBooks.map((book) => (
-                <BookCard book={book} key={book.id} />
+                <BookCard book={book} key={book.bookId} />
               ))}
             </div>
 

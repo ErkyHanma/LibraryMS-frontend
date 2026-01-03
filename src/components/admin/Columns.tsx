@@ -11,14 +11,7 @@ import type {
 import { capitalize, dateConverter } from "@/utils";
 import type { ColumnDef } from "@tanstack/react-table";
 import UserAvatar from "../shared/UserAvatar";
-import {
-  Check,
-  CircleCheckBigIcon,
-  CircleX,
-  Edit3,
-  ReceiptText,
-  Trash2Icon,
-} from "lucide-react";
+import { Check, Edit3, ReceiptText, Trash2Icon, X } from "lucide-react";
 
 import {
   DropdownMenu,
@@ -33,6 +26,7 @@ import {
 } from "@/components/ui/tooltip";
 import ApproveDialog from "./ApproveDialog";
 import RejectDialog from "./RejectDialog";
+import { Link } from "react-router";
 
 export const usersColumns: ColumnDef<TableUser>[] = [
   {
@@ -163,7 +157,7 @@ export const booksColumns: ColumnDef<TableBook>[] = [
     cell: ({ row }) => {
       const categories: string[] = row.getValue("categories");
 
-      return <>{categories.join(", ")}</>;
+      return <>{categories}</>;
     },
   },
   {
@@ -178,12 +172,17 @@ export const booksColumns: ColumnDef<TableBook>[] = [
   },
   {
     header: "Action",
-    cell: () => {
+    cell: ({ row }) => {
+      const bookId = row.original.bookId;
+
       return (
         <div className="flex items-center gap-1">
-          <button className="flex cursor-pointer items-center justify-center gap-4 rounded-full p-1.5 transition duration-100 hover:scale-105 hover:bg-blue-100">
+          <Link
+            to={`/admin/books/edit/${bookId}`}
+            className="flex cursor-pointer items-center justify-center gap-4 rounded-full p-1.5 transition duration-100 hover:scale-105 hover:bg-blue-100"
+          >
             <Edit3 className="size-5 text-blue-500" />
-          </button>
+          </Link>
           <button className="flex cursor-pointer items-center justify-center gap-4 rounded-full p-1.5 transition duration-100 hover:scale-105 hover:bg-red-100">
             <Trash2Icon className="size-5 text-red-500" />
           </button>
@@ -401,13 +400,13 @@ export const accountRequestsColumns: ColumnDef<TableAccountRequest>[] = [
       const confirm = () => {};
 
       return (
-        <div className="flex gap-2">
+        <div className="flex gap-4">
           <ApproveDialog type="ACCOUNT" onConfirm={confirm}>
             <button className="flex cursor-pointer items-center justify-center gap-1 rounded-full bg-green-100 p-2 font-medium text-green-700 transition duration-100 hover:bg-green-50">
               <Tooltip>
                 <TooltipTrigger asChild>
                   <span className="flex items-center">
-                    <CircleCheckBigIcon className="size-5" />
+                    <Check className="size-5" />
                   </span>
                 </TooltipTrigger>
                 <TooltipContent className="border-2 border-gray-300 bg-gray-100 fill-gray-200 font-medium text-gray-700">
@@ -422,7 +421,7 @@ export const accountRequestsColumns: ColumnDef<TableAccountRequest>[] = [
               <Tooltip>
                 <TooltipTrigger asChild>
                   <span className="flex items-center">
-                    <CircleX className="size-5" />
+                    <X className="size-5" />
                   </span>
                 </TooltipTrigger>
                 <TooltipContent className="border-2 border-gray-300 bg-gray-100 fill-gray-200 font-medium text-gray-700">

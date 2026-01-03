@@ -14,6 +14,9 @@ import Users from "./pages/admin/Users.tsx";
 import Books from "./pages/admin/Books.tsx";
 import BorrowRequest from "./pages/admin/BorrowRequest.tsx";
 import AccountRequest from "./pages/admin/AccountRequest.tsx";
+import AdminBookDetails from "./pages/admin/AdminBookDetails.tsx";
+import CreateBook from "./pages/admin/CreateBook.tsx";
+import EditBook from "./pages/admin/EditBook.tsx";
 
 const router = createBrowserRouter([
   {
@@ -42,6 +45,9 @@ const router = createBrowserRouter([
           { index: true, path: "/admin", Component: Dashboard },
           { path: "/admin/users", Component: Users },
           { path: "/admin/books", Component: Books },
+          { path: "/admin/books/:id", Component: AdminBookDetails },
+          { path: "/admin/books/new", Component: CreateBook },
+          { path: "/admin/books/edit/:id", Component: EditBook },
           { path: "/admin/book-requests", Component: BorrowRequest },
           { path: "/admin/account-requests", Component: AccountRequest },
         ],

@@ -5,7 +5,7 @@ import { useParams } from "react-router";
 const BookDetails = () => {
   const { id } = useParams();
 
-  const book = mockBooks.find((book) => book.id === id) || mockBook;
+  const book = mockBooks.find((book) => book.bookId === id) || mockBook;
 
   return (
     <main className="w-full p-8 pt-14">
@@ -16,14 +16,18 @@ const BookDetails = () => {
         <section className="flex w-full flex-col justify-between gap-16 md:flex-row md:gap-24 lg:gap-36">
           <div className="flex w-full flex-col gap-2">
             <h1 className="text-2xl font-semibold">Summary</h1>
-            <div>{book.summary}</div>
+            <div className="space-y-4 text-base">
+              {book.summary.split("\n").map((line, i) => (
+                <p key={i}>{line}</p>
+              ))}
+            </div>
           </div>
           <div className="flex w-full flex-col gap-2">
             <h1 className="text-2xl font-semibold">Similar Books</h1>
             <div className="grid grid-cols-2 gap-4 md:grid-cols-3">
-              {mockBooks.map(({ id, coverUrl, title }) => (
+              {mockBooks.map(({ bookId, coverUrl, title }) => (
                 <a
-                  href={`/book/${id}`}
+                  href={`/book/${bookId}`}
                   className="w-full max-w-50 cursor-pointer transition duration-200 hover:opacity-80 sm:max-w-62.5 md:max-w-37.5"
                   key={id}
                 >

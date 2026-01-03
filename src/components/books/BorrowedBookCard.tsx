@@ -3,7 +3,7 @@ import { Calendar, ReceiptText } from "lucide-react";
 
 const BorrowedBookCard = ({ book }: { book: BorrowedBook }) => {
   return (
-    <div key={book.book.id} className="p-6 transition-colors hover:bg-gray-50">
+    <div key={book.book.bookId} className="p-6 transition-colors hover:bg-gray-50">
       <div className="flex items-start gap-4">
         <img
           src={book.book.coverUrl}

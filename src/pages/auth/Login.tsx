@@ -19,6 +19,7 @@ const Login = () => {
       password: "",
     },
   });
+
   function handleOnSubmit(data: z.infer<typeof loginFormSchema>) {
     console.log(data);
   }
@@ -38,6 +39,7 @@ const Login = () => {
           type="email"
           register={register}
           error={errors.email}
+          placeholder="johndoe@example.com"
         />
 
         <FormField
@@ -46,6 +48,7 @@ const Login = () => {
           type="password"
           register={register}
           error={errors.password}
+          placeholder="••••••••"
         />
 
         <Button type="submit" className="form-btn">

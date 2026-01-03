@@ -2,18 +2,18 @@ import type { Book } from "@/types";
 import { GetYear } from "@/utils";
 
 const BookCard = ({ book }: { book: Book }) => {
-  const { id, title, author, coverUrl, categories, date, pages } = book;
+  const { bookId, title, author, coverUrl, categories, date, pages } = book;
 
   return (
     <a
-      href={`/book/${id}`}
-      className="group block w-full overflow-hidden rounded-2xl bg-white shadow-md transition-all duration-300 "
-      key={id}
+      href={`/book/${bookId}`}
+      className="group block w-full overflow-hidden rounded-2xl bg-white shadow-md transition-all duration-300"
+      key={bookId}
     >
       {/* Book Image */}
       <div className="flex items-center justify-center p-8 transition-transform duration-300">
         <img
-          className="h-auto w-full max-w-32 lg:max-w-36 rounded-lg shadow-lg"
+          className="h-auto w-full max-w-32 rounded-lg shadow-lg lg:max-w-36"
           src={coverUrl}
           alt={`${title} cover`}
         />
@@ -23,7 +23,7 @@ const BookCard = ({ book }: { book: Book }) => {
       <div className="flex flex-col space-y-2 p-4">
         {/* Category Badge */}
         <span className="bg-primary/10 text-primary inline-flex w-fit items-center rounded-full px-2.5 py-0.5 text-xs font-medium">
-          {categories[0]}
+          {categories.split(", ")[0]}
         </span>
 
         {/* Title */}

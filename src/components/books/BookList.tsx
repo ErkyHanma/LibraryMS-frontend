@@ -14,13 +14,13 @@ const BookList = ({ title, books }: BookList) => {
       <div className="mt-4 grid grid-cols-2 gap-4 space-y-4 sm:flex md:gap-12">
         {/* Show only 5 books*/}
         {books.slice(0, 5).map((book) => (
-          <BookItem key={book.id} book={book} />
+          <BookItem key={book.bookId} book={book} />
         ))}
 
         {/* 6th book - only visible on large screens */}
         {books.length > 5 && (
           <div className="hidden w-full xl:block">
-            <BookItem key={books[5].id} book={books[5]} />
+            <BookItem key={books[5].bookId} book={books[5]} />
           </div>
         )}
         <Link

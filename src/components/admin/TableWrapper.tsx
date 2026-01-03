@@ -21,6 +21,7 @@ import { Button } from "../ui/button";
 import { PlusCircle } from "lucide-react";
 import { DataTable } from "./DataTable";
 import { DataTablePagination } from "./DataTablePagination";
+import { Link } from "react-router";
 
 interface TableWrapperProps<T> {
   data: T[];
@@ -70,7 +71,7 @@ const TableWrapper = <
     getPaginationRowModel: getPaginationRowModel(),
   });
   return (
-    <div className="w-full rounded-lg bg-white p-4">
+    <div className="w-full space-y-6 rounded-xl bg-gradient-to-br from-gray-50 to-white p-6 shadow-lg">
       <div className="mb-4 flex w-full items-center justify-between">
         <h1 className="text-2xl font-medium">
           {type === "Users"
@@ -85,15 +86,22 @@ const TableWrapper = <
         </h1>
 
         {type === "Books" && (
-          <Button className="form-btn">
-            <PlusCircle /> Create new Book{" "}
-          </Button>
+          <Link to={"/admin/books/new"}>
+            <Button className="form-btn">
+              <PlusCircle /> Create new Book{" "}
+            </Button>
+          </Link>
         )}
       </div>
 
       <div className="overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm">
-        <div className="overflow-x-auto"></div>
-        <DataTable type={type} table={table} columns={table.getAllColumns()} />
+        <div className="hide-scrollbar overflow-auto md:max-h-[500px]">
+          <DataTable
+            type={type}
+            table={table}
+            columns={table.getAllColumns()}
+          />
+        </div>
       </div>
 
       {/* Pagination Footer */}

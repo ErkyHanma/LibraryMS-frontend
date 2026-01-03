@@ -45,7 +45,7 @@ const SidebarMobile = ({ isOpen, onToggle }: SidebarMobileProps) => {
         }`}
       >
         <div className={`${isOpen && "invisible"}`}>
-          <Logo route="/home" />
+          <Logo route="/admin" />
         </div>
         <button
           onClick={onToggle}

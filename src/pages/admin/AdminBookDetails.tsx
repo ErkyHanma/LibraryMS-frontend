@@ -22,7 +22,7 @@ const AdminBookDetails = () => {
             <div className="flex items-start justify-center lg:w-54">
               <div className="overflow-hidden rounded-lg shadow-lg ring-1 ring-black/5">
                 <img
-                  className="h-auto w-full max-w-[280px] object-cover lg:max-w-full"
+                  className="h-auto w-full max-w-70 object-cover lg:max-w-full"
                   src={coverUrl}
                   alt="Book cover"
                 />
@@ -48,7 +48,7 @@ const AdminBookDetails = () => {
                 </div>
 
                 <div className="flex flex-wrap gap-2">
-                  {categories.map((category) => (
+                  {categories.split(", ").map((category) => (
                     <span
                       className="bg-primary/10 text-primary ring-primary/20 inline-flex items-center rounded-md px-3 py-1 text-xs font-medium ring-1 ring-inset"
                       key={category}
@@ -74,7 +74,11 @@ const AdminBookDetails = () => {
               <h2 className="text-2xl font-semibold">Summary</h2>
             </div>
             <div className="bg-card rounded-lg border p-6 shadow-sm">
-              <p className="text-muted-foreground leading-relaxed">{summary}</p>
+              <div className="space-y-4 text-base text-[#64748B]">
+                {summary.split("\n").map((line, i) => (
+                  <p key={i}>{line}</p>
+                ))}
+              </div>
             </div>
           </section>
         </div>
