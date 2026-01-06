@@ -1,12 +1,12 @@
 import {
   type Book,
-  type BorrowedBook,
   type NavLink,
   type User,
-  type TableAccountRequest,
   type TableBook,
-  type TableBorrowedBook,
   type TableUser,
+  type BorrowRecord,
+  type TableBorrowRecord,
+  type AccountRequest,
 } from "../types/index";
 
 // Navigation Links
@@ -15,7 +15,6 @@ export const HEADER_NAV_LINKS: NavLink[] = [
   { label: "Search", route: "/search" },
 ];
 
-// Books Data
 export const mockBook: Book = {
   bookId: "1",
   title: "Cracking the Coding Interview",
@@ -26,7 +25,7 @@ export const mockBook: Book = {
   summary:
     "Cracking the Coding Interview is the definitive resource for anyone preparing for technical interviews at major technology companies. Written by Gayle Laakmann McDowell, a former software engineer at Google, Microsoft, and Apple, this book provides 189 programming interview questions with detailed solutions, step-by-step guidance, and insider tips.\n\nThe book covers essential topics including arrays, strings, linked lists, stacks, queues, trees, graphs, bit manipulation, math and logic puzzles, object-oriented design, recursion, dynamic programming, sorting and searching, testing, and scalability. Each problem includes hints, multiple solutions with different time and space complexity trade-offs, and explanations of the optimal approach.\n\nBeyond just coding problems, the book teaches you how to think like an interviewer, approach problems systematically using the author's proven strategies, and communicate your thought process effectively. It also includes behind-the-scenes insights into how top companies like Google, Amazon, Microsoft, Facebook, and Apple evaluate candidates, what they're looking for, and how to stand out.\n\nWhether you're a new graduate, an experienced engineer looking to switch companies, or simply want to sharpen your problem-solving skills, this book provides the preparation you need to ace the toughest technical interviews and land your dream job at a top tech company.",
   pages: 696,
-  date: "2015-07-01",
+  publishDate: "2015-07-01",
   coverUrl: "/images/book-2.png",
   totalCopies: 5,
   availableCopies: 3,
@@ -44,7 +43,7 @@ export const mockBooks: Book[] = [
     summary:
       "Cracking the Coding Interview is the definitive resource for anyone preparing for technical interviews at major technology companies. Written by Gayle Laakmann McDowell, a former software engineer at Google, Microsoft, and Apple, this book provides 189 programming interview questions with detailed solutions, step-by-step guidance, and insider tips.\n\nThe book covers essential topics including arrays, strings, linked lists, stacks, queues, trees, graphs, bit manipulation, math and logic puzzles, object-oriented design, recursion, dynamic programming, sorting and searching, testing, and scalability. Each problem includes hints, multiple solutions with different time and space complexity trade-offs, and explanations of the optimal approach.\n\nBeyond just coding problems, the book teaches you how to think like an interviewer, approach problems systematically using the author's proven strategies, and communicate your thought process effectively. It also includes behind-the-scenes insights into how top companies like Google, Amazon, Microsoft, Facebook, and Apple evaluate candidates, what they're looking for, and how to stand out.\n\nWhether you're a new graduate, an experienced engineer looking to switch companies, or simply want to sharpen your problem-solving skills, this book provides the preparation you need to ace the toughest technical interviews and land your dream job at a top tech company.",
     pages: 696,
-    date: "2015-07-01",
+    publishDate: "2015-07-01",
     coverUrl: "/images/book-2.png",
     totalCopies: 5,
     availableCopies: 3,
@@ -60,7 +59,7 @@ export const mockBooks: Book[] = [
     summary:
       "The Design of Everyday Things is a powerful exploration of the psychology behind good and bad design. Don Norman, a cognitive scientist and design pioneer, demonstrates how everyday objects—from doors and light switches to smartphones and websites—communicate with users through their design.\n\nThe book introduces fundamental design principles including affordances (what actions an object suggests), signifiers (clues that indicate how to interact), mapping (the relationship between controls and their effects), feedback (how systems communicate their status), and constraints (how design limits possible actions). Norman shows how good design makes these elements obvious and intuitive, while poor design creates confusion and frustration.\n\nThrough entertaining real-world examples of both brilliant and terrible design, Norman reveals why we blame ourselves when we can't figure out how to use something, when the fault actually lies with the designer. He argues passionately for human-centered design that puts the user's needs, capabilities, and limitations first.\n\nThis revised and expanded edition includes updated examples from modern technology and digital interfaces, making the principles relevant to today's designers working on everything from physical products to mobile apps and websites. Essential reading for designers, engineers, and anyone who wants to understand why some things work beautifully while others drive us crazy.",
     pages: 368,
-    date: "2013-11-05",
+    publishDate: "2013-11-05",
     coverUrl: "/images/book-3.png",
     totalCopies: 3,
     availableCopies: 1,
@@ -77,7 +76,7 @@ export const mockBooks: Book[] = [
     summary:
       "A fun, visual study guide that makes computer science and coding easy to understand for middle schoolers and beginners.",
     pages: 576,
-    date: "2020-04-14",
+    publishDate: "2020-04-14",
     coverUrl: "/images/book-4.png",
     totalCopies: 8,
     availableCopies: 6,
@@ -93,7 +92,7 @@ export const mockBooks: Book[] = [
     summary:
       "Navigate the complex world of distributed systems and databases with deep insights into building reliable, scalable data-intensive applications.",
     pages: 616,
-    date: "2017-03-16",
+    publishDate: "2017-03-16",
     coverUrl: "/images/book-5.png",
     totalCopies: 4,
     availableCopies: 2,
@@ -109,7 +108,7 @@ export const mockBooks: Book[] = [
     summary:
       "Transform from a coder into a master programmer with timeless wisdom on craftsmanship, best practices, and professional growth.",
     pages: 352,
-    date: "2019-09-13",
+    publishDate: "2019-09-13",
     coverUrl: "/images/book-6.png",
     totalCopies: 6,
     availableCopies: 4,
@@ -126,7 +125,7 @@ export const mockBooks: Book[] = [
     summary:
       "A fun, visual study guide that makes computer science and coding easy to understand for middle schoolers and beginners.",
     pages: 576,
-    date: "2020-04-14",
+    publishDate: "2020-04-14",
     coverUrl: "/images/book-4.png",
     totalCopies: 8,
     availableCopies: 6,
@@ -134,13 +133,12 @@ export const mockBooks: Book[] = [
   },
 ];
 
-// Borrowed Books Data
-export const mockBorrowedBooks: BorrowedBook[] = [
+export const mockBorrowedBooks: BorrowRecord[] = [
   {
     book: mockBooks[1],
     borrowedDate: "Oct 15, 2023",
     dueDate: "Nov 01, 2023",
-    status: "ACTIVE",
+    status: "BORROWED",
   },
   {
     book: mockBooks[2],
@@ -152,50 +150,49 @@ export const mockBorrowedBooks: BorrowedBook[] = [
     book: mockBooks[3],
     borrowedDate: "Oct 20, 2023",
     dueDate: "Nov 05, 2023",
-    returnedDate: "Sept 15, 2023",
+    returnDate: "Sept 15, 2023",
     status: "RETURNED",
   },
   {
     book: mockBooks[4],
     borrowedDate: "Aug 10, 2023",
     dueDate: "Sept 15, 2023",
-    returnedDate: "Sept 15, 2023",
-    status: "LATE RETURN",
+    returnDate: "Sept 15, 2023",
+    status: "LATE_RETURN",
   },
 ];
 
-// Students Data
 export const user1: User = {
   id: "a1b2c3d4-e5f6-4789-a012-3456789abcde",
-  name: "María",
-  lastName: "García",
+  fullname: "María García",
   profileImage: "https://i.pravatar.cc/150?img=5",
   email: "maria.garcia@university.edu",
   universityId: "2024-0012",
   createdAt: "January 04, 2022",
   role: "USER",
+  status: "APPROVED",
 };
 
 export const user2: User = {
   id: "f9e8d7c6-b5a4-4321-9876-543210fedcba",
-  name: "Carlos",
-  lastName: "Rodríguez",
+  fullname: "Carlos Rodríguez",
   profileImage: "https://i.pravatar.cc/150?img=12",
   email: "carlos.rodriguez@university.edu",
   universityId: "2023-0056",
   createdAt: "August 24, 2021",
   role: "USER",
+  status: "APPROVED",
 };
 
 export const user3: User = {
   id: "f9e8d7c6-cc96-4321-9876-543210fedcba",
-  name: "Marco",
-  lastName: "Navarro",
+  fullname: "Marco Navarro",
   profileImage: "https://i.pravatar.cc/150?img=10",
   email: "marco.navarro@university.eduwwwwwwww",
   universityId: "2024-0088",
   createdAt: "June 12, 2024",
   role: "USER",
+  status: "APPROVED",
 };
 
 export const mockBorrowRequestBooks = [
@@ -222,53 +219,21 @@ export const mockBorrowRequestBooks = [
   },
 ];
 
-// Mock data for User
-export const mockUsers: User[] = [
-  {
-    id: "usr_1a2b3c4d",
-    name: "María",
-    lastName: "García",
-    profileImage: "https://i.pravatar.cc/150?img=9",
-    email: "maria.garcia@example.com",
-    role: "USER",
-    createdAt: "2024-01-15T10:30:00Z",
-    universityId: "",
-  },
-  {
-    id: "usr_5e6f7g8h",
-    name: "Carlos",
-    lastName: "Rodríguez",
-    email: "carlos.rodriguez@example.com",
-    profileImage: "https://i.pravatar.cc/150?img=12",
-    role: "ADMIN",
-    createdAt: "2023-11-20T14:45:00Z",
-    universityId: "",
-  },
-  {
-    id: "usr_9i0j1k2l",
-    name: "Ana",
-    lastName: "Martínez",
-    profileImage: "https://i.pravatar.cc/150?img=5",
-    email: "ana.martinez@example.com",
-    role: "USER",
-    createdAt: "2024-03-05T09:15:00Z",
-    universityId: "",
-  },
-];
+export const mockUsers: User[] = [user1, user2, user3];
 
 export const mockTableUsers: TableUser[] = [
   {
     id: "usr_5y6z7a8b",
-    name: "Isabella",
-    lastName: "Santos",
+    fullname: "Isabella Santos",
     profileImage: "https://i.pravatar.cc/150?img=9",
     email: "isabella.santos@example.com",
     role: "USER",
+    status: "APPROVED",
     createdAt: "2024-01-10T12:00:00Z",
-    universityId: "",
+    universityId: "2024-1000",
     info: {
-      name: "Isabella",
-      lastname: "Santos",
+      fullname: "Isabella Santos",
+      email: "isabella.santos@example.com",
       profileImage: "",
     },
     dateJoined: "2024-01-10",
@@ -276,17 +241,16 @@ export const mockTableUsers: TableUser[] = [
   },
   {
     id: "usr_9c0d1e2f",
-    name: "Roberto",
-    lastName: "Vargas",
+    fullname: "Roberto Vargas",
     profileImage: "https://i.pravatar.cc/150?img=11",
-
     email: "roberto.vargas@example.com",
     role: "ADMIN",
+    status: "APPROVED",
     createdAt: "2023-10-15T09:30:00Z",
     universityId: "",
     info: {
-      name: "Roberto",
-      lastname: "Vargas",
+      fullname: "Roberto Vargas",
+      email: "roberto.vargas@example.com",
       profileImage: "https://i.pravatar.cc/150?img=11",
     },
     dateJoined: "2023-10-15",
@@ -294,16 +258,16 @@ export const mockTableUsers: TableUser[] = [
   },
   {
     id: "usr_3g4h5i6j",
-    name: "Valentina",
-    lastName: "Morales",
+    fullname: "Valentina Morales",
     profileImage: "https://i.pravatar.cc/150?img=20",
     email: "valentina.morales@example.com",
     role: "USER",
     createdAt: "2024-02-28T15:45:00Z",
+    status: "BLOCKED",
     universityId: "",
     info: {
-      name: "Valentina",
-      lastname: "Morales",
+      fullname: "Valentina Morales",
+      email: "valentina.morales@example.com",
       profileImage: "https://i.pravatar.cc/150?img=20",
     },
     dateJoined: "2024-02-28",
@@ -322,7 +286,7 @@ export const mockTableBooks: TableBook[] = [
     summary:
       "Cracking the Coding Interview is the definitive resource for anyone preparing for technical interviews at major technology companies. Written by Gayle Laakmann McDowell, a former software engineer at Google, Microsoft, and Apple, this book provides 189 programming interview questions with detailed solutions, step-by-step guidance, and insider tips.\n\nThe book covers essential topics including arrays, strings, linked lists, stacks, queues, trees, graphs, bit manipulation, math and logic puzzles, object-oriented design, recursion, dynamic programming, sorting and searching, testing, and scalability. Each problem includes hints, multiple solutions with different time and space complexity trade-offs, and explanations of the optimal approach.\n\nBeyond just coding problems, the book teaches you how to think like an interviewer, approach problems systematically using the author's proven strategies, and communicate your thought process effectively. It also includes behind-the-scenes insights into how top companies like Google, Amazon, Microsoft, Facebook, and Apple evaluate candidates, what they're looking for, and how to stand out.\n\nWhether you're a new graduate, an experienced engineer looking to switch companies, or simply want to sharpen your problem-solving skills, this book provides the preparation you need to ace the toughest technical interviews and land your dream job at a top tech company.",
     pages: 696,
-    date: "2015-07-01",
+    publishDate: "2015-07-01",
     coverUrl: "/images/book-2.png",
     totalCopies: 5,
     availableCopies: 3,
@@ -342,7 +306,7 @@ export const mockTableBooks: TableBook[] = [
     summary:
       "The Design of Everyday Things is a powerful exploration of the psychology behind good and bad design. Don Norman, a cognitive scientist and design pioneer, demonstrates how everyday objects—from doors and light switches to smartphones and websites—communicate with users through their design.\n\nThe book introduces fundamental design principles including affordances (what actions an object suggests), signifiers (clues that indicate how to interact), mapping (the relationship between controls and their effects), feedback (how systems communicate their status), and constraints (how design limits possible actions). Norman shows how good design makes these elements obvious and intuitive, while poor design creates confusion and frustration.\n\nThrough entertaining real-world examples of both brilliant and terrible design, Norman reveals why we blame ourselves when we can't figure out how to use something, when the fault actually lies with the designer. He argues passionately for human-centered design that puts the user's needs, capabilities, and limitations first.\n\nThis revised and expanded edition includes updated examples from modern technology and digital interfaces, making the principles relevant to today's designers working on everything from physical products to mobile apps and websites. Essential reading for designers, engineers, and anyone who wants to understand why some things work beautifully while others drive us crazy.",
     pages: 368,
-    date: "2013-11-05",
+    publishDate: "2013-11-05",
     coverUrl: "/images/book-3.png",
     totalCopies: 3,
     availableCopies: 1,
@@ -363,7 +327,7 @@ export const mockTableBooks: TableBook[] = [
     summary:
       "A fun, visual study guide that makes computer science and coding easy to understand for middle schoolers and beginners.",
     pages: 576,
-    date: "2020-04-14",
+    publishDate: "2020-04-14",
     coverUrl: "/images/book-4.png",
     totalCopies: 8,
     availableCopies: 6,
@@ -384,7 +348,7 @@ export const mockTableBooks: TableBook[] = [
     summary:
       "Navigate the complex world of distributed systems and databases with deep insights into building reliable, scalable data-intensive applications.",
     pages: 616,
-    date: "2017-03-16",
+    publishDate: "2017-03-16",
     coverUrl: "/images/book-5.png",
     totalCopies: 4,
     availableCopies: 2,
@@ -404,7 +368,7 @@ export const mockTableBooks: TableBook[] = [
     summary:
       "Transform from a coder into a master programmer with timeless wisdom on craftsmanship, best practices, and professional growth.",
     pages: 352,
-    date: "2019-09-13",
+    publishDate: "2019-09-13",
     coverUrl: "/images/book-6.png",
     totalCopies: 6,
     availableCopies: 4,
@@ -416,11 +380,10 @@ export const mockTableBooks: TableBook[] = [
   },
 ];
 
-export const mockTableBorrowedBooks: TableBorrowedBook[] = [
+export const mockTableBorrowedBooks: TableBorrowRecord[] = [
   {
     userInfo: {
-      name: "Isabella",
-      lastname: "Santos",
+      fullname: "Isabella Santos",
       email: "isabella.santos@example.com",
       profileImage: "https://i.pravatar.cc/150?img=9",
     },
@@ -428,15 +391,15 @@ export const mockTableBorrowedBooks: TableBorrowedBook[] = [
       title: "Cracking the Coding Interview",
       coverUrl: "/images/book-2.png",
     },
-    status: "ACTIVE",
-    borrowDate: "2024-12-15T10:30:00Z",
+    status: "BORROWED",
+    borrowedDate: "2025-12-20T10:30:00Z",
     returnDate: "",
-    dueDate: "2025-01-15T10:30:00Z",
+    dueDate: "2026-01-20T23:59:59Z",
   },
+
   {
     userInfo: {
-      name: "Roberto",
-      lastname: "Vargas",
+      fullname: "Roberto Vargas",
       email: "roberto.vargas@example.com",
       profileImage: "https://i.pravatar.cc/150?img=11",
     },
@@ -445,14 +408,14 @@ export const mockTableBorrowedBooks: TableBorrowedBook[] = [
       coverUrl: "/images/book-3.png",
     },
     status: "RETURNED",
-    borrowDate: "2024-11-20T14:15:00Z",
-    returnDate: "2024-12-18T09:45:00Z",
-    dueDate: "2024-12-20T14:15:00Z",
+    borrowedDate: "2025-11-20T14:15:00Z",
+    returnDate: "2025-12-10T09:45:00Z",
+    dueDate: "2025-12-20T23:59:59Z",
   },
+
   {
     userInfo: {
-      name: "Valentina",
-      lastname: "Morales",
+      fullname: "Valentina Morales",
       email: "valentina.morales@example.com",
       profileImage: "https://i.pravatar.cc/150?img=20",
     },
@@ -462,14 +425,14 @@ export const mockTableBorrowedBooks: TableBorrowedBook[] = [
       coverUrl: "/images/book-4.png",
     },
     status: "OVERDUE",
-    borrowDate: "2024-11-01T09:00:00Z",
+    borrowedDate: "2025-11-01T09:00:00Z",
     returnDate: "",
-    dueDate: "2024-12-01T09:00:00Z",
+    dueDate: "2025-12-01T23:59:59Z",
   },
+
   {
     userInfo: {
-      name: "Isabella",
-      lastname: "Santos",
+      fullname: "Isabella Santos",
       email: "isabella.santos@example.com",
       profileImage: "https://i.pravatar.cc/150?img=9",
     },
@@ -477,104 +440,62 @@ export const mockTableBorrowedBooks: TableBorrowedBook[] = [
       title: "Designing Data-Intensive Applications",
       coverUrl: "/images/book-5.png",
     },
-    status: "RETURNED",
-    borrowDate: "2024-10-10T11:20:00Z",
-    returnDate: "2024-11-05T16:30:00Z",
-    dueDate: "2024-11-10T11:20:00Z",
-  },
-  {
-    userInfo: {
-      name: "Roberto",
-      lastname: "Vargas",
-      email: "roberto.vargas@example.com",
-      profileImage: "https://i.pravatar.cc/150?img=11",
-    },
-    bookInfo: {
-      title: "The Pragmatic Programmer: Your Journey to Mastery",
-      coverUrl: "/images/book-6.png",
-    },
-    status: "LATE RETURN",
-    borrowDate: "2024-12-20T08:15:00Z",
-    returnDate: "",
-    dueDate: "2025-01-20T08:15:00Z",
-  },
-  {
-    userInfo: {
-      name: "Valentina",
-      lastname: "Morales",
-      email: "valentina.morales@example.com",
-      profileImage: "https://i.pravatar.cc/150?img=20",
-    },
-    bookInfo: {
-      title: "Cracking the Coding Interview",
-      coverUrl: "/images/book-2.png",
-    },
-    status: "ACTIVE",
-    borrowDate: "2024-11-25T13:45:00Z",
-    returnDate: "",
-    dueDate: "2024-12-25T13:45:00Z",
+    status: "LATE_RETURN",
+    borrowedDate: "2025-10-10T11:20:00Z",
+    returnDate: "2025-11-15T16:30:00Z",
+    dueDate: "2025-11-10T23:59:59Z",
   },
 ];
 
-export const mockTableAccountRequest: TableAccountRequest[] = [
+export const mockTableAccountRequest: AccountRequest[] = [
   {
     userInfo: {
-      name: "Isabella",
-      lastname: "Santos",
+      fullname: "Isabella Santos",
       email: "isabella.santos@example.com",
       profileImage: "https://i.pravatar.cc/150?img=9",
     },
-    dateJoined: "2024-12-15T10:30:00Z",
+    createdAt: "2024-12-15T10:30:00Z",
     universityId: "2024-0001",
+    status: "PENDING",
   },
   {
     userInfo: {
-      name: "Roberto",
-      lastname: "Vargas",
+      fullname: "Roberto Vargas",
       email: "roberto.vargas@example.com",
       profileImage: "https://i.pravatar.cc/150?img=11",
     },
-    dateJoined: "2024--22T10:30:00Z",
+    createdAt: "2024--22T10:30:00Z",
     universityId: "2024-0001",
+    status: "APPROVED",
   },
   {
     userInfo: {
-      name: "Valentina",
-      lastname: "Morales",
+      fullname: "Valentina Morales",
       email: "valentina.morales@example.com",
       profileImage: "https://i.pravatar.cc/150?img=20",
     },
-    dateJoined: "2024-04-31T10:30:00Z",
+    createdAt: "2024-04-31T10:30:00Z",
     universityId: "2024-0001",
+    status: "APPROVED",
   },
   {
     userInfo: {
-      name: "Isabella",
-      lastname: "Santos",
+      fullname: "Isabella Santos",
       email: "isabella.santos@example.com",
       profileImage: "https://i.pravatar.cc/150?img=9",
     },
-    dateJoined: "2024-01-15T10:30:00Z",
+    createdAt: "2024-01-15T10:30:00Z",
     universityId: "2024-0001",
+    status: "REJECTED",
   },
   {
     userInfo: {
-      name: "Roberto",
-      lastname: "Vargas",
+      fullname: "Roberto Vargas",
       email: "roberto.vargas@example.com",
       profileImage: "https://i.pravatar.cc/150?img=11",
     },
-    dateJoined: "2024-09-11T10:30:00Z",
+    createdAt: "2024-09-11T10:30:00Z",
     universityId: "2024-0001",
-  },
-  {
-    userInfo: {
-      name: "Valentina",
-      lastname: "Morales",
-      email: "valentina.morales@example.com",
-      profileImage: "https://i.pravatar.cc/150?img=20",
-    },
-    dateJoined: "2024-11-25T10:30:00Z",
-    universityId: "2024-0001",
+    status: "PENDING",
   },
 ];

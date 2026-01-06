@@ -110,7 +110,7 @@ const Sidebar = () => {
 
               <div className={`overflow-hidden transition-all`}>
                 <p className="truncate text-sm font-semibold text-gray-900">
-                  {user2.name + " " + user2.lastName}
+                  {user2.fullname}
                 </p>
                 <p className="truncate text-xs text-gray-500">{user2.email}</p>
               </div>

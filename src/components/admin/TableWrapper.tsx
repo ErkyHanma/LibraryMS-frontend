@@ -1,7 +1,7 @@
 import type {
-  TableAccountRequest,
+  AccountRequest,
   TableBook,
-  TableBorrowedBook,
+  TableBorrowRecord,
   TableUser,
 } from "@/types";
 import {
@@ -29,7 +29,7 @@ interface TableWrapperProps<T> {
 }
 
 const TableWrapper = <
-  T extends TableBook | TableUser | TableBorrowedBook | TableAccountRequest,
+  T extends TableBook | TableUser | TableBorrowRecord | AccountRequest,
 >({
   data,
   type,
@@ -48,8 +48,8 @@ const TableWrapper = <
                 (each as TableBook).categories
               }`
             : type === "BorrowedBooks"
-              ? `${(each as TableBorrowedBook).bookInfo.title} `
-              : `${(each as TableBorrowedBook).userInfo.name} `;
+              ? `${(each as TableBorrowRecord).bookInfo.title} `
+              : `${(each as TableBorrowRecord).userInfo.name} `;
 
       return params.toLowerCase().includes(query?.toLowerCase());
     });
@@ -71,7 +71,7 @@ const TableWrapper = <
     getPaginationRowModel: getPaginationRowModel(),
   });
   return (
-    <div className="w-full space-y-6 rounded-xl bg-gradient-to-br from-gray-50 to-white p-6 shadow-lg">
+    <div className="w-full space-y-6 rounded-xl bg-linear-to-br from-gray-50 to-white p-6 shadow-lg">
       <div className="mb-4 flex w-full items-center justify-between">
         <h1 className="text-2xl font-medium">
           {type === "Users"

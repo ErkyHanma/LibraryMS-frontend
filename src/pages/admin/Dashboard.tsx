@@ -106,7 +106,7 @@ const Dashboard = () => {
                                   alt=""
                                 />
                                 <span className="truncate">
-                                  {book.user.name + " " + book.user.lastName}
+                                  {book.user.fullname}
                                 </span>
                               </span>
                               <span className="sshrink flex items-center gap-1">
@@ -167,9 +167,7 @@ const Dashboard = () => {
                       src={user.profileImage}
                       alt={`User profile image`}
                     />
-                    <p className="line-clamp-1 font-medium">
-                      {user.name + " " + user.lastName}
-                    </p>
+                    <p className="line-clamp-1 font-medium">{user.fullname}</p>
                     <p className="max-w-[95%] truncate text-sm text-gray-400">
                       {user.email}
                     </p>

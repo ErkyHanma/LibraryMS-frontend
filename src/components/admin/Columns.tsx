@@ -1,17 +1,25 @@
 "use client";
 
 import type {
-  BorrowedBookStatus,
-  ROLE,
-  TableAccountRequest,
+  AccountRequest,
+  BorrowState,
   TableBook,
-  TableBorrowedBook,
+  TableBorrowRecord,
   TableUser,
+  UserRole,
 } from "@/types";
-import { capitalize, dateConverter } from "@/lib/utils";
+import { capitalize, dateConverter, getBorrowState } from "@/lib/utils";
 import type { ColumnDef } from "@tanstack/react-table";
 import UserAvatar from "../shared/UserAvatar";
-import { Check, Edit3, ReceiptText, Trash2Icon, X } from "lucide-react";
+import {
+  Ban,
+  Check,
+  Edit3,
+  ReceiptText,
+  Trash2Icon,
+  UserCheck,
+  X,
+} from "lucide-react";
 
 import {
   DropdownMenu,
@@ -24,9 +32,8 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import ApproveDialog from "./ApproveDialog";
-import RejectDialog from "./RejectDialog";
 import { Link } from "react-router";
+import DialogWrapper from "./DialogWrapper";
 
 export const usersColumns: ColumnDef<TableUser>[] = [
   {
@@ -34,34 +41,31 @@ export const usersColumns: ColumnDef<TableUser>[] = [
     header: "Name",
     cell: ({ row }) => {
       const {
-        name,
-        lastname,
+        fullname,
+        email,
         profileImage,
       }: {
-        name: string;
-        lastname: string;
+        fullname: string;
+        email: string;
         profileImage: string;
       } = row.getValue("info");
       return (
         <div className="flex flex-row items-center gap-2">
-          <UserAvatar
-            name={name + " " + lastname}
-            profileImage={profileImage}
-          />
-          <h5 className="font-semibold">{name + " " + lastname}</h5>
+          <UserAvatar name={fullname} profileImage={profileImage} />
+          <div className="flex flex-col">
+            <h5 className="font-semibold">{fullname}</h5>
+            <p className="text-sm text-gray-400">{email}</p>
+          </div>
         </div>
       );
     },
   },
+
   {
-    accessorKey: "email",
-    header: "Email",
-  },
-  {
-    accessorKey: "createdAt",
+    accessorKey: "dateJoined",
     header: "Date Joined",
     cell: ({ row }) => {
-      const date = new Date(row.getValue("createdAt"));
+      const date = new Date(row.getValue("dateJoined"));
       const formattedDate = dateConverter(date);
 
       return <div>{formattedDate}</div>;
@@ -71,7 +75,7 @@ export const usersColumns: ColumnDef<TableUser>[] = [
     accessorKey: "role",
     header: "Role",
     cell: ({ row }) => {
-      const userRole: ROLE = row.getValue("role");
+      const userRole: UserRole = row.getValue("role");
 
       return (
         <DropdownMenu>
@@ -112,12 +116,56 @@ export const usersColumns: ColumnDef<TableUser>[] = [
     header: "Books Borrowed",
   },
   {
+    accessorKey: "status",
+    header: "Status",
+  },
+  {
     header: "Action",
-    cell: () => {
-      return (
-        <button className="flex cursor-pointer items-center justify-center gap-4 rounded-full p-1.5 transition duration-100 hover:scale-105 hover:bg-red-100">
-          <Trash2Icon className="size-5 text-red-500" />
-        </button>
+    cell: ({ row }) => {
+      const isBlocked = row.original.status === "BLOCKED";
+
+      return isBlocked ? (
+        <DialogWrapper
+          type="SUCCESS"
+          title="Grant User Access"
+          description="Grant the student access to the system. A notification email will be sent."
+          btnText="Grant Access & Notify"
+          onConfirm={confirm}
+        >
+          <button className="flex cursor-pointer items-center justify-center gap-4 rounded-full p-1.5 transition duration-100 hover:scale-105 hover:bg-green-100">
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <span className="flex items-center">
+                  <UserCheck className="size-5 text-green-500" />
+                </span>
+              </TooltipTrigger>
+              <TooltipContent className="border-2 border-gray-300 bg-gray-100 font-medium text-gray-700">
+                <p>Grant Access</p>
+              </TooltipContent>
+            </Tooltip>
+          </button>
+        </DialogWrapper>
+      ) : (
+        <DialogWrapper
+          type="DANGER"
+          title="Restrict User Access"
+          description="Restrict the student's access to the system. A notification email will be sent."
+          btnText="Restrict Access & Notify"
+          onConfirm={confirm}
+        >
+          <button className="flex cursor-pointer items-center justify-center gap-4 rounded-full p-1.5 transition duration-100 hover:scale-105 hover:bg-red-100">
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <span className="flex items-center">
+                  <Ban className="size-5 text-red-500" />
+                </span>
+              </TooltipTrigger>
+              <TooltipContent className="border-2 border-gray-300 bg-gray-100 font-medium text-gray-700">
+                <p>Restrict Access</p>
+              </TooltipContent>
+            </Tooltip>
+          </button>
+        </DialogWrapper>
       );
     },
   },
@@ -161,13 +209,22 @@ export const booksColumns: ColumnDef<TableBook>[] = [
     },
   },
   {
-    accessorKey: "createdAt",
-    header: "Creation Date",
+    accessorKey: "availableCopies",
+    header: "Available Copies",
+  },
+  {
+    header: "View",
     cell: ({ row }) => {
-      const date = new Date(row.getValue("createdAt"));
-      const formattedDate = dateConverter(date);
+      const bookId = row.original.bookId;
 
-      return <div>{formattedDate}</div>;
+      return (
+        <a
+          href={`/admin/books/${bookId}`}
+          className="flex cursor-pointer gap-4 rounded-md bg-gray-200 px-3 py-1 transition duration-100 hover:bg-gray-300"
+        >
+          View
+        </a>
+      );
     },
   },
   {
@@ -192,27 +249,26 @@ export const booksColumns: ColumnDef<TableBook>[] = [
   },
 ];
 
-const STATUS_STYLES: Record<BorrowedBookStatus, { bg: string; text: string }> =
-  {
-    ACTIVE: {
-      bg: "bg-status-active",
-      text: "text-status-active",
-    },
-    RETURNED: {
-      bg: "bg-status-returned",
-      text: "text-status-returned",
-    },
-    OVERDUE: {
-      bg: "bg-status-overdue",
-      text: "text-status-overdue",
-    },
-    "LATE RETURN": {
-      bg: "bg-status-lateReturn",
-      text: "text-status-lateReturn",
-    },
-  };
+const STATUS_STYLES: Record<BorrowState, { bg: string; text: string }> = {
+  BORROWED: {
+    bg: "bg-status-active",
+    text: "text-status-active",
+  },
+  RETURNED: {
+    bg: "bg-status-returned",
+    text: "text-status-returned",
+  },
+  OVERDUE: {
+    bg: "bg-status-overdue",
+    text: "text-status-overdue",
+  },
+  "LATE RETURN": {
+    bg: "bg-status-lateReturn",
+    text: "text-status-lateReturn",
+  },
+};
 
-export const borrowedBooksColumns: ColumnDef<TableBorrowedBook>[] = [
+export const borrowedBooksColumns: ColumnDef<TableBorrowRecord>[] = [
   {
     accessorKey: "bookInfo",
     header: "Book",
@@ -241,24 +297,19 @@ export const borrowedBooksColumns: ColumnDef<TableBorrowedBook>[] = [
     header: "User Requested",
     cell: ({ row }) => {
       const {
-        name,
-        lastname,
+        fullname,
         email,
         profileImage,
       }: {
-        name: string;
-        lastname: string;
+        fullname: string;
         email: string;
         profileImage: string;
       } = row.getValue("userInfo");
       return (
         <div className="flex flex-row items-center gap-2">
-          <UserAvatar
-            name={name + " " + lastname}
-            profileImage={profileImage}
-          />
+          <UserAvatar name={fullname} profileImage={profileImage} />
           <div className="flex flex-col">
-            <h5 className="font-semibold">{name + " " + lastname}</h5>
+            <h5 className="font-semibold">{fullname}</h5>
             <p className="text-sm text-gray-400">{email}</p>
           </div>
         </div>
@@ -269,48 +320,29 @@ export const borrowedBooksColumns: ColumnDef<TableBorrowedBook>[] = [
     accessorKey: "status",
     header: "Status",
     cell: ({ row }) => {
-      const status: BorrowedBookStatus = row.getValue("status");
+      const record = row.original;
+      const status = getBorrowState(record);
 
       const currentStyle = STATUS_STYLES[status];
 
       return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <div>
-              <span
-                className={`${
-                  currentStyle.bg
-                } ${currentStyle.text} rounded-2xl px-2.5 py-0.5 text-sm font-medium`}
-              >
-                {capitalize(status)}
-              </span>
-            </div>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            {Object.entries(STATUS_STYLES).map(([key, style]) => (
-              <DropdownMenuItem
-                key={key}
-                className="flex cursor-pointer justify-between p-2"
-              >
-                <span
-                  className={`${style.bg} ${style.text} rounded-2xl px-2.5 py-0.5 text-sm font-medium`}
-                >
-                  {capitalize(key)}
-                </span>
-
-                {status === key && <Check className="h-4 w-4" />}
-              </DropdownMenuItem>
-            ))}
-          </DropdownMenuContent>
-        </DropdownMenu>
+        <div>
+          <span
+            className={`${
+              currentStyle.bg
+            } ${currentStyle.text} rounded-2xl px-2.5 py-0.5 text-sm font-medium`}
+          >
+            {capitalize(status)}
+          </span>
+        </div>
       );
     },
   },
   {
-    accessorKey: "borrowDate",
-    header: "Borrow Date",
+    accessorKey: "borrowedDate",
+    header: "Borrowed Date",
     cell: ({ row }) => {
-      const date = new Date(row.getValue("borrowDate"));
+      const date = new Date(row.getValue("borrowedDate"));
       const formattedDate = dateConverter(date);
 
       return <div>{formattedDate}</div>;
@@ -338,9 +370,16 @@ export const borrowedBooksColumns: ColumnDef<TableBorrowedBook>[] = [
   },
   {
     header: "Action",
-    cell: () => {
+    cell: ({ row }) => {
+      const record = row.original;
+      const status = getBorrowState(record);
+      const isReturned = status === "RETURNED" || status === "LATE RETURN";
+
       return (
-        <button className="bg-primary/10 text-primary hover:bg-primary/15 flex cursor-pointer items-center justify-center gap-1 rounded-full px-2 py-1 font-medium transition duration-100">
+        <button
+          disabled={isReturned}
+          className={`bg-primary/10 text-primary hover:bg-primary/15 flex items-center justify-center gap-1 rounded-full px-2 py-1 font-medium transition duration-100 ${isReturned ? "hover:bg-primary/10 opacity-50" : "cursor-pointer"} `}
+        >
           Generate
           <ReceiptText className="size-4" />
         </button>
@@ -349,30 +388,25 @@ export const borrowedBooksColumns: ColumnDef<TableBorrowedBook>[] = [
   },
 ];
 
-export const accountRequestsColumns: ColumnDef<TableAccountRequest>[] = [
+export const accountRequestsColumns: ColumnDef<AccountRequest>[] = [
   {
     accessorKey: "userInfo",
     header: "User Requested",
     cell: ({ row }) => {
       const {
-        name,
-        lastname,
+        fullname,
         email,
         profileImage,
       }: {
-        name: string;
-        lastname: string;
+        fullname: string;
         email: string;
         profileImage: string;
       } = row.getValue("userInfo");
       return (
         <div className="flex flex-row items-center gap-2">
-          <UserAvatar
-            name={name + " " + lastname}
-            profileImage={profileImage}
-          />
+          <UserAvatar name={fullname} profileImage={profileImage} />
           <div className="flex flex-col">
-            <h5 className="font-semibold">{name + " " + lastname}</h5>
+            <h5 className="font-semibold">{fullname}</h5>
             <p className="text-sm text-gray-400">{email}</p>
           </div>
         </div>
@@ -384,24 +418,38 @@ export const accountRequestsColumns: ColumnDef<TableAccountRequest>[] = [
     header: "University ID",
   },
   {
-    accessorKey: "dateJoined",
-    header: "Date Joined",
+    accessorKey: "createdAt",
+    header: "Request Date",
     cell: ({ row }) => {
-      const date = new Date(row.getValue("dateJoined"));
+      const date = new Date(row.getValue("createdAt"));
       const formattedDate = dateConverter(date);
 
       return <div>{formattedDate}</div>;
     },
   },
   {
+    accessorKey: "status",
+    header: "Status",
+  },
+  {
     header: "Action",
     cell: ({ row }) => {
       const id: string = row.getValue("id");
-      const confirm = () => {};
+      const status = row.original.status;
 
-      return (
-        <div className="flex gap-4">
-          <ApproveDialog type="ACCOUNT" onConfirm={confirm}>
+      const confirm = () => {
+        // handle confirm using id
+      };
+
+      return status === "PENDING" ? (
+        <div className="flex gap-3">
+          <DialogWrapper
+            type="SUCCESS"
+            title="Approve Account Request"
+            description="Approve the student's account request and grant access. A confirmation email will be sent upon approval."
+            btnText="Approve & Send Confirmation"
+            onConfirm={confirm}
+          >
             <button className="flex cursor-pointer items-center justify-center gap-1 rounded-full bg-green-100 p-2 font-medium text-green-700 transition duration-100 hover:bg-green-50">
               <Tooltip>
                 <TooltipTrigger asChild>
@@ -409,14 +457,20 @@ export const accountRequestsColumns: ColumnDef<TableAccountRequest>[] = [
                     <Check className="size-5" />
                   </span>
                 </TooltipTrigger>
-                <TooltipContent className="border-2 border-gray-300 bg-gray-100 fill-gray-200 font-medium text-gray-700">
-                  <p>Accept</p>
+                <TooltipContent className="border-2 border-gray-300 bg-gray-100 font-medium text-gray-700">
+                  <p>Approve</p>
                 </TooltipContent>
               </Tooltip>
             </button>
-          </ApproveDialog>
+          </DialogWrapper>
 
-          <RejectDialog type="ACCOUNT" onConfirm={confirm}>
+          <DialogWrapper
+            type="DANGER"
+            title="Reject Account Request"
+            description="Reject the student's account request and restrict access. A notification email will be sent upon decision."
+            btnText="Reject & Send decision"
+            onConfirm={confirm}
+          >
             <button className="flex cursor-pointer items-center justify-center gap-1 rounded-full bg-red-100 p-2 font-medium text-red-700 transition duration-100 hover:bg-red-50">
               <Tooltip>
                 <TooltipTrigger asChild>
@@ -424,13 +478,20 @@ export const accountRequestsColumns: ColumnDef<TableAccountRequest>[] = [
                     <X className="size-5" />
                   </span>
                 </TooltipTrigger>
-                <TooltipContent className="border-2 border-gray-300 bg-gray-100 fill-gray-200 font-medium text-gray-700">
-                  <p>Decline</p>
+                <TooltipContent className="border-2 border-gray-300 bg-gray-100 font-medium text-gray-700">
+                  <p>Reject</p>
                 </TooltipContent>
               </Tooltip>
             </button>
-          </RejectDialog>
+          </DialogWrapper>
         </div>
+      ) : (
+        <a
+          href={`/admin/account-requests`}
+          className="flex cursor-pointer gap-4 rounded-md bg-gray-200 px-3 py-1 transition duration-100 hover:bg-gray-300"
+        >
+          View
+        </a>
       );
     },
   },

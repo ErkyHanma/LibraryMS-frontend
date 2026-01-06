@@ -14,9 +14,9 @@ const SignUp = () => {
   } = useForm<z.infer<typeof signUpFormSchema>>({
     resolver: zodResolver(signUpFormSchema),
     defaultValues: {
-      name: "",
-      lastName: "",
+      fullname: "",
       email: "",
+      universityId: "",
       password: "",
       confirmPassword: "",
     },
@@ -40,15 +40,7 @@ const SignUp = () => {
           label="Name"
           placeholder="John"
           register={register}
-          error={errors.name}
-        />
-
-        <FormField
-          id="lastName"
-          label="Last Name"
-          placeholder="Doe"
-          register={register}
-          error={errors.lastName}
+          error={errors.fullname}
         />
 
         <FormField
@@ -58,6 +50,14 @@ const SignUp = () => {
           type="email"
           register={register}
           error={errors.email}
+        />
+
+        <FormField
+          id="universityId"
+          label="University ID"
+          placeholder="2024-0001"
+          register={register}
+          error={errors.universityId}
         />
 
         <FormField

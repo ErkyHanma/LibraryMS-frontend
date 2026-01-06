@@ -1,3 +1,4 @@
+import type { BorrowRecord, BorrowState, TableBorrowRecord } from "@/types";
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 
@@ -44,3 +45,17 @@ export const capitalize = (str: string | null): string => {
   if (!str) return "";
   return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
 };
+
+export function getBorrowState(
+  record: BorrowRecord | TableBorrowRecord,
+): BorrowState {
+  const now = new Date();
+  const due = new Date(record.dueDate);
+
+  if (record.returnDate) {
+    const returned = new Date(record.returnDate);
+    return returned > due ? "LATE RETURN" : "RETURNED";
+  }
+
+  return now > due ? "OVERDUE" : "BORROWED";
+}

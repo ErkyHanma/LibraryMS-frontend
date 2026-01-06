@@ -8,12 +8,10 @@ const ProfileSidebar = ({ user }: { user: User }) => {
         <div className="flex flex-col items-center">
           <img
             src={user.profileImage}
-            alt={`${user.name} ${user.lastName}`}
+            alt={`${user.fullname}`}
             className="mb-4 h-32 w-32 rounded-full object-cover"
           />
-          <h2 className="text-xl font-bold text-gray-900">
-            {user.name} {user.lastName}
-          </h2>
+          <h2 className="text-xl font-bold text-gray-900">{user.fullname}</h2>
           <span className="mt-3 rounded-full bg-green-100 px-3 py-1 text-xs font-medium text-green-700">
             Active Member
           </span>

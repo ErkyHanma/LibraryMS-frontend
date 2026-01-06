@@ -1,7 +1,7 @@
-import type { BorrowedBook } from "@/types";
+import type { BorrowRecord } from "@/types";
 import { Calendar, ReceiptText } from "lucide-react";
 
-const BorrowedBookCard = ({ book }: { book: BorrowedBook }) => {
+const BorrowedBookCard = ({ book }: { book: BorrowRecord }) => {
   return (
     <div
       key={book.book.bookId}
@@ -40,9 +40,9 @@ const BorrowedBookCard = ({ book }: { book: BorrowedBook }) => {
                         />
                       </svg>
                     </div>
-                    Returned: {book.returnedDate}
+                    Returned: {book.returnDate}
                   </span>
-                ) : book.status === "LATE RETURN" ? (
+                ) : book.status === "LATE_RETURN" ? (
                   <span className="text-status-lateReturn flex items-center gap-1">
                     <div className="flex h-3 w-3 items-center justify-center rounded-full bg-pink-500">
                       <svg
@@ -57,7 +57,7 @@ const BorrowedBookCard = ({ book }: { book: BorrowedBook }) => {
                         />
                       </svg>
                     </div>
-                    Returned: {book.returnedDate}
+                    Returned: {book.returnDate}
                   </span>
                 ) : (
                   <span
@@ -78,14 +78,14 @@ const BorrowedBookCard = ({ book }: { book: BorrowedBook }) => {
                 <span className="bg-status-overdue text-status-overdue rounded px-3 py-1 text-xs font-medium">
                   Overdue
                 </span>
-              ) : book.status === "LATE RETURN" ? (
+              ) : book.status === "LATE_RETURN" ? (
                 <span className="bg-status-lateReturn text-status-lateReturn rounded px-3 py-1 text-center text-xs font-medium">
                   Late Return
                 </span>
               ) : (
                 <>
                   <span className="bg-status-active text-status-active rounded px-3 py-1 text-xs font-medium">
-                    Active
+                    Borrowed
                   </span>
                 </>
               )}

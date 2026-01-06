@@ -2,7 +2,7 @@ import { GetYear } from "@/lib/utils";
 import type { Book } from "@/types";
 
 const BookCard = ({ book }: { book: Book }) => {
-  const { bookId, title, author, coverUrl, categories, date, pages } = book;
+  const { bookId, title, author, coverUrl, categories, publishDate, pages } = book;
 
   return (
     <a
@@ -52,7 +52,7 @@ const BookCard = ({ book }: { book: Book }) => {
                 d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
               />
             </svg>
-            <span>{GetYear(date)}</span>
+            <span>{GetYear(publishDate)}</span>
           </div>
           <span>•</span>
           <div className="flex items-center gap-1">

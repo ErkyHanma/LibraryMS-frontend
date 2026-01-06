@@ -13,15 +13,16 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import type {
-  TableAccountRequest,
+  AccountRequest,
   TableBook,
-  TableBorrowedBook,
+  TableBorrowRecord,
   TableUser,
 } from "@/types";
 import { FileX } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 interface DataTableProps<
-  TData extends TableBook | TableBorrowedBook | TableUser | TableAccountRequest,
+  TData extends TableBook | TableBorrowRecord | TableUser | AccountRequest,
   TValue,
 > {
   columns: ColumnDef<TData, TValue>[];
@@ -30,7 +31,7 @@ interface DataTableProps<
 }
 
 export function DataTable<
-  TData extends TableBook | TableBorrowedBook | TableUser | TableAccountRequest,
+  TData extends TableBook | TableBorrowRecord | TableUser | AccountRequest,
   TValue,
 >({ columns, table, type }: DataTableProps<TData, TValue>) {
   return (
@@ -48,7 +49,15 @@ export function DataTable<
                     className="mx-4 px-6 py-3.5 text-left text-sm font-semibold tracking-tight text-gray-700"
                   >
                     <span
-                      className={`${header.column.id === "Action" && "flex justify-center"} ${header.column.id === "status" && "flex justify-center"}`}
+                      className={cn("", {
+                        "flex justify-center": [
+                          "Action",
+                          "View",
+                          "availableCopies",
+                          "status",
+                          "booksBorrowed",
+                        ].includes(header.column.id),
+                      })}
                     >
                       {header.isPlaceholder
                         ? null
@@ -80,7 +89,15 @@ export function DataTable<
                       className="px-6 py-3 align-middle text-sm text-gray-900"
                     >
                       <div
-                        className={`max-w-60 truncate ${cell.column.id === "Action" && "flex justify-center"} ${cell.column.id === "status" && "flex justify-center"}`}
+                        className={cn("max-w-60 truncate", {
+                          "flex justify-center": [
+                            "Action",
+                            "View",
+                            "availableCopies",
+                            "status",
+                            "booksBorrowed",
+                          ].includes(cell.column.id),
+                        })}
                       >
                         {flexRender(
                           cell.column.columnDef.cell,
