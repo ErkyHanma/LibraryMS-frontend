@@ -1,9 +1,16 @@
 import Sidebar from "@/components/admin/Sidebar";
-import { Outlet } from "react-router";
+import { useAuth } from "@/contexts/AuthContext";
+import { Navigate, Outlet } from "react-router";
 
 const AdminLayout = () => {
+  const { isAuthenticated } = useAuth();
+
+  if (!isAuthenticated) {
+    return <Navigate to="/auth/login" replace />;
+  }
+
   return (
-    <div className="flex min-h-screen w-full bg-primary/5">
+    <div className="bg-primary/5 flex min-h-screen w-full">
       <Sidebar />
 
       <main className="w-full md:pl-80">

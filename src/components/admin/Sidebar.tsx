@@ -11,10 +11,12 @@ import type { SidebarNavLink } from "@/types";
 import Logo from "../shared/Logo";
 import { useState } from "react";
 import SidebarMobile from "./SidebarMobile";
-import { user2 } from "@/mocks";
+import { useAuth } from "@/contexts/AuthContext";
+import UserAvatar from "../shared/UserAvatar";
 
 const Sidebar = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const { logout, user } = useAuth();
 
   const { pathname } = useLocation();
   const ADMIN_SIDEBAR_NAVLINKS: SidebarNavLink[] = [
@@ -100,23 +102,21 @@ const Sidebar = () => {
           {/* User Profile & Logout */}
           <div className="flex flex-col gap-3 border-t-2 border-gray-100 pt-4">
             <div className="flex w-full items-center gap-3 rounded-lg bg-gray-50 p-1 px-2 transition-colors hover:bg-gray-100">
-              <div className="h-11 w-11 shrink-0 overflow-hidden rounded-full">
-                <img
-                  className="h-full w-full object-cover"
-                  src={user2.profileImage}
-                  alt="User profile"
-                />
-              </div>
+              <UserAvatar
+                profileImage={user?.profileImageUrl ?? ""}
+                name={user?.name + " " + user?.lastName}
+              />
 
               <div className={`overflow-hidden transition-all`}>
                 <p className="truncate text-sm font-semibold text-gray-900">
-                  {user2.fullname}
+                  {user?.name + " " + user?.lastName}
                 </p>
-                <p className="truncate text-xs text-gray-500">{user2.email}</p>
+                <p className="truncate text-xs text-gray-500">{user?.email}</p>
               </div>
             </div>
 
             <button
+              onClick={logout}
               className={`flex cursor-pointer items-center justify-center gap-2 rounded-lg bg-red-50 px-3 py-3 text-sm font-medium text-red-600 transition-all duration-200 hover:bg-red-100 hover:shadow-sm active:scale-95 md:px-4`}
             >
               <span className={` `}>Logout</span>

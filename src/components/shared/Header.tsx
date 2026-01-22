@@ -1,9 +1,12 @@
 import { HEADER_NAV_LINKS } from "@/constants";
 import Logo from "./Logo";
 import { Link, useLocation } from "react-router";
+import { useAuth } from "@/contexts/AuthContext";
+import UserAvatar from "./UserAvatar";
 
 const Header = () => {
   const { pathname } = useLocation();
+  const { user, logout } = useAuth();
 
   return (
     <header className="fixed top-0 z-50 w-full bg-white">
@@ -20,15 +23,19 @@ const Header = () => {
             </Link>
           ))}
           <Link to={"/profile"} className="flex items-center gap-1">
-            <img
-              className="h-auto w-10 cursor-pointer rounded-full"
-              src="https://i.pravatar.cc/150?img=12"
-              alt=""
+            <UserAvatar
+              name={user?.name + " " + (user?.lastName ?? "")}
+              profileImage={user?.profileImageUrl ?? ""}
             />
-            <p className="font-medium">Erky</p>
+            <p className="font-medium">
+              {user?.name + " " + (user?.lastName ?? "")}
+            </p>
           </Link>
 
-          <button className="ml-4 cursor-pointer rounded-md p-1 hover:bg-red-100">
+          <button
+            onClick={logout}
+            className="ml-4 cursor-pointer rounded-md p-1 hover:bg-red-100"
+          >
             <img
               className="h-8 transition-all duration-75 hover:scale-105"
               src="/public/icons/Frame.svg"

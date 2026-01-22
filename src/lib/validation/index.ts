@@ -41,6 +41,8 @@ export const signUpFormSchema = z
     path: ["confirmPassword"],
   });
 
+
+  
 export const bookSchema = z.object({
   title: z
     .string()
@@ -101,3 +103,4 @@ export const bookSchema = z.object({
     .min(10, { message: "Summary must be at least 10 characters" })
     .max(2000, { message: "Summary must be less than 2000 characters" }),
 });
+

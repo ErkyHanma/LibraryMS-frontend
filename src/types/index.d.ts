@@ -19,6 +19,16 @@ export interface User {
   updatedAt?: string;
 }
 
+export type AuthUser = {
+  id: string;
+  name: string;
+  lastName: string;
+  email: string;
+  universityId: string;
+  role: UserRole;
+  profileImageUrl?: string;
+};
+
 export interface AccountRequest {
   userInfo: {
     fullname: string;

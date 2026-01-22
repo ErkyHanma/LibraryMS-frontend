@@ -3,8 +3,9 @@ import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { Button } from "@/components/ui/button";
 import { loginFormSchema } from "@/lib/validation";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { FormField } from "@/components/auth/FormField";
+import { useAuth } from "@/contexts/AuthContext";
 
 const Login = () => {
   const {
@@ -19,8 +20,24 @@ const Login = () => {
     },
   });
 
-  function handleOnSubmit(data: z.infer<typeof loginFormSchema>) {
-    console.log(data);
+  const { login } = useAuth();
+  const navigate = useNavigate();
+
+  async function handleOnSubmit({
+    email,
+    password,
+  }: z.infer<typeof loginFormSchema>) {
+    try {
+      const result = await login({ email, password });
+
+      if (result.user.role.toUpperCase() === "ADMIN") {
+        navigate("/admin");
+      } else {
+        navigate("/home");
+      }
+    } catch (err) {
+      console.log(err instanceof Error ? err.message : "Login failed");
+    }
   }
 
   return (
