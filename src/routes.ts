@@ -1,13 +1,13 @@
 import { createBrowserRouter } from "react-router";
 import App from "./App.tsx";
-import AuthLayout from "./layouts/AuthLayout.tsx";
+import AuthLayout from "./pages/auth/AuthLayout.tsx";
 import Login from "./pages/auth/Login.tsx";
 import SignUp from "./pages/auth/SignUp.tsx";
-import MainLayout from "./layouts/MainLayout.tsx";
+import MainLayout from "./pages/books/MainLayout.tsx";
 import Home from "./pages/books/Home.tsx";
 import Search from "./pages/books/Search.tsx";
 import BookDetails from "./pages/books/BookDetails.tsx";
-import AdminLayout from "./layouts/AdminLayout.tsx";
+import AdminLayout from "./pages/admin/AdminLayout.tsx";
 import Dashboard from "./pages/admin/Dashboard.tsx";
 import Profile from "./pages/books/Profile.tsx";
 import Users from "./pages/admin/Users.tsx";
@@ -17,11 +17,13 @@ import AccountRequest from "./pages/admin/AccountRequest.tsx";
 import AdminBookDetails from "./pages/admin/AdminBookDetails.tsx";
 import CreateBook from "./pages/admin/CreateBook.tsx";
 import EditBook from "./pages/admin/EditBook.tsx";
+import ErrorBoundary from "./components/shared/ErrorBoundary.tsx";
 
 const router = createBrowserRouter([
   {
     path: "/",
     Component: App,
+    ErrorBoundary: ErrorBoundary,
     children: [
       {
         Component: AuthLayout,

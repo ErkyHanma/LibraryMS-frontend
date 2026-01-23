@@ -4,7 +4,7 @@ import * as z from "zod";
 import { Button } from "@/components/ui/button";
 import { loginFormSchema } from "@/lib/validation";
 import { Link, useNavigate } from "react-router";
-import { FormField } from "@/components/auth/FormField";
+import { FormField } from "@/components/shared/FormField";
 import { useAuth } from "@/contexts/AuthContext";
 
 const Login = () => {

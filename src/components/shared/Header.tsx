@@ -27,14 +27,14 @@ const Header = () => {
               name={user?.name + " " + (user?.lastName ?? "")}
               profileImage={user?.profileImageUrl ?? ""}
             />
-            <p className="font-medium">
+            <p className="font-medium hidden md:flex">
               {user?.name + " " + (user?.lastName ?? "")}
             </p>
           </Link>
 
           <button
             onClick={logout}
-            className="ml-4 cursor-pointer rounded-md p-1 hover:bg-red-100"
+            className="md:ml-2 cursor-pointer rounded-md p-1 hover:bg-red-100"
           >
             <img
               className="h-8 transition-all duration-75 hover:scale-105"

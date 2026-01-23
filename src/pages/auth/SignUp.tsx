@@ -1,4 +1,4 @@
-import { FormField } from "@/components/auth/FormField";
+import { FormField } from "@/components/shared/FormField";
 import { Button } from "@/components/ui/button";
 import { signUpFormSchema } from "@/lib/validation";
 import { zodResolver } from "@hookform/resolvers/zod";
