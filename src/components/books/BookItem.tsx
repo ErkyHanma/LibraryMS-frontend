@@ -11,7 +11,14 @@ const BookItem = ({ book }: { book: Book }) => {
       <img className="h-auto w-full" src={coverUrl} alt={`${title} cover`} />
       <div className="mt-2">
         <p className="book-title">{title}</p>
-        <p className="text-gray-400">{categories.split(", ")[0]}</p>
+        <p className="text-gray-400">
+          {categories.map((categorie, i) => {
+            if (categories.length - 1 === i)
+              return <span key={categorie.categoryId}>{categorie.name} </span>;
+
+            return <span key={categorie.categoryId}>{categorie.name}, </span>;
+          })}
+        </p>
       </div>
     </a>
   );

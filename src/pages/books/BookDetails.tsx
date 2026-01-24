@@ -1,11 +1,26 @@
 import BookOverview from "@/components/books/BookOverview";
-import { mockBook, mockBooks } from "@/mocks";
+import { ErrorState } from "@/components/shared/ErrorState";
+import { Spinner } from "@/components/ui/spinner";
+import { mockBooks } from "@/mocks";
+import type { ApiError } from "@/services/apiError";
+import { useGetBookById } from "@/services/books/queries";
 import { useParams } from "react-router";
 
 const BookDetails = () => {
   const { id } = useParams();
 
-  const book = mockBooks.find((book) => book.bookId === id) || mockBook;
+  const { data: book, isLoading, error } = useGetBookById(true, id ?? 0);
+
+  if (error) {
+    return <ErrorState message={(error as ApiError).message} />;
+  }
+
+  if (isLoading)
+    return (
+      <div className="flex h-screen w-full items-center justify-center">
+        <Spinner className="size-8"/>
+      </div>
+    );
 
   return (
     <main className="w-full p-8 pt-14">
@@ -17,7 +32,7 @@ const BookDetails = () => {
           <div className="flex w-full flex-col gap-2">
             <h1 className="text-2xl font-semibold">Summary</h1>
             <div className="space-y-4 text-base">
-              {book.summary.split("\n").map((line, i) => (
+              {book.summary.split("\n").map((line: string, i: number) => (
                 <p key={i}>{line}</p>
               ))}
             </div>
@@ -29,7 +44,7 @@ const BookDetails = () => {
                 <a
                   href={`/book/${bookId}`}
                   className="w-full max-w-50 cursor-pointer transition duration-200 hover:opacity-80 sm:max-w-62.5 md:max-w-37.5"
-                  key={id}
+                  key={bookId}
                 >
                   <img
                     className="h-auto w-full"

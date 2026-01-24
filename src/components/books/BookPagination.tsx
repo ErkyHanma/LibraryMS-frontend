@@ -1,81 +1,110 @@
-const BookPagination = () => {
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
+
+interface BookPaginationProps {
+  currentPage: number;
+  totalPage: number;
+  setPage: (value: number) => void;
+}
+
+const BookPagination = ({
+  currentPage,
+  totalPage,
+  setPage,
+}: BookPaginationProps) => {
+  const hasNextPage = currentPage < totalPage;
+  const hasPreviousPage = currentPage > 1;
+
+  // Don't show pagination if there's only 1 page or no pages
+  if (totalPage <= 1) return null;
+
   return (
-    <div className="flex w-full items-center justify-center gap-2">
-      <button type="button" aria-label="Previous" className="mr-4">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="9"
-          height="16"
-          fill="none"
-          viewBox="0 0 12 18"
-        >
-          <path
-            stroke="#111820"
-            strokeLinecap="round"
-            strokeOpacity=".7"
-            strokeWidth="2"
-            d="M11 1 2 9.242 11 17"
+    <Pagination>
+      <PaginationContent>
+        {/* Previous Button */}
+        <PaginationItem>
+          <PaginationPrevious
+            onClick={() => hasPreviousPage && setPage(currentPage - 1)}
+            className={
+              !hasPreviousPage
+                ? "pointer-events-none opacity-50"
+                : "cursor-pointer"
+            }
           />
-        </svg>
-      </button>
+        </PaginationItem>
 
-      <div className="flex gap-2 text-sm text-gray-500 md:text-base">
-        <button
-          type="button"
-          className="flex aspect-square h-9 w-9 cursor-pointer items-center justify-center rounded-md border border-gray-200 bg-white transition-all hover:bg-gray-100/70 active:scale-95 md:h-12 md:w-12"
-        >
-          1
-        </button>
-        <button
-          type="button"
-          className="bg-primary flex aspect-square h-9 w-9 cursor-pointer items-center justify-center rounded-md text-white transition-all active:scale-95 md:h-12 md:w-12"
-        >
-          2
-        </button>
-        <button
-          type="button"
-          className="flex aspect-square h-9 w-9 cursor-pointer items-center justify-center rounded-md border border-gray-200 bg-white transition-all hover:bg-gray-100/70 active:scale-95 md:h-12 md:w-12"
-        >
-          3
-        </button>
-        <button
-          type="button"
-          className="flex aspect-square h-9 w-9 cursor-pointer items-center justify-center rounded-md border border-gray-200 bg-white transition-all hover:bg-gray-100/70 active:scale-95 md:h-12 md:w-12"
-        >
-          4
-        </button>
-        <button
-          type="button"
-          className="flex aspect-square h-9 w-9 cursor-pointer items-center justify-center rounded-md border border-gray-200 bg-white transition-all hover:bg-gray-100/70 active:scale-95 md:h-12 md:w-12"
-        >
-          5
-        </button>
-        <button
-          type="button"
-          className="flex aspect-square h-9 w-9 cursor-pointer items-center justify-center rounded-md border border-gray-200 bg-white transition-all hover:bg-gray-100/70 active:scale-95 md:h-12 md:w-12"
-        >
-          6
-        </button>
-      </div>
+        <PaginationItem>
+          <PaginationLink
+            isActive={currentPage === 1}
+            onClick={() => setPage(1)}
+            className="cursor-pointer"
+          >
+            1
+          </PaginationLink>
+        </PaginationItem>
 
-      <button type="button" aria-label="Next" className="ml-4">
-        <svg
-          width="9"
-          height="16"
-          viewBox="0 0 12 18"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M1 1L10 9.24242L1 17"
-            stroke="#111820"
-            strokeOpacity="0.7"
-            strokeWidth="2"
-            strokeLinecap="round"
+        {/* Page 2 (only if exists) */}
+        {totalPage >= 2 && (
+          <PaginationItem>
+            <PaginationLink
+              isActive={currentPage === 2}
+              onClick={() => setPage(2)}
+              className="cursor-pointer"
+            >
+              2
+            </PaginationLink>
+          </PaginationItem>
+        )}
+
+        {/* Page 3 or Last Page (only if exists) */}
+        {totalPage >= 3 && (
+          <PaginationItem>
+            <PaginationLink
+              isActive={currentPage === 3}
+              onClick={() => setPage(3)}
+              className="cursor-pointer"
+            >
+              3
+            </PaginationLink>
+          </PaginationItem>
+        )}
+
+        {totalPage > 3 && (
+          <PaginationItem>
+            <span className="px-4">...</span>
+          </PaginationItem>
+        )}
+
+        {/* Last page (if more than 3 pages) */}
+        {totalPage > 3 && (
+          <PaginationItem>
+            <PaginationLink
+              isActive={currentPage === totalPage}
+              onClick={() => setPage(totalPage)}
+              className="cursor-pointer"
+            >
+              {totalPage}
+            </PaginationLink>
+          </PaginationItem>
+        )}
+
+        {/* Next Button */}
+        <PaginationItem>
+          <PaginationNext
+            onClick={() => hasNextPage && setPage(currentPage + 1)}
+            className={
+              !hasNextPage ? "pointer-events-none opacity-50" : "cursor-pointer"
+            }
           />
-        </svg>
-      </button>
-    </div>
+        </PaginationItem>
+      </PaginationContent>
+    </Pagination>
   );
 };
 

@@ -40,11 +40,16 @@ export interface AccountRequest {
   createdAt?: string;
 }
 
+export type Category = {
+  categoryId: string | number;
+  name: string;
+};
+
 export interface Book {
   bookId: string;
   title: string;
   author: string;
-  categories: string;
+  categories: Category[];
   description: string;
   summary: string;
   pages: number;

@@ -2,7 +2,15 @@ import { Button } from "../ui/button";
 import type { Book } from "@/types";
 
 const BookOverview = ({ book }: { book: Book }) => {
-  const { title, author, coverUrl, categories, description } = book;
+  const {
+    title,
+    author,
+    coverUrl,
+    categories,
+    description,
+    availableCopies,
+    totalCopies,
+  } = book;
 
   return (
     <section className="flex w-full flex-col justify-between gap-6 md:flex-row-reverse">
@@ -22,7 +30,16 @@ const BookOverview = ({ book }: { book: Book }) => {
           <p>
             Category:{" "}
             <span className="text-primary font-semibold">
-              {categories.split(", ").join(" / ")}
+              {categories.map((categorie, i) => {
+                if (categories.length - 1 === i)
+                  return (
+                    <span key={categorie.categoryId}>{categorie.name} </span>
+                  );
+
+                return (
+                  <span key={categorie.categoryId}>{categorie.name}, </span>
+                );
+              })}
             </span>
           </p>
         </div>
@@ -30,12 +47,16 @@ const BookOverview = ({ book }: { book: Book }) => {
         <div className="mb-6 flex gap-6">
           <div className="flex flex-col">
             <span className="text-sm text-gray-500">Total books</span>
-            <span className="text-primary text-2xl font-bold">100</span>
+            <span className="text-primary text-2xl font-bold">
+              {totalCopies}
+            </span>
           </div>
           <div className="h-auto w-px bg-gray-200" />
           <div className="flex flex-col">
             <span className="text-sm text-gray-500">Available</span>
-            <span className="text-2xl font-bold text-green-600">42</span>
+            <span className="text-2xl font-bold text-green-600">
+              {availableCopies}
+            </span>
           </div>
         </div>
 

@@ -1,46 +1,205 @@
 import BookCard from "@/components/books/BookCard";
 import BookFilters from "@/components/books/BookFilters";
+import BookFiltersModal from "@/components/books/BookFiltersModal";
 import BookPagination from "@/components/books/BookPagination";
-import Modal from "@/components/shared/Modal";
-import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
+import { ErrorState } from "@/components/shared/ErrorState";
 import { Input } from "@/components/ui/input";
-import { mockBooks } from "@/mocks";
-import { useState } from "react";
+import { Spinner } from "@/components/ui/spinner";
+import useDebounce from "@/hooks/useDebounce";
+import type { ApiError } from "@/services/apiError";
+import { useGetBooks } from "@/services/books/queries";
+import type { Book } from "@/types";
+import { useMemo, useState } from "react";
+import { useSearchParams } from "react-router";
 
 const Search = () => {
-  const [open, setOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  // Temporal values for modal
+  const [tempCategories, setTempCategories] = useState<string[]>([]);
+  const [tempIsAvailable, setTempIsAvailable] = useState(false);
+
+  // URL params
+  const searchTerm = searchParams.get("search") || "";
+  const categories = searchParams.getAll("category");
+  const isAvailable = searchParams.get("isAvailable") === "true";
+  const currentPage = parseInt(searchParams.get("page") || "1", 10);
+
+  // Debounce search for better performance
+  const debouncedSearchTerm = useDebounce(searchTerm, 500);
+
+  // Build filters object for API call
+  const filters = useMemo(
+    () => ({
+      category: categories || undefined,
+      isAvailable: isAvailable || undefined,
+      page: currentPage || "1",
+      limit: 12, // Default 12
+    }),
+    [categories, isAvailable, currentPage],
+  );
+
+  const handleSetPage = (value: number) => {
+    setSearchParams((prev) => {
+      const params = new URLSearchParams(prev);
+      params.set("page", value.toString());
+      return params;
+    });
+  };
+
+  // Fetch books
+  const {
+    data: books,
+    isLoading,
+    error,
+    isFetching,
+  } = useGetBooks(true, debouncedSearchTerm, filters);
+
+  // Calculation for active filter count for badge
+  const activeFilterCount = useMemo(() => {
+    let count = 0;
+    if (categories.length > 0) count += categories.length;
+    if (isAvailable) count += 1;
+    return count;
+  }, [categories, isAvailable]);
+
+  const updateParams = (key: string, value: string | boolean) => {
+    const params = new URLSearchParams(searchParams);
+
+    if (value === "" || value === false) {
+      params.delete(key);
+    } else {
+      params.set(key, String(value));
+    }
+
+    setSearchParams(params);
+  };
+
+  // Toggle category filter (immediate update for desktop)
+  const toggleCategoryFilter = (
+    category: string,
+    checked: boolean | string,
+  ) => {
+    const updatedCategories = checked
+      ? [...categories, category]
+      : categories.filter((c) => c !== category);
+
+    setSearchParams((prev) => {
+      const params = new URLSearchParams(prev);
+      params.set("page", "1");
+      params.delete("category");
+      updatedCategories.forEach((c) => params.append("category", c));
+      return params;
+    });
+  };
+
+  // Toggle category in temporary state (for modal)
+  const toggleTempCategory = (category: string, checked: boolean | string) => {
+    setTempCategories((prev) =>
+      checked ? [...prev, category] : prev.filter((c) => c !== category),
+    );
+  };
+
+  // Open modal and initialize temporary state
+  const openFiltersModal = () => {
+    setTempCategories(categories);
+    setTempIsAvailable(isAvailable);
+    setIsModalOpen(true);
+  };
+
+  // Apply temporary filters to URL
+  const applyModalFilters = () => {
+    setSearchParams((prev) => {
+      const params = new URLSearchParams(prev);
+
+      params.delete("category");
+      params.set("page", "1");
+      tempCategories.forEach((c) => params.append("category", c));
+
+      // Update availability
+      if (tempIsAvailable) {
+        params.set("isAvailable", "true");
+      } else {
+        params.delete("isAvailable");
+      }
+
+      return params;
+    });
+    setIsModalOpen(false);
+  };
+
+  const resetAllFilters = () => {
+    const params = new URLSearchParams(searchParams);
+    params.set("page", "1");
+    params.delete("category");
+    params.delete("isAvailable");
+    setSearchParams(params);
+  };
+
+  const clearAllSearchAndFilters = () => {
+    const params = new URLSearchParams(searchParams);
+    params.set("page", "1");
+    params.delete("category");
+    params.delete("isAvailable");
+    params.delete("search");
+    setSearchParams(params);
+  };
+
+  if (error) {
+    return <ErrorState message={(error as ApiError).message} />;
+  }
+
+  if (isLoading) {
+    return (
+      <div className="flex h-screen w-full items-center justify-center">
+        <Spinner className="size-8" />
+      </div>
+    );
+  }
+
+  const hasResults = books.data.length > 0;
 
   return (
     <main className="w-full p-6 pt-10">
       <div className="mx-auto max-w-7xl">
-        {/*Search input section*/}
         <section className="flex w-full max-w-2xl flex-col space-y-2">
           <h1 className="text-3xl font-bold">Browse Catalog</h1>
           <p className="text-gray-400">
             Discover a wide range of books by exploring and searching our
             library catalog.
           </p>
+
           <div className="flex gap-2">
             <Input
+              value={searchTerm}
               className="bg-white"
               placeholder="Search by title or author"
+              onChange={(e) => updateParams("search", e.target.value)}
             />
-            <Button className="form-btn">Search</Button>
           </div>
         </section>
 
         <div className="mt-8 flex w-full flex-col gap-16 md:flex-row">
-          <BookFilters />
+          {/* Desktop filters sidebar */}
+          <BookFilters
+            updateParams={updateParams}
+            toggleCategoryFilter={toggleCategoryFilter}
+            resetAllFilters={resetAllFilters}
+            categories={categories}
+            isAvailable={isAvailable}
+          />
 
+          {/* Results section */}
           <section className="flex flex-1 flex-col gap-6">
             <div className="flex w-full items-center justify-between">
               <p>
-                <span className="font-semibold">342</span> results found
+                <span className="font-semibold">{books.data.length}</span>{" "}
+                results found
               </p>
               <div className="flex items-center gap-2">
                 <button
-                  onClick={() => setOpen(true)}
+                  onClick={openFiltersModal}
                   className="flex cursor-pointer items-center gap-2 rounded-full border border-gray-300 bg-white px-3 py-2 text-sm font-medium shadow-sm transition-all hover:border-gray-400 hover:shadow active:scale-95 lg:hidden"
                 >
                   <svg
@@ -59,133 +218,87 @@ const Search = () => {
                   </svg>
                   <span>Filters</span>
                   <span className="bg-primary flex h-5 w-5 items-center justify-center rounded-full text-xs text-white">
-                    2
+                    {activeFilterCount}
                   </span>
                 </button>
-                <p className="cursor-pointer rounded-full p-2 text-sm transition duration-100 hover:bg-gray-200">
+
+                <button
+                  onClick={clearAllSearchAndFilters}
+                  className="cursor-pointer rounded-full p-2 text-sm transition duration-100 hover:bg-gray-200"
+                >
                   CLEAR
-                </p>
+                </button>
               </div>
             </div>
 
-            {/* Not result ui */}
-            {/* <div className="flex flex-col items-center justify-center py-16">
-              <div className="mb-6 flex h-32 w-32 items-center justify-center rounded-full bg-gray-200">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" strokeWidth="1.5" className="h-12 w-12 text-gray-600" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607"/></svg>
+            {/* Results content */}
+            {isFetching ? (
+              <div className="flex h-80 w-full items-center justify-center">
+                <Spinner className="size-8" />
               </div>
-              <h2 className="mb-2 text-2xl font-bold text-gray-900">
-                No results found
-              </h2>
-              <p className="max-w-lg text-center text-gray-500">
-                We couldn't find any books matching{" "}
-                <span className="font-semibold text-black">"Discover"</span>.
-                Try using different keywords or check for typos.
-              </p>
-            </div> */}
-
-            {/* Books result */}
-            <div className="grid w-full grid-cols-2 gap-6 md:grid-cols-3">
-              {mockBooks.map((book) => (
-                <BookCard book={book} key={book.bookId} />
-              ))}
-              {mockBooks.map((book) => (
-                <BookCard book={book} key={book.bookId} />
-              ))}
-            </div>
+            ) : hasResults ? (
+              <div className="grid w-full grid-cols-2 gap-6 md:grid-cols-3">
+                {books.data.map((book: Book) => (
+                  <BookCard book={book} key={book.bookId} />
+                ))}
+              </div>
+            ) : (
+              // Empty state
+              <div className="flex flex-col items-center justify-center py-16">
+                <div className="mb-6 flex h-32 w-32 items-center justify-center rounded-full bg-gray-200">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="1.5"
+                    className="h-12 w-12 text-gray-600"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607"
+                    />
+                  </svg>
+                </div>
+                <h2 className="mb-2 text-2xl font-bold text-gray-900">
+                  No results found
+                </h2>
+                {searchTerm && (
+                  <p className="max-w-lg text-center text-gray-500">
+                    We couldn't find any books matching
+                    <span className="font-semibold text-black">
+                      {" "}
+                      "{searchTerm}"
+                    </span>
+                    . Try using different keywords or check for typos.
+                  </p>
+                )}
+              </div>
+            )}
 
             <div className="my-8">
-              <BookPagination />
+              <BookPagination
+                currentPage={currentPage}
+                totalPage={books.meta.totalPage}
+                setPage={handleSetPage}
+              />
             </div>
           </section>
         </div>
       </div>
 
-      <Modal open={open} onClose={() => setOpen(false)}>
-        <div className="mb-6 flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth="1.5"
-              stroke="currentColor"
-              className="text-primary size-6"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M12 3c2.755 0 5.455.232 8.083.678.533.09.917.556.917 1.096v1.044a2.25 2.25 0 0 1-.659 1.591l-5.432 5.432a2.25 2.25 0 0 0-.659 1.591v2.927a2.25 2.25 0 0 1-1.244 2.013L9.75 21v-6.568a2.25 2.25 0 0 0-.659-1.591L3.659 7.409A2.25 2.25 0 0 1 3 5.818V4.774c0-.54.384-1.006.917-1.096A48.32 48.32 0 0 1 12 3Z"
-              />
-            </svg>
-            <h2 className="text-xl font-semibold">Filters</h2>
-          </div>
-          <button
-            onClick={() => {}}
-            className="cursor-pointer text-sm text-gray-400 transition-colors duration-75 hover:text-gray-600"
-          >
-            RESET
-          </button>
-        </div>
-
-        {/* Availability Filters */}
-        <div className="mb-6 flex flex-col space-y-3">
-          <p className="text-lg font-medium">Availability</p>
-          <div className="flex items-center gap-3">
-            <Checkbox
-              defaultChecked
-              className="cursor-pointer"
-              id={`filter-available`}
-            />
-            <label
-              htmlFor={`filter-available`}
-              className="cursor-pointer text-sm"
-            >
-              Available
-            </label>
-          </div>
-          <div className="flex items-center gap-3">
-            <Checkbox className="cursor-pointer" id={`filter-borrowed`} />
-            <label
-              htmlFor={`filter-borrowed`}
-              className="cursor-pointer text-sm"
-            >
-              Borrowed
-            </label>
-          </div>
-        </div>
-
-        <div className="my-6 h-px bg-gray-200"></div>
-
-        {/* Genre Filters */}
-        <div className="flex flex-col space-y-3">
-          <p className="text-lg font-medium">Genre</p>
-          <Input className="mb-2 bg-white" placeholder="Search genres..." />
-
-          <div className="flex max-h-64 flex-col space-y-3 overflow-y-auto">
-            {[
-              "Action",
-              "Sci-Fi",
-              "Programming",
-              "Education",
-              "Design",
-              "History",
-            ].map((genre) => (
-              <div key={genre} className="flex items-center gap-3">
-                <Checkbox
-                  className="cursor-pointer"
-                  id={`filter-${genre.toLowerCase()}`}
-                />
-                <label
-                  htmlFor={`filter-${genre.toLowerCase()}`}
-                  className="cursor-pointer text-sm"
-                >
-                  {genre}
-                </label>
-              </div>
-            ))}
-          </div>
-        </div>
-      </Modal>
+      {/* Mobile filters modal */}
+      <BookFiltersModal
+        open={isModalOpen}
+        setOpen={setIsModalOpen}
+        handleApplyFilters={applyModalFilters}
+        resetAllFilters={resetAllFilters}
+        setTempIsAvailable={setTempIsAvailable}
+        toggleTempCategory={toggleTempCategory}
+        tempCategories={tempCategories}
+        tempIsAvailable={tempIsAvailable}
+      />
     </main>
   );
 };

@@ -1,7 +1,20 @@
 import { Checkbox } from "../ui/checkbox";
-import { Input } from "../ui/input";
 
-const BookFilters = () => {
+interface FiltersProps {
+  updateParams: (key: string, value: string) => void;
+  toggleCategoryFilter: (category: string, checked: boolean | string) => void;
+  resetAllFilters: () => void;
+  categories: string[];
+  isAvailable: boolean;
+}
+
+const BookFilters = ({
+  updateParams,
+  toggleCategoryFilter,
+  categories,
+  resetAllFilters,
+  isAvailable,
+}: FiltersProps) => {
   return (
     <section className="sticky top-20 hidden max-h-120 w-full max-w-90 rounded-lg bg-white p-5 shadow-md lg:block">
       <div className="mb-4 flex items-center justify-between">
@@ -22,9 +35,12 @@ const BookFilters = () => {
           </svg>
           <h2 className="text-xl font-semibold">Filters</h2>
         </div>
-        <p className="cursor-pointer text-sm text-gray-400 duration-75 hover:text-gray-300">
+        <button
+          onClick={() => resetAllFilters()}
+          className="cursor-pointer text-sm text-gray-400 duration-75 hover:text-gray-300"
+        >
           RESET
-        </p>
+        </button>
       </div>
 
       {/*Availability Filters*/}
@@ -32,15 +48,18 @@ const BookFilters = () => {
         <p className="text-lg font-medium">Availability</p>
         <div className="flex items-center gap-4">
           <Checkbox
-            defaultChecked
+            checked={isAvailable}
             className="cursor-pointer"
             id="filter-available"
+            onCheckedChange={(checked) => {
+              if (checked === true) {
+                updateParams("isAvailable", "true");
+              } else {
+                updateParams("isAvailable", "");
+              }
+            }}
           />
           <label htmlFor="filter-available">Available</label>
-        </div>
-        <div className="flex items-center gap-4">
-          <Checkbox className="cursor-pointer" id="filter-borrowed" />
-          <label htmlFor="filter-borrowed">Borrowed</label>
         </div>
       </div>
 
@@ -48,31 +67,25 @@ const BookFilters = () => {
 
       {/*Genre Filters*/}
       <div className="flex flex-col space-y-2">
-        <p className="text-lg font-medium">Genre</p>
-        <Input className="mb-4" placeholder="Type the genre" />
+        <p className="text-lg font-medium">Category</p>
         <div className="flex items-center gap-4">
-          <Checkbox className="cursor-pointer" id="filter-" />
-          <label htmlFor="filter-">Action</label>
+          <Checkbox
+            className="cursor-pointer"
+            checked={categories.includes("Education")}
+            onCheckedChange={(checked) => {
+              toggleCategoryFilter("Education", checked);
+            }}
+          />
+          <label className="cursor-pointer">Education</label>
         </div>
-        <div className="flex items-center gap-4">
-          <Checkbox className="cursor-pointer" id="filter-" />
-          <label htmlFor="filter-">Sci-Fi</label>
-        </div>
-        <div className="flex items-center gap-4">
-          <Checkbox className="cursor-pointer" id="filter-" />
-          <label htmlFor="filter-">Programming</label>
-        </div>
-        <div className="flex items-center gap-4">
-          <Checkbox className="cursor-pointer" id="filter-" />
-          <label htmlFor="filter-">Education</label>
-        </div>
-        <div className="flex items-center gap-4">
-          <Checkbox className="cursor-pointer" id="filter-" />
-          <label htmlFor="filter-">Design</label>
-        </div>
-        <div className="flex items-center gap-4">
-          <Checkbox className="cursor-pointer" id="filter-" />
-          <label htmlFor="filter-">History</label>
+        <div className="flex cursor-pointer items-center gap-4">
+          <Checkbox
+            checked={categories.includes("Mathematics")}
+            onCheckedChange={(checked) => {
+              toggleCategoryFilter("Mathematics", checked);
+            }}
+          />
+          <label>Mathematics</label>
         </div>
       </div>
     </section>

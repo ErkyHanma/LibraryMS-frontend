@@ -7,6 +7,7 @@ import {
   type BorrowRecord,
   type TableBorrowRecord,
   type AccountRequest,
+  type Category,
 } from "../types/index";
 
 // Navigation Links
@@ -15,11 +16,19 @@ export const HEADER_NAV_LINKS: NavLink[] = [
   { label: "Search", route: "/search" },
 ];
 
+export const categories: Record<string, Category> = {
+  programming: { categoryId: 1, name: "Programming" },
+  interview: { categoryId: 2, name: "Interview Preparation" },
+  cs: { categoryId: 3, name: "Computer Science" },
+  design: { categoryId: 4, name: "Design" },
+  education: { categoryId: 5, name: "Education" },
+};
+
 export const mockBook: Book = {
   bookId: "1",
   title: "Cracking the Coding Interview",
   author: "Gayle Laakmann McDowell",
-  categories: "Programming, Interview Preparation, Computer Science",
+  categories: [categories.programming, categories.interview, categories.cs],
   description:
     "A comprehensive guide to technical interview preparation featuring 189 programming questions and solutions. The book covers data structures, algorithms, and system design, helping software engineers prepare for interviews at top tech companies like Google, Microsoft, Amazon, and Facebook.",
   summary:
@@ -37,7 +46,7 @@ export const mockBooks: Book[] = [
     bookId: "1",
     title: "Cracking the Coding Interview",
     author: "Gayle Laakmann McDowell",
-    categories: "Programming, Interview Preparation, Computer Science",
+    categories: [categories.programming, categories.interview, categories.cs],
     description:
       "A comprehensive guide to technical interview preparation featuring 189 programming questions and solutions. The book covers data structures, algorithms, and system design, helping software engineers prepare for interviews at top tech companies like Google, Microsoft, Amazon, and Facebook.",
     summary:
@@ -53,7 +62,7 @@ export const mockBooks: Book[] = [
     bookId: "2",
     title: "The Design of Everyday Things",
     author: "Don Norman",
-    categories: "Design, User Experience, Psychology",
+    categories: [categories.programming, categories.design, categories.cs],
     description:
       "A groundbreaking exploration of how design serves as communication between objects and users. The book examines the psychology behind good and bad design, introducing concepts like affordances and signifiers while advocating for user-centered design principles.",
     summary:
@@ -70,7 +79,7 @@ export const mockBooks: Book[] = [
     title:
       "Everything You Need to Ace Computer Science and Coding in One Big Fat Notebook",
     author: "Grant Smith",
-    categories: "Computer Science, Education, Programming, Middle School",
+    categories: [categories.education, categories.design, categories.cs],
     description:
       "A comprehensive middle school study guide covering computer science fundamentals, coding concepts, and programming languages including Scratch, Python, HTML, and CSS. Written in an accessible notebook format with key concepts, diagrams, and practice exercises.",
     summary:
@@ -86,7 +95,7 @@ export const mockBooks: Book[] = [
     bookId: "4",
     title: "Designing Data-Intensive Applications",
     author: "Martin Kleppmann",
-    categories: "Software Architecture, Distributed Systems, Databases",
+    categories: [categories.education, categories.design, categories.cs],
     description:
       "A comprehensive guide examining the architecture of data systems and distributed data processing. The book explores the pros and cons of various technologies for processing and storing data, covering topics like reliability, scalability, fault tolerance, and the research underlying modern databases.",
     summary:
@@ -102,7 +111,7 @@ export const mockBooks: Book[] = [
     bookId: "5",
     title: "The Pragmatic Programmer: Your Journey to Mastery",
     author: "David Thomas and Andrew Hunt",
-    categories: "Software Engineering, Programming, Professional Development",
+    categories: [categories.education, categories.design, categories.cs],
     description:
       "A timeless guide to software craftsmanship covering personal responsibility, career development, and architectural techniques for writing flexible, adaptable code. The 20th Anniversary Edition re-examines what it means to be a modern programmer with updated examples and 30% new content.",
     summary:
@@ -119,7 +128,7 @@ export const mockBooks: Book[] = [
     title:
       "Everything You Need to Ace Computer Science and Coding in One Big Fat Notebook",
     author: "Grant Smith",
-    categories: "Computer Science, Education, Programming, Middle School",
+    categories: [categories.education, categories.design, categories.cs],
     description:
       "A comprehensive middle school study guide covering computer science fundamentals, coding concepts, and programming languages including Scratch, Python, HTML, and CSS. Written in an accessible notebook format with key concepts, diagrams, and practice exercises.",
     summary:
@@ -158,7 +167,7 @@ export const mockBorrowedBooks: BorrowRecord[] = [
     borrowedDate: "Aug 10, 2023",
     dueDate: "Sept 15, 2023",
     returnDate: "Sept 15, 2023",
-    status: "LATE_RETURN",
+    status: "LATE RETURN",
   },
 ];
 
@@ -280,7 +289,7 @@ export const mockTableBooks: TableBook[] = [
     bookId: "1",
     title: "Cracking the Coding Interview",
     author: "Gayle Laakmann McDowell",
-    categories: "Programming, Interview Preparation, Computer Science",
+    categories: [categories.education, categories.design, categories.cs],
     description:
       "A comprehensive guide to technical interview preparation featuring 189 programming questions and solutions. The book covers data structures, algorithms, and system design, helping software engineers prepare for interviews at top tech companies like Google, Microsoft, Amazon, and Facebook.",
     summary:
@@ -300,7 +309,7 @@ export const mockTableBooks: TableBook[] = [
     bookId: "2",
     title: "The Design of Everyday Things",
     author: "Don Norman",
-    categories: "Design, User Experience, Psychology",
+    categories: [categories.education, categories.design, categories.cs],
     description:
       "A groundbreaking exploration of how design serves as communication between objects and users. The book examines the psychology behind good and bad design, introducing concepts like affordances and signifiers while advocating for user-centered design principles.",
     summary:
@@ -321,7 +330,7 @@ export const mockTableBooks: TableBook[] = [
     title:
       "Everything You Need to Ace Computer Science and Coding in One Big Fat Notebook",
     author: "Grant Smith",
-    categories: "Computer Science, Education, Programming, Middle School",
+    categories: [categories.education, categories.design, categories.cs],
     description:
       "A comprehensive middle school study guide covering computer science fundamentals, coding concepts, and programming languages including Scratch, Python, HTML, and CSS. Written in an accessible notebook format with key concepts, diagrams, and practice exercises.",
     summary:
@@ -342,7 +351,7 @@ export const mockTableBooks: TableBook[] = [
     bookId: "4",
     title: "Designing Data-Intensive Applications",
     author: "Martin Kleppmann",
-    categories: "Software Architecture, Distributed Systems, Databases",
+    categories: [categories.education, categories.design, categories.cs],
     description:
       "A comprehensive guide examining the architecture of data systems and distributed data processing. The book explores the pros and cons of various technologies for processing and storing data, covering topics like reliability, scalability, fault tolerance, and the research underlying modern databases.",
     summary:
@@ -362,7 +371,7 @@ export const mockTableBooks: TableBook[] = [
     bookId: "5",
     title: "The Pragmatic Programmer: Your Journey to Mastery",
     author: "David Thomas and Andrew Hunt",
-    categories: "Software Engineering, Programming, Professional Development",
+    categories: [categories.education, categories.design, categories.cs],
     description:
       "A timeless guide to software craftsmanship covering personal responsibility, career development, and architectural techniques for writing flexible, adaptable code. The 20th Anniversary Edition re-examines what it means to be a modern programmer with updated examples and 30% new content.",
     summary:

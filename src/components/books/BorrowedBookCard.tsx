@@ -18,7 +18,7 @@ const BorrowedBookCard = ({ book }: { book: BorrowRecord }) => {
             <div>
               <h4 className="font-semibold text-gray-900">{book.book.title}</h4>
               <p className="mt-1 text-sm text-gray-500">
-                {book.book.author} • {book.book.categories.split(", ")[0]}
+                {book.book.author} • {book.book.categories[0].name}
               </p>
               <div className="mt-3 flex items-center gap-4 text-sm text-gray-600">
                 <span className="flex items-center gap-1">
@@ -42,7 +42,7 @@ const BorrowedBookCard = ({ book }: { book: BorrowRecord }) => {
                     </div>
                     Returned: {book.returnDate}
                   </span>
-                ) : book.status === "LATE_RETURN" ? (
+                ) : book.status === "LATE RETURN" ? (
                   <span className="text-status-lateReturn flex items-center gap-1">
                     <div className="flex h-3 w-3 items-center justify-center rounded-full bg-pink-500">
                       <svg
@@ -78,7 +78,7 @@ const BorrowedBookCard = ({ book }: { book: BorrowRecord }) => {
                 <span className="bg-status-overdue text-status-overdue rounded px-3 py-1 text-xs font-medium">
                   Overdue
                 </span>
-              ) : book.status === "LATE_RETURN" ? (
+              ) : book.status === "LATE RETURN" ? (
                 <span className="bg-status-lateReturn text-status-lateReturn rounded px-3 py-1 text-center text-xs font-medium">
                   Late Return
                 </span>

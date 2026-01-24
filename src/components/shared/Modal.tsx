@@ -4,10 +4,11 @@ import { Button } from "../ui/button";
 interface ModalProps {
   open: boolean;
   onClose: () => void;
+  onApply: () => void;
   children: ReactNode;
 }
 
-const Modal = ({ open, onClose, children }: ModalProps) => {
+const Modal = ({ open, onClose, onApply, children }: ModalProps) => {
   // Close modal if window size is > 1024px
   useEffect(() => {
     const handleResize = () => {
@@ -33,7 +34,6 @@ const Modal = ({ open, onClose, children }: ModalProps) => {
       document.body.style.overflow = "unset";
     }
 
-
     return () => {
       document.body.style.overflow = "unset";
     };
@@ -54,7 +54,7 @@ const Modal = ({ open, onClose, children }: ModalProps) => {
         >
           Cancel
         </Button>
-        <Button onClick={onClose} className="form-btn flex-1">
+        <Button onClick={onApply} className="form-btn flex-1">
           Apply Filters
         </Button>
       </div>
