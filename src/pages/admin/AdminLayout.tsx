@@ -3,7 +3,11 @@ import { useAuth } from "@/contexts/AuthContext";
 import { Navigate, Outlet } from "react-router";
 
 const AdminLayout = () => {
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, isLoading } = useAuth();
+
+  if (isLoading) {
+    return null;
+  }
 
   if (!isAuthenticated) {
     return <Navigate to="/auth/login" replace />;

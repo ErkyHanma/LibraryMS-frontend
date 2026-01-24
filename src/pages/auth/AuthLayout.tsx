@@ -2,7 +2,11 @@ import { useAuth } from "@/contexts/AuthContext";
 import { Navigate, Outlet } from "react-router";
 
 const AuthLayout = () => {
-  const { isAuthenticated, user } = useAuth();
+  const { isAuthenticated, isLoading, user } = useAuth();
+
+  if (isLoading) {
+    return null;
+  }
 
   if (isAuthenticated) {
     if (user?.role.toUpperCase() === "ADMIN") {

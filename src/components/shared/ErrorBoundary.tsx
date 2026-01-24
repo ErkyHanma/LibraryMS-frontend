@@ -47,7 +47,7 @@ export function ErrorBoundary() {
 
           <button
             onClick={() => navigate(-1)}
-            className="bg-primary-600 flex w-full max-w-[450px] cursor-pointer items-center justify-center gap-2 rounded-lg bg-red-700 px-6 py-3 font-medium text-white shadow-sm transition-colors duration-100"
+            className="bg-primary-600 flex w-full max-w-112.5 cursor-pointer items-center justify-center gap-2 rounded-lg bg-red-700 px-6 py-3 font-medium text-white shadow-sm transition-colors duration-100"
           >
             <ArrowLeft className="h-5 w-5" />
             Go back
