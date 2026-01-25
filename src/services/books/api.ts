@@ -136,3 +136,51 @@ export async function getPopularCategories(limit?: number) {
   const data = await response.json();
   return data;
 }
+
+export async function getBooksByCategoryId(
+  categoryId: number,
+  page?: number,
+  limit?: number,
+) {
+  const params = new URLSearchParams();
+  if (page) params.append("page", page.toString());
+  if (limit) params.append("limit", limit.toString());
+
+  const queryString = params.toString();
+
+  const url = queryString
+    ? `${API_URL}/books/category/${categoryId}?${queryString}`
+    : `${API_URL}//books/category/${categoryId}`;
+
+  const token = localStorage.getItem("accessToken");
+
+  if (!token) {
+    throw new ApiError("User not authenticated", 401);
+  }
+
+  const response = await fetch(url, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  if (!response.ok) {
+    let errorMessage = "Something went wrong";
+
+    try {
+      const errorData = await response.json();
+      errorMessage = errorData.detail || errorData.title || errorData.message;
+    } catch {
+      if (import.meta.env.DEV) {
+        console.error(errorMessage);
+      }
+    }
+
+    throw new ApiError(errorMessage, response.status);
+  }
+
+  const data = await response.json();
+  return data;
+}

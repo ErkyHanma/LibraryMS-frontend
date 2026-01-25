@@ -46,7 +46,7 @@ export type Category = {
 };
 
 export interface Book {
-  bookId: string;
+  bookId:  number;
   title: string;
   author: string;
   categories: Category[];
