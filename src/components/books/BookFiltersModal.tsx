@@ -1,5 +1,7 @@
+import { useGetPopularCategories } from "@/services/books/queries";
 import Modal from "../shared/Modal";
 import { Checkbox } from "../ui/checkbox";
+import type { Category } from "@/types";
 
 interface BookFiltersModalProps {
   open: boolean;
@@ -22,6 +24,8 @@ const BookFiltersModal = ({
   tempCategories,
   toggleTempCategory,
 }: BookFiltersModalProps) => {
+  const { data: popularCategories, isFetching } = useGetPopularCategories();
+
   return (
     <Modal
       open={open}
@@ -76,24 +80,39 @@ const BookFiltersModal = ({
       <div className="flex flex-col space-y-3">
         <p className="text-lg font-medium">Category</p>
         <div className="flex max-h-64 flex-col space-y-3 overflow-y-auto">
-          <div className="flex items-center gap-4">
-            <Checkbox
-              checked={tempCategories.includes("Education")}
-              onCheckedChange={(checked) => {
-                toggleTempCategory("Education", checked);
-              }}
-            />
-            <span>Education</span>
-          </div>
-          <div className="flex items-center gap-4">
-            <Checkbox
-              checked={tempCategories.includes("Mathematics")}
-              onCheckedChange={(checked) => {
-                toggleTempCategory("Mathematics", checked);
-              }}
-            />
-            <span>Mathematics</span>
-          </div>
+          {/* Loading state */}
+          {isFetching && (
+            <div className="space-y-2">
+              {Array.from({ length: 5 }).map((_, i) => (
+                <div
+                  key={i}
+                  className="h-5 w-[80%] animate-pulse rounded bg-gray-100"
+                />
+              ))}
+            </div>
+          )}
+
+          {!isFetching &&
+            popularCategories.map(({ name, categoryId }: Category) => {
+              return (
+                <div key={categoryId} className="flex items-center gap-4">
+                  <Checkbox
+                    className="cursor-pointer"
+                    checked={tempCategories.includes(name)}
+                    onCheckedChange={(checked) => {
+                      toggleTempCategory(name, checked);
+                    }}
+                    id={`category-temp-${categoryId}`}
+                  />
+                  <label
+                    htmlFor={`category-temp-${categoryId}`}
+                    className="cursor-pointer"
+                  >
+                    {name}
+                  </label>
+                </div>
+              );
+            })}
         </div>
       </div>
     </Modal>

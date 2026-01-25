@@ -22,8 +22,8 @@ const Search = () => {
 
   // URL params
   const searchTerm = searchParams.get("search") || "";
-  const categories = searchParams.getAll("category");
-  const isAvailable = searchParams.get("isAvailable") === "true";
+  const activeCategories = searchParams.getAll("category");
+  const activeIsAvailable = searchParams.get("isAvailable") === "true";
   const currentPage = parseInt(searchParams.get("page") || "1", 10);
 
   // Debounce search for better performance
@@ -32,12 +32,12 @@ const Search = () => {
   // Build filters object for API call
   const filters = useMemo(
     () => ({
-      category: categories || undefined,
-      isAvailable: isAvailable || undefined,
+      category: activeCategories || undefined,
+      isAvailable: activeIsAvailable || undefined,
       page: currentPage || "1",
       limit: 12, // Default 12
     }),
-    [categories, isAvailable, currentPage],
+    [activeCategories, activeIsAvailable, currentPage],
   );
 
   const handleSetPage = (value: number) => {
@@ -59,10 +59,10 @@ const Search = () => {
   // Calculation for active filter count for badge
   const activeFilterCount = useMemo(() => {
     let count = 0;
-    if (categories.length > 0) count += categories.length;
-    if (isAvailable) count += 1;
+    if (activeCategories.length > 0) count += activeCategories.length;
+    if (activeIsAvailable) count += 1;
     return count;
-  }, [categories, isAvailable]);
+  }, [activeCategories, activeIsAvailable]);
 
   const updateParams = (key: string, value: string | boolean) => {
     const params = new URLSearchParams(searchParams);
@@ -82,8 +82,8 @@ const Search = () => {
     checked: boolean | string,
   ) => {
     const updatedCategories = checked
-      ? [...categories, category]
-      : categories.filter((c) => c !== category);
+      ? [...activeCategories, category]
+      : activeCategories.filter((c) => c !== category);
 
     setSearchParams((prev) => {
       const params = new URLSearchParams(prev);
@@ -103,8 +103,8 @@ const Search = () => {
 
   // Open modal and initialize temporary state
   const openFiltersModal = () => {
-    setTempCategories(categories);
-    setTempIsAvailable(isAvailable);
+    setTempCategories(activeCategories);
+    setTempIsAvailable(activeIsAvailable);
     setIsModalOpen(true);
   };
 
@@ -186,8 +186,8 @@ const Search = () => {
             updateParams={updateParams}
             toggleCategoryFilter={toggleCategoryFilter}
             resetAllFilters={resetAllFilters}
-            categories={categories}
-            isAvailable={isAvailable}
+            activeCategories={activeCategories}
+            activeIsAvailable={activeIsAvailable}
           />
 
           {/* Results section */}

@@ -1,20 +1,24 @@
+import { useGetPopularCategories } from "@/services/books/queries";
 import { Checkbox } from "../ui/checkbox";
+import type { Category } from "@/types";
 
 interface FiltersProps {
   updateParams: (key: string, value: string) => void;
   toggleCategoryFilter: (category: string, checked: boolean | string) => void;
   resetAllFilters: () => void;
-  categories: string[];
-  isAvailable: boolean;
+  activeCategories: string[];
+  activeIsAvailable: boolean;
 }
 
 const BookFilters = ({
   updateParams,
   toggleCategoryFilter,
-  categories,
   resetAllFilters,
-  isAvailable,
+  activeCategories,
+  activeIsAvailable,
 }: FiltersProps) => {
+  const { data: popularCategories, isFetching } = useGetPopularCategories();
+
   return (
     <section className="sticky top-20 hidden max-h-120 w-full max-w-90 rounded-lg bg-white p-5 shadow-md lg:block">
       <div className="mb-4 flex items-center justify-between">
@@ -48,7 +52,7 @@ const BookFilters = ({
         <p className="text-lg font-medium">Availability</p>
         <div className="flex items-center gap-4">
           <Checkbox
-            checked={isAvailable}
+            checked={activeIsAvailable}
             className="cursor-pointer"
             id="filter-available"
             onCheckedChange={(checked) => {
@@ -66,27 +70,42 @@ const BookFilters = ({
       <div className="my-4 ml-4 flex h-px w-[90%] bg-gray-200 px-8"></div>
 
       {/*Genre Filters*/}
-      <div className="flex flex-col space-y-2">
+      <div className="flex flex-col space-y-1.5">
         <p className="text-lg font-medium">Category</p>
-        <div className="flex items-center gap-4">
-          <Checkbox
-            className="cursor-pointer"
-            checked={categories.includes("Education")}
-            onCheckedChange={(checked) => {
-              toggleCategoryFilter("Education", checked);
-            }}
-          />
-          <label className="cursor-pointer">Education</label>
-        </div>
-        <div className="flex cursor-pointer items-center gap-4">
-          <Checkbox
-            checked={categories.includes("Mathematics")}
-            onCheckedChange={(checked) => {
-              toggleCategoryFilter("Mathematics", checked);
-            }}
-          />
-          <label>Mathematics</label>
-        </div>
+
+        {/* Loading state */}
+        {isFetching && (
+          <div className="space-y-2">
+            {Array.from({ length: 5 }).map((_, i) => (
+              <div
+                key={i}
+                className="h-5 w-[80%] animate-pulse rounded bg-gray-100"
+              />
+            ))}
+          </div>
+        )}
+
+        {!isFetching &&
+          popularCategories.map(({ name, categoryId }: Category) => {
+            return (
+              <div key={categoryId} className="flex items-center gap-4">
+                <Checkbox
+                  className="cursor-pointer"
+                  checked={activeCategories.includes(name)}
+                  onCheckedChange={(checked) => {
+                    toggleCategoryFilter(name, checked);
+                  }}
+                  id={`category-${categoryId}`}
+                />
+                <label
+                  htmlFor={`category-${categoryId}`}
+                  className="cursor-pointer"
+                >
+                  {name}
+                </label>
+              </div>
+            );
+          })}
       </div>
     </section>
   );
