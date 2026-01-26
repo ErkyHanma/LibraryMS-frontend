@@ -9,7 +9,7 @@ import {
 import { QUERY_KEYS } from "@/lib/queryKeys";
 import { useSuspenseQuery } from "@tanstack/react-query";
 
-export function useGetBooks(enabled = true, searchTerm = "", filters = {}) {
+export function useGetBooks(searchTerm = "", filters = {}, enabled = true) {
   const { isAuthenticated } = useAuth();
 
   return useQuery({
@@ -23,7 +23,16 @@ export function useGetBooks(enabled = true, searchTerm = "", filters = {}) {
   });
 }
 
-export function useGetBookById(enabled = true, bookId: number | string) {
+export function useGetBooksSuspense(searchTerm = "", filters = {}) {
+  return useSuspenseQuery({
+    queryKey: [QUERY_KEYS.GET_BOOKS, searchTerm, filters],
+    queryFn: () => getBooks(searchTerm, filters),
+    staleTime: Infinity,
+    gcTime: 5 * 60 * 1000,
+  });
+}
+
+export function useGetBookById(bookId: number | string, enabled = true) {
   const { isAuthenticated } = useAuth();
 
   return useQuery({
@@ -37,7 +46,16 @@ export function useGetBookById(enabled = true, bookId: number | string) {
   });
 }
 
-export function useGetPopularCategories(enabled = true, limit?: number) {
+export function useGetBookByIdSuspense(bookId: number | string) {
+  return useSuspenseQuery({
+    queryKey: [QUERY_KEYS.GET_BOOK_BY_ID, bookId],
+    queryFn: () => getBookById(bookId),
+    staleTime: Infinity,
+    gcTime: 5 * 60 * 1000,
+  });
+}
+
+export function useGetPopularCategories(limit?: number, enabled = true) {
   const { isAuthenticated } = useAuth();
 
   return useQuery({

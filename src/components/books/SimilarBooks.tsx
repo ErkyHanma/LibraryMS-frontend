@@ -7,13 +7,16 @@ interface SimilarBooksProps {
 }
 
 const SimilarBooks = ({ categoryId, currentBookId }: SimilarBooksProps) => {
-  // No need to handle loading/error - Suspense handles it
+  const page = 1;
+  const limit = 6;
+
   const { data: similarBooks } = useGetBooksByCategoryIdSuspense(
     categoryId,
-    1,
-    6,
+    page,
+    limit,
   );
 
+  // filter current book
   const filteredBooks =
     similarBooks?.data?.filter((book: Book) => book.bookId !== currentBookId) ||
     [];

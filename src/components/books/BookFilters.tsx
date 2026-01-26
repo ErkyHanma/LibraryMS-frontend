@@ -63,7 +63,9 @@ const BookFilters = ({
               }
             }}
           />
-          <label htmlFor="filter-available">Available</label>
+          <label className="cursor-pointer" htmlFor="filter-available">
+            Available
+          </label>
         </div>
       </div>
 

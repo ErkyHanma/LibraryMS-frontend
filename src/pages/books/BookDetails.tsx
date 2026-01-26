@@ -6,10 +6,11 @@ import type { ApiError } from "@/services/apiError";
 import { useGetBookById } from "@/services/books/queries";
 import { useParams } from "react-router";
 import SimilarBooks from "@/components/books/SimilarBooks";
+import BookOverviewSkeleton from "@/components/books/BookOverviewSkeleton";
 
 const BookDetails = () => {
   const { id } = useParams();
-  const { data: book, isLoading, error } = useGetBookById(true, id ?? 0);
+  const { data: book, isLoading, error } = useGetBookById(id ?? 0);
 
   if (error) {
     return <ErrorState message={(error as ApiError).message} />;
@@ -17,9 +18,11 @@ const BookDetails = () => {
 
   if (isLoading) {
     return (
-      <div className="flex h-screen w-full items-center justify-center">
-        <Spinner className="size-8" />
-      </div>
+      <main className="w-full p-8 pt-14">
+        <div className="mx-auto flex max-w-6xl flex-col space-y-10">
+          <BookOverviewSkeleton />
+        </div>
+      </main>
     );
   }
 
@@ -44,7 +47,6 @@ const BookDetails = () => {
             </div>
           </div>
 
-          {/* Similar Books - Wrapped in Suspense */}
           <div className="flex w-full flex-col gap-2">
             <h1 className="text-2xl font-semibold">Similar Books</h1>
             {firstCategoryId ? (

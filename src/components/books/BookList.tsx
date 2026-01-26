@@ -11,7 +11,7 @@ const BookList = ({ title, books }: BookList) => {
   return (
     <section className="w-full">
       <h1 className="text-2xl font-semibold">{title}</h1>
-      <div className="mt-4 grid grid-cols-2 gap-4 space-y-4 sm:flex md:gap-12">
+      <div className="mt-4 grid grid-cols-2 gap-8 space-y-4 sm:flex sm:gap-6 lg:gap-12">
         {/* Show only 5 books*/}
         {books.slice(0, 5).map((book) => (
           <BookItem key={book.bookId} book={book} />

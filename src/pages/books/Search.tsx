@@ -54,7 +54,7 @@ const Search = () => {
     isLoading,
     error,
     isFetching,
-  } = useGetBooks(true, debouncedSearchTerm, filters);
+  } = useGetBooks(debouncedSearchTerm, filters);
 
   // Calculation for active filter count for badge
   const activeFilterCount = useMemo(() => {

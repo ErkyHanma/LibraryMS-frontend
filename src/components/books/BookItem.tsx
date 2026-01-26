@@ -5,10 +5,14 @@ const BookItem = ({ book }: { book: Book }) => {
   return (
     <a
       href={`/book/${bookId}`}
-      className="w-full max-w-55 transition duration-200 lg:max-w-45"
+      className="w-full max-w-55 transition duration-200 hover:scale-103 lg:max-w-45"
       key={title}
     >
-      <img className="h-auto w-full" src={coverUrl} alt={`${title} cover`} />
+      <img
+        className="h-58 w-full rounded-lg object-cover"
+        src={coverUrl}
+        alt={`${title} cover`}
+      />
       <div className="mt-2">
         <p className="book-title">{title}</p>
         <p className="text-gray-400">

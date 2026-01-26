@@ -8,9 +8,9 @@ interface BookFiltersModalProps {
   setOpen: (value: boolean) => void;
   resetAllFilters: () => void;
   handleApplyFilters: () => void;
-  tempIsAvailable: boolean;
+  tempIsAvailable: boolean; // temporal value for isAvailable param
   setTempIsAvailable: (value: boolean) => void;
-  tempCategories: string[];
+  tempCategories: string[]; // temporal values for categories params
   toggleTempCategory: (category: string, checked: boolean | string) => void;
 }
 
