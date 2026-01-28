@@ -7,17 +7,17 @@ import {
   PaginationPrevious,
 } from "@/components/ui/pagination";
 
-interface BookPaginationProps {
+interface AppPaginationProps {
   currentPage: number;
   totalPage: number;
   setPage: (value: number) => void;
 }
 
-const BookPagination = ({
+const AppPagination = ({
   currentPage,
   totalPage,
   setPage,
-}: BookPaginationProps) => {
+}: AppPaginationProps) => {
   const hasNextPage = currentPage < totalPage;
   const hasPreviousPage = currentPage > 1;
 
@@ -108,4 +108,4 @@ const BookPagination = ({
   );
 };
 
-export default BookPagination;
+export default AppPagination;

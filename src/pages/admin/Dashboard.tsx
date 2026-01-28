@@ -96,13 +96,13 @@ const Dashboard = () => {
                             </h4>
                             <p className="truncate text-sm text-gray-500">
                               {book.book.author} •{" "}
-                              {book.book.categories.split(", ")[0]}
+                              {/* {book.book.categories.split(", ")[0]} */}
                             </p>
                             <div className="mt-3 flex items-center gap-4 text-sm text-gray-600">
                               <span className="flex items-center gap-1 truncate">
                                 <img
                                   className="h-6 w-6 shrink rounded-full"
-                                  src={book.user.profileImage}
+                                  src={book.user.profileImageUrl}
                                   alt=""
                                 />
                                 <span className="truncate">
@@ -164,7 +164,7 @@ const Dashboard = () => {
                   >
                     <img
                       className="h-auto w-12 rounded-full"
-                      src={user.profileImage}
+                      src={user.profileImageUrl}
                       alt={`User profile image`}
                     />
                     <p className="line-clamp-1 font-medium">{user.fullname}</p>
@@ -236,7 +236,7 @@ const Dashboard = () => {
                           </h4>
                           <p className="mt-1 text-sm text-gray-500">
                             {book.book.author} •{" "}
-                            {book.book.categories.split(", ")[0]}
+                            {/* {book.book.categories.split(", ")[0]} */}
                           </p>
                           <div className="mt-3 flex items-center gap-4 text-sm text-gray-600">
                             <span className="flex items-center gap-1">

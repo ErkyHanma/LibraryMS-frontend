@@ -1,3 +1,4 @@
+import { dateConverter, getBorrowState } from "@/lib/utils";
 import type { BorrowRecord } from "@/types";
 import { Calendar, ReceiptText } from "lucide-react";
 
@@ -23,9 +24,9 @@ const BorrowedBookCard = ({ book }: { book: BorrowRecord }) => {
               <div className="mt-3 flex items-center gap-4 text-sm text-gray-600">
                 <span className="flex items-center gap-1">
                   <Calendar className="h-4 w-4" />
-                  Borrowed: {book.borrowedDate}
+                  Borrowed: {dateConverter(book.borrowDate)}
                 </span>
-                {book.status === "RETURNED" ? (
+                {getBorrowState(book) === "RETURNED" ? (
                   <span className="flex items-center gap-1 text-green-600">
                     <div className="flex h-3 w-3 items-center justify-center rounded-full bg-green-500">
                       <svg
@@ -40,9 +41,9 @@ const BorrowedBookCard = ({ book }: { book: BorrowRecord }) => {
                         />
                       </svg>
                     </div>
-                    Returned: {book.returnDate}
+                    Returned: {dateConverter(book.returnDate)}
                   </span>
-                ) : book.status === "LATE RETURN" ? (
+                ) : getBorrowState(book) === "LATE RETURN" ? (
                   <span className="text-status-lateReturn flex items-center gap-1">
                     <div className="flex h-3 w-3 items-center justify-center rounded-full bg-pink-500">
                       <svg
@@ -57,28 +58,28 @@ const BorrowedBookCard = ({ book }: { book: BorrowRecord }) => {
                         />
                       </svg>
                     </div>
-                    Returned: {book.returnDate}
+                    Returned: {dateConverter(book.returnDate)}
                   </span>
                 ) : (
                   <span
                     className={`flex items-center gap-1 ${book.status === "OVERDUE" && "text-status-overdue"}`}
                   >
                     <Calendar className="h-4 w-4" />
-                    Due: {book.dueDate}
+                    Due: {dateConverter(book.dueDate)}
                   </span>
                 )}
               </div>
             </div>
             <div className="flex flex-col items-center gap-2">
-              {book.status === "RETURNED" ? (
+              {getBorrowState(book) === "RETURNED" ? (
                 <span className="bg-status-returned text-status-returned rounded px-3 py-1 text-xs font-medium">
                   Returned
                 </span>
-              ) : book.status === "OVERDUE" ? (
+              ) : getBorrowState(book) === "OVERDUE" ? (
                 <span className="bg-status-overdue text-status-overdue rounded px-3 py-1 text-xs font-medium">
                   Overdue
                 </span>
-              ) : book.status === "LATE RETURN" ? (
+              ) : getBorrowState(book) === "LATE RETURN" ? (
                 <span className="bg-status-lateReturn text-status-lateReturn rounded px-3 py-1 text-center text-xs font-medium">
                   Late Return
                 </span>

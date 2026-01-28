@@ -13,8 +13,8 @@ export interface User {
   universityId: string;
   role: UserRole;
   status: UserStatus;
-  profileImage?: string;
-  dateJoined?: string;
+  profileImageUrl?: string;
+  joinedAt?: string;
   createdAt: string;
   updatedAt?: string;
 }
@@ -46,7 +46,7 @@ export type Category = {
 };
 
 export interface Book {
-  bookId:  number;
+  bookId: number;
   title: string;
   author: string;
   categories: Category[];
@@ -80,7 +80,7 @@ export interface TableBorrowRecord {
 
 export type BorrowRecord = {
   book: Book;
-  borrowedDate: string;
+  borrowDate: string;
   dueDate: string;
   returnDate?: string;
   status: BorrowState;

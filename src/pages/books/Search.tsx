@@ -1,7 +1,6 @@
 import BookCard from "@/components/books/BookCard";
 import BookFilters from "@/components/books/BookFilters";
 import BookFiltersModal from "@/components/books/BookFiltersModal";
-import BookPagination from "@/components/books/BookPagination";
 import { ErrorState } from "@/components/shared/ErrorState";
 import { Input } from "@/components/ui/input";
 import { Spinner } from "@/components/ui/spinner";
@@ -11,6 +10,7 @@ import { useGetBooks } from "@/services/books/queries";
 import type { Book } from "@/types";
 import { useMemo, useState } from "react";
 import { useSearchParams } from "react-router";
+import AppPagination from "@/components/books/AppPagination";
 
 const Search = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -278,7 +278,7 @@ const Search = () => {
             )}
 
             <div className="my-8">
-              <BookPagination
+              <AppPagination
                 currentPage={currentPage}
                 totalPage={books.meta.totalPage}
                 setPage={handleSetPage}

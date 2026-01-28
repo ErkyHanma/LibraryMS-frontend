@@ -1,3 +1,4 @@
+import { dateConverter } from "@/lib/utils";
 import type { User } from "@/types";
 import { Calendar, IdCard, Mail } from "lucide-react";
 
@@ -7,7 +8,7 @@ const ProfileSidebar = ({ user }: { user: User }) => {
       <div className="sticky top-22 rounded-lg bg-white p-6 shadow-sm">
         <div className="flex flex-col items-center">
           <img
-            src={user.profileImage}
+            src={user.profileImageUrl}
             alt={`${user.fullname}`}
             className="mb-4 h-32 w-32 rounded-full object-cover"
           />
@@ -40,7 +41,9 @@ const ProfileSidebar = ({ user }: { user: User }) => {
             <Calendar className="mt-0.5 h-5 w-5 text-gray-400" />
             <div>
               <p className="text-xs text-gray-500">Member Since</p>
-              <p className="text-sm text-gray-900">{user.createdAt}</p>
+              <p className="text-sm text-gray-900">
+                {dateConverter(user.joinedAt)}
+              </p>
             </div>
           </div>
         </div>

@@ -5,6 +5,8 @@ import {
   getBookById,
   getBooks,
   getPopularCategories,
+  getUserProfile,
+  getBorrowedBookByUserId,
 } from "./api";
 import { QUERY_KEYS } from "@/lib/queryKeys";
 import { useSuspenseQuery } from "@tanstack/react-query";
@@ -79,5 +81,43 @@ export function useGetBooksByCategoryIdSuspense(
     queryFn: () => getBooksByCategoryId(categoryId, page, limit),
     staleTime: Infinity,
     gcTime: 5 * 60 * 1000,
+  });
+}
+
+export function useGetUserProfile(userId: string, enabled = true) {
+  const { isAuthenticated } = useAuth();
+
+  return useQuery({
+    queryKey: [QUERY_KEYS.GET_USER_PROFILE, userId],
+    queryFn: () => getUserProfile(userId),
+    enabled: enabled && isAuthenticated,
+    staleTime: Infinity,
+    gcTime: 5 * 60 * 1000,
+    retry: 1,
+    refetchOnMount: true,
+  });
+}
+
+export function useGetBorrowedRecordsByUserId(
+  userId: string,
+  searchTerm = "",
+  filters = {},
+  enabled = true,
+) {
+  const { isAuthenticated } = useAuth();
+
+  return useQuery({
+    queryKey: [
+      QUERY_KEYS.GET_RECORDS_BOOK_BY_USERID,
+      userId,
+      searchTerm,
+      filters,
+    ],
+    queryFn: () => getBorrowedBookByUserId(userId, searchTerm, filters),
+    enabled: enabled && isAuthenticated,
+    staleTime: Infinity,
+    gcTime: 5 * 60 * 1000,
+    retry: 1,
+    refetchOnMount: true,
   });
 }
