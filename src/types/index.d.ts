@@ -72,22 +72,6 @@ export interface Book {
 
 export type BorrowStatus = "BORROWED" | "RETURNED" | "OVERDUE" | "LATE RETURN";
 
-export interface TableBorrowRecord {
-  userInfo: {
-    name: string;
-    email: string;
-    profileImage: string;
-  };
-  bookInfo: {
-    title: string;
-    coverUrl: string;
-  };
-  status: BorrowStatus;
-  borrowedDate: string;
-  dueDate: string;
-  returnDate?: string | null;
-}
-
 export type BorrowRecord = {
   borrowRecordId: number;
   borrowDate: string;

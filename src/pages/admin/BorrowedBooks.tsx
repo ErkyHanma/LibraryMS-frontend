@@ -2,10 +2,10 @@ import SearchInput from "@/components/admin/SearchInput";
 import TableSkeleton from "@/components/admin/TableSkeleton";
 import TableWrapper from "@/components/admin/TableWrapper";
 import useDebounce from "@/hooks/useDebounce";
-import { useGetUsers } from "@/services/admin/queries";
+import { useGetBorrowedBooks } from "@/services/admin/queries";
 import { useMemo, useState } from "react";
 
-const Users = () => {
+const BorrowedBooks = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [page, setPage] = useState(1);
   const [order, setOrder] = useState("desc");
@@ -26,20 +26,21 @@ const Users = () => {
     setPage(1);
   };
 
-  const { data, isFetching } = useGetUsers(debounceSearchTerm, filters);
+  const { data, isFetching } = useGetBorrowedBooks(debounceSearchTerm, filters);
 
   return (
-    <div className="min-h-screen w-full pt-20 md:pt-4">
+    <div className="min-h-screen w-full pt-20 pb-4 md:pt-4">
       {/* Header Section */}
       <div className="mb-6 flex flex-col justify-between gap-4 md:flex-row md:items-end">
         <div>
-          <h1 className="text-3xl font-semibold text-gray-900">Users</h1>
-          <p className="text-sm text-gray-600">
-            Welcome back! Here's what's happening with your library today.
-          </p>
+          <h1 className="text-3xl font-semibold text-gray-900">
+            Borrowed Books
+          </h1>
+          <p className="text-sm text-gray-600">Check all your borrowed books</p>
         </div>
+
         <SearchInput
-          placeholder="Search users by name, email or university ID"
+          placeholder="Search books by title or user"
           searchValue={searchTerm}
           handleSearch={setSearchTerm}
         />
@@ -51,7 +52,7 @@ const Users = () => {
         <TableWrapper
           data={data.data}
           meta={data.meta}
-          type="Users"
+          type="BorrowedBooks"
           setOrder={handleOrderChange}
           order={order}
           setPage={setPage}
@@ -61,4 +62,4 @@ const Users = () => {
   );
 };
 
-export default Users;
+export default BorrowedBooks;

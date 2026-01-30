@@ -61,7 +61,7 @@ export function useGetBorrowedBooks(
   const { isAuthenticated } = useAuth();
 
   return useQuery({
-    queryKey: [QUERY_KEYS.GET_BORROWED_BOOKS],
+    queryKey: [QUERY_KEYS.GET_BORROWED_BOOKS, searchTerm, filters],
     queryFn: async () => {
       return getBorrowedBooks(searchTerm, filters);
     },

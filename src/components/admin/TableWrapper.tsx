@@ -2,7 +2,7 @@ import type {
   AccountRequest,
   Pagination,
   Book,
-  TableBorrowRecord,
+  BorrowRecord,
   TableUser,
 } from "@/types";
 import {
@@ -33,7 +33,7 @@ interface TableWrapperProps<T> {
 }
 
 const TableWrapper = <
-  T extends Book | TableUser | TableBorrowRecord | AccountRequest,
+  T extends Book | TableUser | BorrowRecord | AccountRequest,
 >({
   data,
   type,
@@ -68,7 +68,7 @@ const TableWrapper = <
             : type === "Books"
               ? "All Books"
               : type === "BorrowedBooks"
-                ? "Borrow Book Requests"
+                ? "Borrowed Books"
                 : type === "AccountRequests"
                   ? "Account Requested"
                   : ""}

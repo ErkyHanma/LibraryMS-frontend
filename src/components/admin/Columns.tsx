@@ -3,9 +3,9 @@
 import type {
   AccountRequest,
   Book,
+  BorrowRecord,
   BorrowStatus,
   Category,
-  TableBorrowRecord,
   TableUser,
   UserRole,
 } from "@/types";
@@ -302,18 +302,12 @@ const STATUS_STYLES: Record<BorrowStatus, { bg: string; text: string }> = {
   },
 };
 
-export const borrowedBooksColumns: ColumnDef<TableBorrowRecord>[] = [
+export const borrowedBooksColumns: ColumnDef<BorrowRecord>[] = [
   {
-    accessorKey: "bookInfo",
     header: "Book",
     cell: ({ row }) => {
-      const {
-        title,
-        coverUrl,
-      }: {
-        title: string;
-        coverUrl: string;
-      } = row.getValue("bookInfo");
+      const title = row.original.book.title;
+      const coverUrl = row.original.book.coverUrl;
       return (
         <div className="flex items-center gap-2">
           <img
@@ -327,23 +321,21 @@ export const borrowedBooksColumns: ColumnDef<TableBorrowRecord>[] = [
     },
   },
   {
-    accessorKey: "userInfo",
-    header: "User Requested",
+    header: "User",
     cell: ({ row }) => {
-      const {
-        fullname,
-        email,
-        profileImage,
-      }: {
-        fullname: string;
-        email: string;
-        profileImage: string;
-      } = row.getValue("userInfo");
+      const name = row.original.user.name;
+      const lastName = row.original.user.lastName;
+      const email = row.original.user.email;
+      const profileImageUrl = row.original.user.profileImageUrl;
+
       return (
         <div className="flex flex-row items-center gap-2">
-          <UserAvatar fullname={fullname} profileImageUrl={profileImage} />
+          <UserAvatar
+            fullname={name + " " + lastName}
+            profileImageUrl={profileImageUrl}
+          />
           <div className="flex flex-col">
-            <h5 className="font-semibold">{fullname}</h5>
+            <h5 className="font-semibold">{name + " " + lastName}</h5>
             <p className="text-sm text-gray-400">{email}</p>
           </div>
         </div>
@@ -373,12 +365,10 @@ export const borrowedBooksColumns: ColumnDef<TableBorrowRecord>[] = [
     },
   },
   {
-    accessorKey: "borrowedDate",
+    accessorKey: "borrowDate",
     header: "Borrowed Date",
     cell: ({ row }) => {
-      const date = new Date(row.getValue("borrowedDate"));
-      const formattedDate = dateConverter(date);
-
+      const formattedDate = dateConverter(row.getValue("borrowDate"));
       return <div>{formattedDate}</div>;
     },
   },
@@ -386,8 +376,7 @@ export const borrowedBooksColumns: ColumnDef<TableBorrowRecord>[] = [
     accessorKey: "returnDate",
     header: "Return Date",
     cell: ({ row }) => {
-      const date = new Date(row.getValue("returnDate"));
-      const formattedDate = dateConverter(date);
+      const formattedDate = dateConverter(row.getValue("returnDate"));
 
       return <div>{formattedDate}</div>;
     },
@@ -396,9 +385,7 @@ export const borrowedBooksColumns: ColumnDef<TableBorrowRecord>[] = [
     accessorKey: "dueDate",
     header: "Due Date",
     cell: ({ row }) => {
-      const date = new Date(row.getValue("dueDate"));
-      const formattedDate = dateConverter(date);
-
+      const formattedDate = dateConverter(row.getValue("dueDate"));
       return <div>{formattedDate}</div>;
     },
   },

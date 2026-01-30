@@ -12,7 +12,7 @@ import Dashboard from "./pages/admin/Dashboard.tsx";
 import Profile from "./pages/books/Profile.tsx";
 import Users from "./pages/admin/Users.tsx";
 import Books from "./pages/admin/Books.tsx";
-import BorrowRequest from "./pages/admin/BorrowRequest.tsx";
+import BorrowedBooks from "./pages/admin/BorrowedBooks.tsx";
 import AccountRequest from "./pages/admin/AccountRequest.tsx";
 import AdminBookDetails from "./pages/admin/AdminBookDetails.tsx";
 import CreateBook from "./pages/admin/CreateBook.tsx";
@@ -50,7 +50,7 @@ const router = createBrowserRouter([
           { path: "/admin/books/:id", Component: AdminBookDetails },
           { path: "/admin/books/new", Component: CreateBook },
           { path: "/admin/books/edit/:id", Component: EditBook },
-          { path: "/admin/books-borrowed", Component: BorrowRequest },
+          { path: "/admin/books-borrowed", Component: BorrowedBooks },
           { path: "/admin/account-requests", Component: AccountRequest },
         ],
       },
