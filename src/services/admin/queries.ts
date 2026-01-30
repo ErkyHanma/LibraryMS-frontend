@@ -5,6 +5,7 @@ import {
   getBorrowedBooks,
   getDashboard,
   getBooks,
+  getUsers,
 } from "./api";
 import { QUERY_KEYS } from "@/lib/queryKeys";
 
@@ -63,6 +64,22 @@ export function useGetBorrowedBooks(
     queryKey: [QUERY_KEYS.GET_BORROWED_BOOKS],
     queryFn: async () => {
       return getBorrowedBooks(searchTerm, filters);
+    },
+    enabled: enabled && isAuthenticated,
+    staleTime: Infinity,
+    gcTime: 5 * 60 * 1000,
+    retry: 1,
+    refetchOnMount: true,
+  });
+}
+
+export function useGetUsers(searchTerm = "", filters = {}, enabled = true) {
+  const { isAuthenticated } = useAuth();
+
+  return useQuery({
+    queryKey: [QUERY_KEYS.GET_USERS, searchTerm, filters],
+    queryFn: async () => {
+      return getUsers(searchTerm, filters);
     },
     enabled: enabled && isAuthenticated,
     staleTime: Infinity,

@@ -38,35 +38,32 @@ import DialogWrapper from "./DialogWrapper";
 
 export const usersColumns: ColumnDef<TableUser>[] = [
   {
-    accessorKey: "info",
     header: "Name",
     cell: ({ row }) => {
-      const {
-        fullname,
-        email,
-        profileImage,
-      }: {
-        fullname: string;
-        email: string;
-        profileImage: string;
-      } = row.getValue("info");
+      const name = row.original.name;
+      const lastName = row.original.lastName;
+      const email = row.original.email;
+      const profileImageUrl = row.original.profileImageUrl;
+
       return (
         <div className="flex flex-row items-center gap-2">
-          <UserAvatar fullname={fullname} profileImageUrl={profileImage} />
+          <UserAvatar
+            fullname={name + " " + lastName}
+            profileImageUrl={profileImageUrl}
+          />
           <div className="flex flex-col">
-            <h5 className="font-semibold">{fullname}</h5>
+            <h5 className="font-semibold">{name + " " + lastName}</h5>
             <p className="text-sm text-gray-400">{email}</p>
           </div>
         </div>
       );
     },
   },
-
   {
-    accessorKey: "dateJoined",
+    accessorKey: "joinedAt",
     header: "Date Joined",
     cell: ({ row }) => {
-      const date = new Date(row.getValue("dateJoined"));
+      const date = new Date(row.getValue("joinedAt"));
       const formattedDate = dateConverter(date);
 
       return <div>{formattedDate}</div>;
@@ -84,9 +81,9 @@ export const usersColumns: ColumnDef<TableUser>[] = [
             <div>
               <span
                 className={`${
-                  userRole === "USER"
-                    ? "bg-pink-50 text-pink-700"
-                    : "bg-green-50 text-green-700"
+                  userRole.toUpperCase() === "USER"
+                    ? "text-primary bg-primary/10"
+                    : "bg-pink-50 text-pink-700"
                 } rounded-2xl px-2.5 py-0.5 text-sm font-medium`}
               >
                 {capitalize(userRole)}
@@ -95,17 +92,17 @@ export const usersColumns: ColumnDef<TableUser>[] = [
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             <DropdownMenuItem className="flex justify-between p-2">
-              <span className="rounded-2xl bg-pink-50 px-2.5 py-0.5 text-sm font-medium text-pink-700">
+              <span className="bg-primary/10 text-primary rounded-2xl px-2.5 py-0.5 text-sm font-medium">
                 User
               </span>
-              {userRole === "USER" && <Check />}
+              {userRole.toUpperCase() === "USER" && <Check />}
             </DropdownMenuItem>
             <DropdownMenuItem className="flex justify-between p-2">
-              <span className="rounded-2xl bg-green-50 px-2.5 py-0.5 text-sm font-medium text-green-700">
+              <span className="rounded-2xl bg-pink-50 px-2.5 py-0.5 text-sm font-medium text-pink-700">
                 Admin
               </span>
 
-              {userRole === "ADMIN" && <Check />}
+              {userRole.toUpperCase() === "ADMIN" && <Check />}
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
@@ -113,17 +110,52 @@ export const usersColumns: ColumnDef<TableUser>[] = [
     },
   },
   {
-    accessorKey: "booksBorrowed",
+    accessorKey: "borrowedBooksCount",
     header: "Books Borrowed",
   },
   {
     accessorKey: "status",
     header: "Status",
+    cell: ({ row }) => {
+      const status = row.getValue("status") as string;
+
+      const statusConfig = {
+        Approved: {
+          bg: "bg-green-100",
+          text: "text-green-700",
+          label: "Approved",
+        },
+        Blocked: {
+          bg: "bg-red-100",
+          text: "text-red-700",
+          label: "Blocked",
+        },
+        Pending: {
+          bg: "bg-yellow-100",
+          text: "text-yellow-700",
+          label: "Pending",
+        },
+      };
+
+      const config = statusConfig[status as keyof typeof statusConfig] || {
+        bg: "bg-gray-100",
+        text: "text-gray-700",
+        label: status,
+      };
+
+      return (
+        <span
+          className={`inline-flex rounded-2xl px-2.5 py-0.5 text-sm font-medium ${config.bg} ${config.text}`}
+        >
+          {config.label}
+        </span>
+      );
+    },
   },
   {
     header: "Action",
     cell: ({ row }) => {
-      const isBlocked = row.original.status === "BLOCKED";
+      const isBlocked = row.original.status.toLowerCase() === "blocked";
 
       return isBlocked ? (
         <DialogWrapper

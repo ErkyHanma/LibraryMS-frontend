@@ -14,7 +14,13 @@ import {
 } from "@/services/books/queries";
 import type { BorrowRecord } from "@/types";
 
-import { AlertTriangle, Bookmark, BookOpen, Search } from "lucide-react";
+import {
+  AlertTriangle,
+  ArrowUpDown,
+  Bookmark,
+  BookOpen,
+  Search,
+} from "lucide-react";
 import { useMemo, useState } from "react";
 
 import AppPagination from "@/components/books/AppPagination";
@@ -143,6 +149,7 @@ const Profile = () => {
                       />
                     </div>
                     <SortFilter
+                      icon={<ArrowUpDown className="h-4 w-4" />}
                       currentSort={order}
                       onSortChange={handleOrderChange}
                     />

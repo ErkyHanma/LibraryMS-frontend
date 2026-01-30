@@ -100,12 +100,7 @@ export type BorrowRecord = {
 };
 
 export interface TableUser extends User {
-  info: {
-    name: string;
-    email: string;
-    profileImage: string;
-  };
-  booksBorrowed: number;
+  borrowedBooksCount: number;
 }
 
 export type NavLink = {

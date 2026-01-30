@@ -17,7 +17,7 @@ import {
   usersColumns,
 } from "./Columns";
 import { Button } from "../ui/button";
-import { PlusCircle } from "lucide-react";
+import { ArrowUpDown, PlusCircle } from "lucide-react";
 import { DataTable } from "./DataTable";
 import { Link } from "react-router";
 import AppPagination from "../books/AppPagination";
@@ -76,7 +76,11 @@ const TableWrapper = <
 
         <div className="flex gap-2">
           {setOrder && (
-            <SortFilter currentSort={order || "desc"} onSortChange={setOrder} />
+            <SortFilter
+              icon={<ArrowUpDown className="h-4 w-4" />}
+              currentSort={order || "desc"}
+              onSortChange={setOrder}
+            />
           )}
 
           {type === "Books" && (

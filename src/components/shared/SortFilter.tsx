@@ -11,6 +11,7 @@ interface SortFilterProps {
   currentSort: string;
   onSortChange: (value: string) => void;
   options?: SortOption[];
+  icon?: React.ReactNode;
 }
 
 const SortFilter = ({
@@ -20,12 +21,13 @@ const SortFilter = ({
     { value: "desc", label: "Newest First", icon: <ChevronDown /> },
     { value: "asc", label: "Oldest First", icon: <ChevronUp /> },
   ],
+  icon,
 }: SortFilterProps) => {
   return (
     <Popover>
       <PopoverTrigger asChild>
         <button className="cursor-pointer rounded-lg border border-gray-300 p-2 transition-colors hover:bg-gray-50">
-          <Filter className="h-4 w-4 text-gray-600" />
+          {icon ?? <Filter className="h-4 w-4 text-gray-600" />}
         </button>
       </PopoverTrigger>
       <PopoverContent className="w-48 p-2">
