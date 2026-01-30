@@ -9,6 +9,12 @@ type AccountRequestFilter = {
 
 type borrowedBooksFilter = AccountRequestFilter;
 
+type bookFilter = {
+  order?: string;
+  limit?: string;
+  page?: string;
+};
+
 // Base API URL from environment
 const API_URL = import.meta.env.VITE_BACKEND_URL || "";
 
@@ -46,14 +52,32 @@ export async function getDashboard() {
   return data;
 }
 
-export async function getRecentBooks() {
+export async function getBooks(searchTerm = "", filters: bookFilter = {}) {
   const token = localStorage.getItem("accessToken");
 
   if (!token) {
     throw new ApiError("User not authenticated", 401);
   }
 
-  const response = await fetch(`${API_URL}/books?order=desc`, {
+  const params = new URLSearchParams();
+
+  if (searchTerm) params.set("search", searchTerm);
+
+  Object.entries(filters).forEach(([key, value]) => {
+    if (Array.isArray(value)) {
+      value.forEach((v) => params.append(key, v));
+    } else if (value) {
+      params.append(key, value);
+    }
+  });
+
+  const queryString = params.toString();
+
+  const url = queryString
+    ? `${API_URL}/books?${queryString}`
+    : `${API_URL}/books`;
+
+  const response = await fetch(`${url}`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",

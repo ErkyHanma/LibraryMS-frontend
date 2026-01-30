@@ -4,7 +4,7 @@ import {
   getAccountRequest,
   getBorrowedBooks,
   getDashboard,
-  getRecentBooks,
+  getBooks,
 } from "./api";
 import { QUERY_KEYS } from "@/lib/queryKeys";
 
@@ -22,15 +22,13 @@ export function useGetDashboard(enabled = true) {
   });
 }
 
-export function useGetRecentBooks(enabled = true) {
+export function useGetBooks(searchTerm = "", filters = {}, enabled = true) {
   const { isAuthenticated } = useAuth();
 
   return useQuery({
-    queryKey: [QUERY_KEYS.GET_RECENT_BOOKS],
+    queryKey: [QUERY_KEYS.GET_ADMIN_BOOKS, searchTerm, filters],
     queryFn: async () => {
-      // Simula delay de 5 segundos
-      // await new Promise((resolve) => setTimeout(resolve, 5000));
-      return getRecentBooks();
+      return getBooks(searchTerm, filters);
     },
     enabled: enabled && isAuthenticated,
     staleTime: Infinity,

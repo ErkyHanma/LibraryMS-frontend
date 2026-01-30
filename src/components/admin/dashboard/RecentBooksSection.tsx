@@ -1,5 +1,5 @@
 import { dateConverter } from "@/lib/utils";
-import { useGetRecentBooks } from "@/services/admin/queries";
+import { useGetBooks } from "@/services/admin/queries";
 
 import type { Book } from "@/types";
 import { Calendar, PlusCircle } from "lucide-react";
@@ -7,7 +7,7 @@ import { Link } from "react-router";
 import AdminBookItemSkeleton from "../AdminBookItemSkeleton";
 
 const RecentBooksSection = () => {
-  const { data: recentBooks, isFetching } = useGetRecentBooks();
+  const { data: recentBooks, isFetching } = useGetBooks("", { order: "desc" });
 
   return (
     <section className="mb-4 flex max-h-142 w-full flex-col rounded-lg bg-white p-4 shadow-sm">

@@ -108,13 +108,6 @@ export interface TableUser extends User {
   booksBorrowed: number;
 }
 
-export interface TableBook extends Book {
-  info: {
-    title: string;
-    coverUrl: string;
-  };
-}
-
 export type NavLink = {
   label: string;
   route: string;

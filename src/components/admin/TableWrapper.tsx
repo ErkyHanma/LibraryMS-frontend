@@ -1,16 +1,15 @@
 import type {
   AccountRequest,
-  TableBook,
+  Pagination,
+  Book,
   TableBorrowRecord,
   TableUser,
 } from "@/types";
 import {
   getCoreRowModel,
-  getPaginationRowModel,
   useReactTable,
   type ColumnDef,
 } from "@tanstack/react-table";
-import { useMemo } from "react";
 import {
   accountRequestsColumns,
   booksColumns,
@@ -20,43 +19,31 @@ import {
 import { Button } from "../ui/button";
 import { PlusCircle } from "lucide-react";
 import { DataTable } from "./DataTable";
-import { DataTablePagination } from "./DataTablePagination";
 import { Link } from "react-router";
+import AppPagination from "../books/AppPagination";
+import SortFilter from "../shared/SortFilter";
 
 interface TableWrapperProps<T> {
   data: T[];
+  meta?: Pagination;
   type: "Books" | "Users" | "BorrowedBooks" | "AccountRequests";
+  order?: string;
+  setOrder?: (order: string) => void;
+  setPage?: (page: number) => void;
 }
 
 const TableWrapper = <
-  T extends TableBook | TableUser | TableBorrowRecord | AccountRequest,
+  T extends Book | TableUser | TableBorrowRecord | AccountRequest,
 >({
   data,
   type,
+  meta,
+  order,
+  setOrder,
+  setPage,
 }: TableWrapperProps<T>) => {
-  // Mock query
-  const query = "";
-
-  // Filter books based on the query
-  const filteredData = useMemo(() => {
-    return data.filter((each) => {
-      const params =
-        type === "Users"
-          ? `${(each as TableUser).info.name} ${(each as TableUser).email}`
-          : type === "Books"
-            ? `${(each as TableBook).info.title} ${(each as TableBook).author} ${
-                (each as TableBook).categories
-              }`
-            : type === "BorrowedBooks"
-              ? `${(each as TableBorrowRecord).bookInfo.title} `
-              : `${(each as TableBorrowRecord).userInfo.name} `;
-
-      return params.toLowerCase().includes(query?.toLowerCase());
-    });
-  }, [data, query]);
-
   const table = useReactTable({
-    data: filteredData, // Use filtered books
+    data: data,
     columns: (type === "Users"
       ? usersColumns
       : type === "Books"
@@ -68,8 +55,10 @@ const TableWrapper = <
       any
     >[],
     getCoreRowModel: getCoreRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
+    manualPagination: true,
+    manualFiltering: true,
   });
+
   return (
     <div className="w-full space-y-6 rounded-xl bg-linear-to-br from-gray-50 to-white p-6 shadow-lg">
       <div className="mb-4 flex w-full items-center justify-between">
@@ -85,17 +74,23 @@ const TableWrapper = <
                   : ""}
         </h1>
 
-        {type === "Books" && (
-          <Link to={"/admin/books/new"}>
-            <Button className="form-btn">
-              <PlusCircle /> Create new Book{" "}
-            </Button>
-          </Link>
-        )}
+        <div className="flex gap-2">
+          {setOrder && (
+            <SortFilter currentSort={order || "desc"} onSortChange={setOrder} />
+          )}
+
+          {type === "Books" && (
+            <Link to={"/admin/books/new"}>
+              <Button className="form-btn">
+                <PlusCircle /> Create new Book{" "}
+              </Button>
+            </Link>
+          )}
+        </div>
       </div>
 
       <div className="overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm">
-        <div className="hide-scrollbar overflow-auto md:max-h-[500px]">
+        <div className="hide-scrollbar overflow-auto md:max-h-125">
           <DataTable
             type={type}
             table={table}
@@ -105,10 +100,12 @@ const TableWrapper = <
       </div>
 
       {/* Pagination Footer */}
-      {table.getRowModel().rows?.length > 0 && (
-        <div className="mt-4 flex w-full justify-end">
-          <DataTablePagination table={table} />
-        </div>
+      {meta && setPage && (
+        <AppPagination
+          totalPage={meta.totalPage}
+          currentPage={meta.page}
+          setPage={setPage}
+        />
       )}
     </div>
   );

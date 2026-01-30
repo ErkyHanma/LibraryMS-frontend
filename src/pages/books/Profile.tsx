@@ -14,22 +14,11 @@ import {
 } from "@/services/books/queries";
 import type { BorrowRecord } from "@/types";
 
-import {
-  AlertTriangle,
-  Bookmark,
-  BookOpen,
-  ChevronDown,
-  ChevronUp,
-  Filter,
-  Search,
-} from "lucide-react";
+import { AlertTriangle, Bookmark, BookOpen, Search } from "lucide-react";
 import { useMemo, useState } from "react";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
+
 import AppPagination from "@/components/books/AppPagination";
+import SortFilter from "@/components/shared/SortFilter";
 
 type ActiveStatusTabsType = "ALL" | "BORROWED" | "RETURNED" | "OVERDUE";
 
@@ -153,39 +142,10 @@ const Profile = () => {
                         className="rounded-lg border border-gray-300 py-2 pr-4 pl-10 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none"
                       />
                     </div>
-                    <Popover>
-                      <PopoverTrigger asChild>
-                        <button className="cursor-pointer rounded-lg border border-gray-300 p-2 transition-colors hover:bg-gray-50">
-                          <Filter className="h-4 w-4 text-gray-600" />
-                        </button>
-                      </PopoverTrigger>
-                      <PopoverContent className="w-48 p-2">
-                        <div className="flex flex-col gap-1">
-                          <button
-                            onClick={() => handleOrderChange("desc")}
-                            className={`flex items-center gap-2 rounded-md px-3 py-2 text-sm transition-colors hover:bg-gray-100 ${
-                              order === "desc"
-                                ? "text-primary bg-blue-500/15 font-medium"
-                                : "text-gray-700"
-                            }`}
-                          >
-                            <ChevronDown />
-                            Newest First
-                          </button>
-                          <button
-                            onClick={() => handleOrderChange("asc")}
-                            className={`flex items-center gap-2 rounded-md px-3 py-2 text-sm transition-colors hover:bg-gray-100 ${
-                              order === "asc"
-                                ? "text-primary bg-blue-500/15 font-medium"
-                                : "text-gray-700"
-                            }`}
-                          >
-                            <ChevronUp />
-                            Oldest First
-                          </button>
-                        </div>
-                      </PopoverContent>
-                    </Popover>
+                    <SortFilter
+                      currentSort={order}
+                      onSortChange={handleOrderChange}
+                    />
                   </div>
                 </div>
 
@@ -222,7 +182,7 @@ const Profile = () => {
                 ))
               ) : (
                 <div className="flex w-full flex-col">
-                  <div className="max-h-[315px] divide-y divide-gray-200 overflow-y-auto">
+                  <div className="max-h-78.75 divide-y divide-gray-200 overflow-y-auto">
                     {borrowedRecords.data.length === 0 ? (
                       <div className="flex flex-col items-center justify-center py-12 text-center">
                         <BookOpen className="mb-3 h-12 w-12 text-gray-400" />
@@ -231,7 +191,7 @@ const Profile = () => {
                         </p>
                       </div>
                     ) : (
-                      <div className="max-h-[315px] divide-y divide-gray-200 overflow-y-auto">
+                      <div className="max-h-78.75 divide-y divide-gray-200 overflow-y-auto">
                         {borrowedRecords.data.map((book: BorrowRecord) => (
                           <BorrowedBookCard
                             key={book.book.bookId}

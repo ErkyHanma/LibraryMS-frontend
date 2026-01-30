@@ -2,9 +2,9 @@
 
 import type {
   AccountRequest,
+  Book,
   BorrowStatus,
   Category,
-  TableBook,
   TableBorrowRecord,
   TableUser,
   UserRole,
@@ -172,18 +172,13 @@ export const usersColumns: ColumnDef<TableUser>[] = [
   },
 ];
 
-export const booksColumns: ColumnDef<TableBook>[] = [
+export const booksColumns: ColumnDef<Book>[] = [
   {
-    accessorKey: "info",
     header: "Book Title",
     cell: ({ row }) => {
-      const {
-        title,
-        coverUrl,
-      }: {
-        title: string;
-        coverUrl: string;
-      } = row.getValue("info");
+      const title = row.original.title;
+      const coverUrl = row.original.coverUrl;
+
       return (
         <div className="flex min-w-52 items-center gap-2">
           <img

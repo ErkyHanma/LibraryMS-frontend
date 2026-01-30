@@ -9,7 +9,7 @@ export const QUERY_KEYS = {
 
   // ADMIN KEYS
   GET_DASHBOARD: "get-dashboard",
-  GET_RECENT_BOOKS: "get-recent-books",
+  GET_ADMIN_BOOKS: "get-admin-books",
   GET_ACCOUNT_REQUESTS: "get-account-requests",
   GET_BORROWED_BOOKS: "get-borrowed-books",
 };
