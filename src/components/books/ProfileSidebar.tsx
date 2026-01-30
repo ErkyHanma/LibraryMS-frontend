@@ -1,18 +1,23 @@
 import { dateConverter } from "@/lib/utils";
 import type { User } from "@/types";
 import { Calendar, IdCard, Mail } from "lucide-react";
+import UserAvatar from "../shared/UserAvatar";
 
 const ProfileSidebar = ({ user }: { user: User }) => {
   return (
     <div className="w-full md:max-w-75 lg:max-w-87.5">
       <div className="sticky top-22 rounded-lg bg-white p-6 shadow-sm">
         <div className="flex flex-col items-center">
-          <img
-            src={user.profileImageUrl}
-            alt={`${user.fullname}`}
-            className="mb-4 h-32 w-32 rounded-full object-cover"
+          <UserAvatar
+            width={84}
+            height={84}
+            textSize={34}
+            profileImageUrl={user.profileImageUrl}
+            fullname={user.name + " " + user.lastName}
           />
-          <h2 className="text-xl font-bold text-gray-900">{user.fullname}</h2>
+          <h2 className="text-xl font-bold text-gray-900">
+            {user.name + " " + user.lastName}
+          </h2>
           <span className="mt-3 rounded-full bg-green-100 px-3 py-1 text-xs font-medium text-green-700">
             Active Member
           </span>

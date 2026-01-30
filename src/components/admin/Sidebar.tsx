@@ -103,8 +103,8 @@ const Sidebar = () => {
           <div className="flex flex-col gap-3 border-t-2 border-gray-100 pt-4">
             <div className="flex w-full items-center gap-3 rounded-lg bg-gray-50 p-1 px-2 transition-colors hover:bg-gray-100">
               <UserAvatar
-                profileImage={user?.profileImageUrl ?? ""}
-                name={user?.name + " " + user?.lastName}
+                profileImageUrl={user?.profileImageUrl ?? ""}
+                fullname={user?.name + " " + user?.lastName}
               />
 
               <div className={`overflow-hidden transition-all`}>

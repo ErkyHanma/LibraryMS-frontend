@@ -4,11 +4,21 @@ export type UserRole = "USER" | "ADMIN";
 
 export type UserStatus = "PENDING" | "APPROVED" | "BLOCKED";
 
-export type AccountRequestStatus = "PENDING" | "APPROVED" | "REJECTED";
+// export type AccountRequestStatus = "PENDING" | "APPROVED" | "REJECTED";
+
+export type AccountRequestStatus = 1 | 2 | 3;
+
+export type Pagination = {
+  limit: number;
+  page: number;
+  total: 2;
+  totalPage: 1;
+};
 
 export interface User {
   id: string;
-  fullname: string;
+  name: string;
+  lastName: string;
   email: string;
   universityId: string;
   role: UserRole;
@@ -30,14 +40,14 @@ export type AuthUser = {
 };
 
 export interface AccountRequest {
-  userInfo: {
-    fullname: string;
-    email: string;
-    profileImage: string;
-  };
+  accountRequestId: number;
   status: AccountRequestStatus;
-  universityId: string;
+  rejectionReason?: string;
+  reviewAt?: string;
+  reviewBy?: string;
   createdAt?: string;
+  updateAt?: string;
+  user: User;
 }
 
 export type Category = {
@@ -46,7 +56,7 @@ export type Category = {
 };
 
 export interface Book {
-  bookId: number;
+  bookId: number | string;
   title: string;
   author: string;
   categories: Category[];
@@ -60,11 +70,11 @@ export interface Book {
   createdAt: string | null;
 }
 
-export type BorrowState = "BORROWED" | "RETURNED" | "OVERDUE" | "LATE RETURN";
+export type BorrowStatus = "BORROWED" | "RETURNED" | "OVERDUE" | "LATE RETURN";
 
 export interface TableBorrowRecord {
   userInfo: {
-    fullname: string;
+    name: string;
     email: string;
     profileImage: string;
   };
@@ -72,23 +82,26 @@ export interface TableBorrowRecord {
     title: string;
     coverUrl: string;
   };
-  status: BorrowState;
+  status: BorrowStatus;
   borrowedDate: string;
   dueDate: string;
   returnDate?: string | null;
 }
 
 export type BorrowRecord = {
-  book: Book;
+  borrowRecordId: number;
   borrowDate: string;
   dueDate: string;
   returnDate?: string;
-  status: BorrowState;
+  createdAt: string;
+  updateAt?: string;
+  book: Book;
+  user: User;
 };
 
 export interface TableUser extends User {
   info: {
-    fullname: string;
+    name: string;
     email: string;
     profileImage: string;
   };

@@ -24,17 +24,17 @@ const Header = () => {
           ))}
           <Link to={"/profile"} className="flex items-center gap-1">
             <UserAvatar
-              name={user?.name + " " + (user?.lastName ?? "")}
-              profileImage={user?.profileImageUrl ?? ""}
+              fullname={user?.name + " " + (user?.lastName ?? "")}
+              profileImageUrl={user?.profileImageUrl ?? ""}
             />
-            <p className="font-medium hidden md:flex">
+            <p className="hidden font-medium md:flex">
               {user?.name + " " + (user?.lastName ?? "")}
             </p>
           </Link>
 
           <button
             onClick={logout}
-            className="md:ml-2 cursor-pointer rounded-md p-1 hover:bg-red-100"
+            className="cursor-pointer rounded-md p-1 hover:bg-red-100 md:ml-2"
           >
             <img
               className="h-8 transition-all duration-75 hover:scale-105"

@@ -5,6 +5,7 @@ import { Calendar, Edit } from "lucide-react";
 import { Link, useParams } from "react-router";
 import BackButton from "./BackButton";
 import { dateConverter } from "@/lib/utils";
+import type { Category } from "@/types";
 
 const AdminBookDetails = () => {
   const { id } = useParams();
@@ -49,18 +50,18 @@ const AdminBookDetails = () => {
                 </div>
 
                 <div className="flex flex-wrap gap-2">
-                  {categories.split(", ").map((category) => (
+                  {categories.map(({ name, categoryId }: Category) => (
                     <span
                       className="bg-primary/10 text-primary ring-primary/20 inline-flex items-center rounded-md px-3 py-1 text-xs font-medium ring-1 ring-inset"
-                      key={category}
+                      key={categoryId}
                     >
-                      {category}
+                      {name}
                     </span>
                   ))}
                 </div>
               </div>
               <Link to={`/admin/books/edit/${bookId}`}>
-                <Button className="w-full md:max-w-[400px]" size="lg">
+                <Button className="w-full md:max-w-100" size="lg">
                   <Edit className="mr-2 h-4 w-4" />
                   Edit Book Details
                 </Button>

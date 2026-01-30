@@ -43,7 +43,7 @@ export const mockBook: Book = {
 
 export const mockBooks: Book[] = [
   {
-    bookId: "1",
+    bookId: 1,
     title: "Cracking the Coding Interview",
     author: "Gayle Laakmann McDowell",
     categories: [categories.programming, categories.interview, categories.cs],
@@ -173,8 +173,9 @@ export const mockBorrowedBooks: BorrowRecord[] = [
 
 export const user1: User = {
   id: "a1b2c3d4-e5f6-4789-a012-3456789abcde",
-  fullname: "María García",
-  profileImage: "https://i.pravatar.cc/150?img=5",
+  name: "María",
+  lastName: "García",
+  profileImageUrl: "https://i.pravatar.cc/150?img=5",
   email: "maria.garcia@university.edu",
   universityId: "2024-0012",
   createdAt: "January 04, 2022",
@@ -184,8 +185,9 @@ export const user1: User = {
 
 export const user2: User = {
   id: "f9e8d7c6-b5a4-4321-9876-543210fedcba",
-  fullname: "Carlos Rodríguez",
-  profileImage: "https://i.pravatar.cc/150?img=12",
+  name: "Carlos",
+  lastName: "Rodríguez",
+  profileImageUrl: "https://i.pravatar.cc/150?img=12",
   email: "carlos.rodriguez@university.edu",
   universityId: "2023-0056",
   createdAt: "August 24, 2021",
@@ -195,8 +197,9 @@ export const user2: User = {
 
 export const user3: User = {
   id: "f9e8d7c6-cc96-4321-9876-543210fedcba",
-  fullname: "Marco Navarro",
-  profileImage: "https://i.pravatar.cc/150?img=10",
+  name: "Marco",
+  lastName: "Navarro",
+  profileImageUrl: "https://i.pravatar.cc/150?img=10",
   email: "marco.navarro@university.eduwwwwwwww",
   universityId: "2024-0088",
   createdAt: "June 12, 2024",
@@ -233,8 +236,9 @@ export const mockUsers: User[] = [user1, user2, user3];
 export const mockTableUsers: TableUser[] = [
   {
     id: "usr_5y6z7a8b",
-    fullname: "Isabella Santos",
-    profileImage: "https://i.pravatar.cc/150?img=9",
+    name: "Isabella",
+    lastName: "Santos",
+    profileImageUrl: "https://i.pravatar.cc/150?img=9",
     email: "isabella.santos@example.com",
     role: "USER",
     status: "APPROVED",
@@ -245,13 +249,14 @@ export const mockTableUsers: TableUser[] = [
       email: "isabella.santos@example.com",
       profileImage: "",
     },
-    dateJoined: "2024-01-10",
+    joinedAt: "2024-01-10",
     booksBorrowed: 5,
   },
   {
     id: "usr_9c0d1e2f",
-    fullname: "Roberto Vargas",
-    profileImage: "https://i.pravatar.cc/150?img=11",
+    name: "Roberto",
+    lastName: "Vargas",
+    profileImageUrl: "https://i.pravatar.cc/150?img=11",
     email: "roberto.vargas@example.com",
     role: "ADMIN",
     status: "APPROVED",
@@ -262,13 +267,14 @@ export const mockTableUsers: TableUser[] = [
       email: "roberto.vargas@example.com",
       profileImage: "https://i.pravatar.cc/150?img=11",
     },
-    dateJoined: "2023-10-15",
+    joinedAt: "2023-10-15",
     booksBorrowed: 12,
   },
   {
     id: "usr_3g4h5i6j",
-    fullname: "Valentina Morales",
-    profileImage: "https://i.pravatar.cc/150?img=20",
+    name: "Valentina",
+    lastName: "Morales",
+    profileImageUrl: "https://i.pravatar.cc/150?img=20",
     email: "valentina.morales@example.com",
     role: "USER",
     createdAt: "2024-02-28T15:45:00Z",
@@ -279,14 +285,14 @@ export const mockTableUsers: TableUser[] = [
       email: "valentina.morales@example.com",
       profileImage: "https://i.pravatar.cc/150?img=20",
     },
-    dateJoined: "2024-02-28",
+    joinedAt: "2024-02-28",
     booksBorrowed: 3,
   },
 ];
 
 export const mockTableBooks: TableBook[] = [
   {
-    bookId: "1",
+    bookId: 1,
     title: "Cracking the Coding Interview",
     author: "Gayle Laakmann McDowell",
     categories: [categories.education, categories.design, categories.cs],
@@ -306,7 +312,7 @@ export const mockTableBooks: TableBook[] = [
     },
   },
   {
-    bookId: "2",
+    bookId: 2,
     title: "The Design of Everyday Things",
     author: "Don Norman",
     categories: [categories.education, categories.design, categories.cs],
@@ -326,7 +332,7 @@ export const mockTableBooks: TableBook[] = [
     },
   },
   {
-    bookId: "3",
+    bookId: 3,
     title:
       "Everything You Need to Ace Computer Science and Coding in One Big Fat Notebook",
     author: "Grant Smith",
@@ -348,7 +354,7 @@ export const mockTableBooks: TableBook[] = [
     },
   },
   {
-    bookId: "4",
+    bookId: 4,
     title: "Designing Data-Intensive Applications",
     author: "Martin Kleppmann",
     categories: [categories.education, categories.design, categories.cs],
@@ -368,7 +374,7 @@ export const mockTableBooks: TableBook[] = [
     },
   },
   {
-    bookId: "5",
+    bookId: 5,
     title: "The Pragmatic Programmer: Your Journey to Mastery",
     author: "David Thomas and Andrew Hunt",
     categories: [categories.education, categories.design, categories.cs],
@@ -449,7 +455,7 @@ export const mockTableBorrowedBooks: TableBorrowRecord[] = [
       title: "Designing Data-Intensive Applications",
       coverUrl: "/images/book-5.png",
     },
-    status: "LATE_RETURN",
+    status: "LATE RETURN",
     borrowedDate: "2025-10-10T11:20:00Z",
     returnDate: "2025-11-15T16:30:00Z",
     dueDate: "2025-11-10T23:59:59Z",
@@ -465,7 +471,7 @@ export const mockTableAccountRequest: AccountRequest[] = [
     },
     createdAt: "2024-12-15T10:30:00Z",
     universityId: "2024-0001",
-    status: "PENDING",
+    status: 1,
   },
   {
     userInfo: {
@@ -475,7 +481,7 @@ export const mockTableAccountRequest: AccountRequest[] = [
     },
     createdAt: "2024--22T10:30:00Z",
     universityId: "2024-0001",
-    status: "APPROVED",
+    status: 2,
   },
   {
     userInfo: {
@@ -485,7 +491,7 @@ export const mockTableAccountRequest: AccountRequest[] = [
     },
     createdAt: "2024-04-31T10:30:00Z",
     universityId: "2024-0001",
-    status: "APPROVED",
+    status: 2,
   },
   {
     userInfo: {
@@ -495,7 +501,7 @@ export const mockTableAccountRequest: AccountRequest[] = [
     },
     createdAt: "2024-01-15T10:30:00Z",
     universityId: "2024-0001",
-    status: "REJECTED",
+    status: 3,
   },
   {
     userInfo: {
@@ -505,6 +511,6 @@ export const mockTableAccountRequest: AccountRequest[] = [
     },
     createdAt: "2024-09-11T10:30:00Z",
     universityId: "2024-0001",
-    status: "PENDING",
+    status: 1,
   },
 ];

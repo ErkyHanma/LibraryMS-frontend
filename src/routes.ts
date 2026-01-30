@@ -50,7 +50,7 @@ const router = createBrowserRouter([
           { path: "/admin/books/:id", Component: AdminBookDetails },
           { path: "/admin/books/new", Component: CreateBook },
           { path: "/admin/books/edit/:id", Component: EditBook },
-          { path: "/admin/book-requests", Component: BorrowRequest },
+          { path: "/admin/books-borrowed", Component: BorrowRequest },
           { path: "/admin/account-requests", Component: AccountRequest },
         ],
       },

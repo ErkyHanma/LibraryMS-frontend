@@ -6,4 +6,10 @@ export const QUERY_KEYS = {
   GET_BOOKS_BY_CATEGORYID: "get-books-by-categoryid",
   GET_USER_PROFILE: "get-user-profile",
   GET_RECORDS_BOOK_BY_USERID: "get-borrowed-records-by-userid",
+
+  // ADMIN KEYS
+  GET_DASHBOARD: "get-dashboard",
+  GET_RECENT_BOOKS: "get-recent-books",
+  GET_ACCOUNT_REQUESTS: "get-account-requests",
+  GET_BORROWED_BOOKS: "get-borrowed-books",
 };

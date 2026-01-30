@@ -3,10 +3,14 @@ import { useAuth } from "@/contexts/AuthContext";
 import { Navigate, Outlet } from "react-router";
 
 const AdminLayout = () => {
-  const { isAuthenticated, isLoading } = useAuth();
+  const { isAuthenticated, user, isLoading } = useAuth();
 
   if (isLoading) {
     return null;
+  }
+
+  if (user && user.role.toLowerCase() !== "ADMIN".toLowerCase()) {
+    return <Navigate to="/auth/login" replace />;
   }
 
   if (!isAuthenticated) {

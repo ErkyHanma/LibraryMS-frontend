@@ -2,13 +2,14 @@
 
 import type {
   AccountRequest,
-  BorrowState,
+  BorrowStatus,
+  Category,
   TableBook,
   TableBorrowRecord,
   TableUser,
   UserRole,
 } from "@/types";
-import { capitalize, dateConverter, getBorrowState } from "@/lib/utils";
+import { capitalize, dateConverter, getBorrowStatus } from "@/lib/utils";
 import type { ColumnDef } from "@tanstack/react-table";
 import UserAvatar from "../shared/UserAvatar";
 import {
@@ -51,7 +52,7 @@ export const usersColumns: ColumnDef<TableUser>[] = [
       } = row.getValue("info");
       return (
         <div className="flex flex-row items-center gap-2">
-          <UserAvatar name={fullname} profileImage={profileImage} />
+          <UserAvatar fullname={fullname} profileImageUrl={profileImage} />
           <div className="flex flex-col">
             <h5 className="font-semibold">{fullname}</h5>
             <p className="text-sm text-gray-400">{email}</p>
@@ -203,9 +204,15 @@ export const booksColumns: ColumnDef<TableBook>[] = [
     accessorKey: "categories",
     header: "Categories",
     cell: ({ row }) => {
-      const categories: string[] = row.getValue("categories");
+      const categories: Category[] = row.getValue("categories");
 
-      return <>{categories}</>;
+      return (
+        <>
+          {categories.map(({ name }: Category) => {
+            return <>{name + ", "}</>;
+          })}
+        </>
+      );
     },
   },
   {
@@ -249,7 +256,7 @@ export const booksColumns: ColumnDef<TableBook>[] = [
   },
 ];
 
-const STATUS_STYLES: Record<BorrowState, { bg: string; text: string }> = {
+const STATUS_STYLES: Record<BorrowStatus, { bg: string; text: string }> = {
   BORROWED: {
     bg: "bg-status-active",
     text: "text-status-active",
@@ -307,7 +314,7 @@ export const borrowedBooksColumns: ColumnDef<TableBorrowRecord>[] = [
       } = row.getValue("userInfo");
       return (
         <div className="flex flex-row items-center gap-2">
-          <UserAvatar name={fullname} profileImage={profileImage} />
+          <UserAvatar fullname={fullname} profileImageUrl={profileImage} />
           <div className="flex flex-col">
             <h5 className="font-semibold">{fullname}</h5>
             <p className="text-sm text-gray-400">{email}</p>
@@ -321,7 +328,7 @@ export const borrowedBooksColumns: ColumnDef<TableBorrowRecord>[] = [
     header: "Status",
     cell: ({ row }) => {
       const record = row.original;
-      const status = getBorrowState(record);
+      const status = getBorrowStatus(record);
 
       const currentStyle = STATUS_STYLES[status];
 
@@ -372,7 +379,7 @@ export const borrowedBooksColumns: ColumnDef<TableBorrowRecord>[] = [
     header: "Action",
     cell: ({ row }) => {
       const record = row.original;
-      const status = getBorrowState(record);
+      const status = getBorrowStatus(record);
       const isReturned = status === "RETURNED" || status === "LATE RETURN";
 
       return (
@@ -404,7 +411,7 @@ export const accountRequestsColumns: ColumnDef<AccountRequest>[] = [
       } = row.getValue("userInfo");
       return (
         <div className="flex flex-row items-center gap-2">
-          <UserAvatar name={fullname} profileImage={profileImage} />
+          <UserAvatar fullname={fullname} profileImageUrl={profileImage} />
           <div className="flex flex-col">
             <h5 className="font-semibold">{fullname}</h5>
             <p className="text-sm text-gray-400">{email}</p>
@@ -434,14 +441,14 @@ export const accountRequestsColumns: ColumnDef<AccountRequest>[] = [
   {
     header: "Action",
     cell: ({ row }) => {
-      const id: string = row.getValue("id");
+      // const id: string = row.getValue("id");
       const status = row.original.status;
 
       const confirm = () => {
         // handle confirm using id
       };
 
-      return status === "PENDING" ? (
+      return status === 1 ? (
         <div className="flex gap-3">
           <DialogWrapper
             type="SUCCESS"
