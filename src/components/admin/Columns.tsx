@@ -2,6 +2,7 @@
 
 import type {
   AccountRequest,
+  AccountRequestStatus,
   Book,
   BorrowRecord,
   BorrowStatus,
@@ -409,25 +410,44 @@ export const borrowedBooksColumns: ColumnDef<BorrowRecord>[] = [
   },
 ];
 
+const REQUEST_STATUS_STYLES: Record<
+  AccountRequestStatus,
+  { bg: string; text: string }
+> = {
+  PENDING: {
+    bg: "bg-gray-100",
+    text: "text-gray-700",
+  },
+  APPROVED: {
+    bg: "bg-green-100",
+    text: "text-green-700",
+  },
+  REJECTED: {
+    bg: "bg-red-100",
+    text: "text-red-700",
+  },
+};
+
 export const accountRequestsColumns: ColumnDef<AccountRequest>[] = [
   {
     accessorKey: "userInfo",
     header: "User Requested",
     cell: ({ row }) => {
-      const {
-        fullname,
-        email,
-        profileImage,
-      }: {
-        fullname: string;
-        email: string;
-        profileImage: string;
-      } = row.getValue("userInfo");
+      if (!row.original.user) return;
+
+      const name = row.original.user.name ?? "";
+      const lastName = row.original.user.lastName ?? "";
+      const email = row.original.user.email ?? "";
+      const profileImageUrl = row.original.user.profileImageUrl ?? "";
+
       return (
         <div className="flex flex-row items-center gap-2">
-          <UserAvatar fullname={fullname} profileImageUrl={profileImage} />
+          <UserAvatar
+            fullname={name + " " + lastName}
+            profileImageUrl={profileImageUrl}
+          />
           <div className="flex flex-col">
-            <h5 className="font-semibold">{fullname}</h5>
+            <h5 className="font-semibold">{name + " " + lastName}</h5>
             <p className="text-sm text-gray-400">{email}</p>
           </div>
         </div>
@@ -435,22 +455,41 @@ export const accountRequestsColumns: ColumnDef<AccountRequest>[] = [
     },
   },
   {
-    accessorKey: "universityId",
     header: "University ID",
+    cell: ({ row }) => {
+      if (!row.original.user) return;
+      const universityId = row.original.user.universityId;
+
+      return <div>{universityId}</div>;
+    },
   },
   {
     accessorKey: "createdAt",
     header: "Request Date",
     cell: ({ row }) => {
-      const date = new Date(row.getValue("createdAt"));
-      const formattedDate = dateConverter(date);
-
+      const formattedDate = dateConverter(row.getValue("createdAt"));
       return <div>{formattedDate}</div>;
     },
   },
   {
     accessorKey: "status",
     header: "Status",
+    cell: ({ row }) => {
+      const status = row.original.status.toUpperCase();
+      const currentStyle = REQUEST_STATUS_STYLES[status];
+
+      return (
+        <div>
+          <span
+            className={`${
+              currentStyle.bg
+            } ${currentStyle.text} rounded-2xl px-2.5 py-0.5 text-sm font-medium`}
+          >
+            {capitalize(status)}
+          </span>
+        </div>
+      );
+    },
   },
   {
     header: "Action",
@@ -462,7 +501,7 @@ export const accountRequestsColumns: ColumnDef<AccountRequest>[] = [
         // handle confirm using id
       };
 
-      return status === 1 ? (
+      return status.toUpperCase() === "PENDING" ? (
         <div className="flex gap-3">
           <DialogWrapper
             type="SUCCESS"

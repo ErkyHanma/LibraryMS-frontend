@@ -38,7 +38,7 @@ const Sidebar = () => {
     {
       image: <FileText className="h-5 w-5" />,
       route: "/admin/books-borrowed",
-      label: "Borrow Requests",
+      label: "Borrowed Books",
     },
     {
       image: <UserPlus className="h-5 w-5" />,

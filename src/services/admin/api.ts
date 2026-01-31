@@ -105,7 +105,10 @@ export async function getBooks(searchTerm = "", filters: BookFilter = {}) {
   return data;
 }
 
-export async function getAccountRequest(filters: AccountRequestFilter = {}) {
+export async function getAccountRequest(
+  searchTerm = "",
+  filters: AccountRequestFilter = {},
+) {
   const token = localStorage.getItem("accessToken");
 
   if (!token) {
@@ -113,6 +116,8 @@ export async function getAccountRequest(filters: AccountRequestFilter = {}) {
   }
 
   const params = new URLSearchParams();
+
+  if (searchTerm) params.set("search", searchTerm);
 
   Object.entries(filters).forEach(([key, value]) => {
     if (Array.isArray(value)) {

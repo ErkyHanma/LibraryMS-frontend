@@ -6,7 +6,7 @@ import UserCardSkeleton from "../../shared/UserCardSkeleton";
 import type { AccountRequest } from "@/types";
 
 const AccountRequestSection = () => {
-  const { data: accountRequest, isFetching } = useGetAccountRequest({
+  const { data: accountRequest, isFetching } = useGetAccountRequest("", {
     status: "pending",
   });
 

@@ -39,12 +39,16 @@ export function useGetBooks(searchTerm = "", filters = {}, enabled = true) {
   });
 }
 
-export function useGetAccountRequest(filters = {}, enabled = true) {
+export function useGetAccountRequest(
+  searchTerm = "",
+  filters = {},
+  enabled = true,
+) {
   const { isAuthenticated } = useAuth();
 
   return useQuery({
-    queryKey: [QUERY_KEYS.GET_ACCOUNT_REQUESTS],
-    queryFn: async () => getAccountRequest(filters),
+    queryKey: [QUERY_KEYS.GET_ACCOUNT_REQUESTS, searchTerm, filters],
+    queryFn: async () => getAccountRequest(searchTerm, filters),
     enabled: enabled && isAuthenticated,
     staleTime: Infinity,
     gcTime: 5 * 60 * 1000,

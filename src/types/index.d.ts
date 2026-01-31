@@ -4,9 +4,9 @@ export type UserRole = "USER" | "ADMIN";
 
 export type UserStatus = "PENDING" | "APPROVED" | "BLOCKED";
 
-// export type AccountRequestStatus = "PENDING" | "APPROVED" | "REJECTED";
+export type AccountRequestStatus = "PENDING" | "APPROVED" | "REJECTED";
 
-export type AccountRequestStatus = 1 | 2 | 3;
+// export type AccountRequestStatus = 1 | 2 | 3;
 
 export type Pagination = {
   limit: number;
