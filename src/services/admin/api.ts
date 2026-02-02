@@ -1,4 +1,4 @@
-import type { BookParams, UpdateBookParams } from "@/types";
+import type { Book, BookParams, UpdateBookParams } from "@/types";
 import { ApiError } from "../apiError";
 
 type PaginationFilter = {
@@ -106,7 +106,7 @@ export async function getBooks(searchTerm = "", filters: BookFilter = {}) {
   return data;
 }
 
-export async function getBookById(bookId: number | string) {
+export async function getBookById(bookId: number | string): Promise<Book> {
   const token = localStorage.getItem("accessToken");
 
   if (!token) {
