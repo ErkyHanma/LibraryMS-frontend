@@ -1,4 +1,4 @@
-import { type ReactNode } from "react";
+import { useState, type ReactNode } from "react";
 import { Dialog, DialogTrigger } from "../ui/dialog";
 import {
   DialogContent,
@@ -18,6 +18,7 @@ interface DialogWrapperProps {
   title: string;
   description: string;
   btnText: string;
+  disabled?: boolean;
 }
 
 const DialogWrapper = ({
@@ -27,9 +28,17 @@ const DialogWrapper = ({
   title,
   description,
   btnText,
+  disabled,
 }: DialogWrapperProps) => {
+  const [open, setOpen] = useState(false);
+
+  const handleConfirm = () => {
+    onConfirm();
+
+    if (!disabled) setOpen(false);
+  };
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent className="sm:max-w-100">
         <DialogHeader className="flex flex-col items-center gap-4">
@@ -66,11 +75,12 @@ const DialogWrapper = ({
         </DialogHeader>
         <div className="flex w-full flex-col gap-2">
           <Button
+            disabled={disabled}
             className={cn("w-full text-white", {
               "bg-red-700 hover:bg-red-600": type === "DANGER",
               "bg-green-800 hover:bg-green-700": type === "SUCCESS",
             })}
-            onClick={onConfirm}
+            onClick={handleConfirm}
           >
             {btnText}
           </Button>

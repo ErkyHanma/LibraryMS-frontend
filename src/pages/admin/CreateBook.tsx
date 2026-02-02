@@ -7,7 +7,7 @@ const CreateBook = () => {
       <div className="mx-auto max-w-7xl">
         <BackButton to="/admin/books" label="Go to Books" variant="ghost" />
       </div>
-      <div className="ml-11">
+      <div className="md:ml-11">
         <BookForm type="CREATE" />
       </div>
     </div>

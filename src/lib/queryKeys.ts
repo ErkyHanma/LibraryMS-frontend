@@ -10,7 +10,9 @@ export const QUERY_KEYS = {
   // ADMIN KEYS
   GET_DASHBOARD: "get-dashboard",
   GET_ADMIN_BOOKS: "get-admin-books",
+  GET_ADMIN_BOOK_BY_ID: "get-admin-book-by-id",
   GET_ACCOUNT_REQUESTS: "get-account-requests",
   GET_BORROWED_BOOKS: "get-borrowed-books",
   GET_USERS: "get-users",
+  GET_CATEGORIES: "get-categories",
 };

@@ -2,10 +2,8 @@
 
 import type {
   AccountRequest,
-  AccountRequestStatus,
   Book,
   BorrowRecord,
-  BorrowStatus,
   Category,
   TableUser,
   UserRole,
@@ -13,15 +11,7 @@ import type {
 import { capitalize, dateConverter, getBorrowStatus } from "@/lib/utils";
 import type { ColumnDef } from "@tanstack/react-table";
 import UserAvatar from "../shared/UserAvatar";
-import {
-  Ban,
-  Check,
-  Edit3,
-  ReceiptText,
-  Trash2Icon,
-  UserCheck,
-  X,
-} from "lucide-react";
+import { Ban, Check, ReceiptText, UserCheck, X } from "lucide-react";
 
 import {
   DropdownMenu,
@@ -34,8 +24,12 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { Link } from "react-router";
 import DialogWrapper from "./DialogWrapper";
+import BookActionsCell from "./BookActionCell";
+import {
+  ACCOUNT_REQUEST_STATUS_STYLES,
+  BORROWED_BOOK_STATUS_STYLES,
+} from "@/constants";
 
 export const usersColumns: ColumnDef<TableUser>[] = [
   {
@@ -236,9 +230,12 @@ export const booksColumns: ColumnDef<Book>[] = [
 
       return (
         <>
-          {categories.map(({ name }: Category) => {
-            return <>{name + ", "}</>;
-          })}
+          {categories.map((category: Category, i: number) => (
+            <span key={category.categoryId}>
+              {category.name}
+              {i < categories.length - 1 && ", "}
+            </span>
+          ))}
         </>
       );
     },
@@ -266,42 +263,10 @@ export const booksColumns: ColumnDef<Book>[] = [
     header: "Action",
     cell: ({ row }) => {
       const bookId = row.original.bookId;
-
-      return (
-        <div className="flex items-center gap-1">
-          <Link
-            to={`/admin/books/edit/${bookId}`}
-            className="flex cursor-pointer items-center justify-center gap-4 rounded-full p-1.5 transition duration-100 hover:scale-105 hover:bg-blue-100"
-          >
-            <Edit3 className="size-5 text-blue-500" />
-          </Link>
-          <button className="flex cursor-pointer items-center justify-center gap-4 rounded-full p-1.5 transition duration-100 hover:scale-105 hover:bg-red-100">
-            <Trash2Icon className="size-5 text-red-500" />
-          </button>
-        </div>
-      );
+      return <BookActionsCell bookId={bookId} />;
     },
   },
 ];
-
-const STATUS_STYLES: Record<BorrowStatus, { bg: string; text: string }> = {
-  BORROWED: {
-    bg: "bg-status-active",
-    text: "text-status-active",
-  },
-  RETURNED: {
-    bg: "bg-status-returned",
-    text: "text-status-returned",
-  },
-  OVERDUE: {
-    bg: "bg-status-overdue",
-    text: "text-status-overdue",
-  },
-  "LATE RETURN": {
-    bg: "bg-status-lateReturn",
-    text: "text-status-lateReturn",
-  },
-};
 
 export const borrowedBooksColumns: ColumnDef<BorrowRecord>[] = [
   {
@@ -350,7 +315,7 @@ export const borrowedBooksColumns: ColumnDef<BorrowRecord>[] = [
       const record = row.original;
       const status = getBorrowStatus(record);
 
-      const currentStyle = STATUS_STYLES[status];
+      const currentStyle = BORROWED_BOOK_STATUS_STYLES[status];
 
       return (
         <div>
@@ -410,24 +375,6 @@ export const borrowedBooksColumns: ColumnDef<BorrowRecord>[] = [
   },
 ];
 
-const REQUEST_STATUS_STYLES: Record<
-  AccountRequestStatus,
-  { bg: string; text: string }
-> = {
-  PENDING: {
-    bg: "bg-gray-100",
-    text: "text-gray-700",
-  },
-  APPROVED: {
-    bg: "bg-green-100",
-    text: "text-green-700",
-  },
-  REJECTED: {
-    bg: "bg-red-100",
-    text: "text-red-700",
-  },
-};
-
 export const accountRequestsColumns: ColumnDef<AccountRequest>[] = [
   {
     accessorKey: "userInfo",
@@ -476,7 +423,7 @@ export const accountRequestsColumns: ColumnDef<AccountRequest>[] = [
     header: "Status",
     cell: ({ row }) => {
       const status = row.original.status.toUpperCase();
-      const currentStyle = REQUEST_STATUS_STYLES[status];
+      const currentStyle = ACCOUNT_REQUEST_STATUS_STYLES[status];
 
       return (
         <div>

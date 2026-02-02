@@ -1,4 +1,5 @@
 import { Outlet, ScrollRestoration, useNavigation } from "react-router";
+import { Toaster } from "sonner";
 
 const App = () => {
   const navigation = useNavigation();
@@ -10,6 +11,7 @@ const App = () => {
       )}
       <Outlet />
       <ScrollRestoration />
+      <Toaster />
     </>
   );
 };

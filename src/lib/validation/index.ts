@@ -41,8 +41,6 @@ export const signUpFormSchema = z
     path: ["confirmPassword"],
   });
 
-
-  
 export const bookSchema = z.object({
   title: z
     .string()
@@ -62,13 +60,10 @@ export const bookSchema = z.object({
     .min(2, { message: "Author name must be at least 2 characters" })
     .max(100, { message: "Author name must be less than 100 characters" }),
 
-  categories: z
-    .string()
-    .trim()
-    .min(2, { message: "Category must be at least 2 characters" })
-    .max(100, { message: "Category must be less than 100 characters" }),
-
-  totalCopies: z.union([z.string(), z.number()]),
+  totalCopies: z.union([
+    z.string().min(1, "Total copies must be at least 1"),
+    z.number().min(1, "Total copies must be at least 1"),
+  ]),
 
   coverFile: z
     .instanceof(FileList, { message: "Please upload a cover image" })
@@ -97,6 +92,13 @@ export const bookSchema = z.object({
       { message: "Cover must be a JPEG, PNG, or WebP image" },
     ),
 
+  pages: z.union([
+    z.string().min(1, "Pages must be at least 1"),
+    z.number().min(1, "Pages must be at least 1"),
+  ]),
+
+  publishDate: z.string().min(1, "Publish Date is required"),
+
   summary: z
     .string()
     .trim()
@@ -104,3 +106,34 @@ export const bookSchema = z.object({
     .max(2000, { message: "Summary must be less than 2000 characters" }),
 });
 
+export const createBookSchema = bookSchema;
+
+// Edit schema
+export const editBookSchema = bookSchema.extend({
+  coverFile: z
+    .instanceof(FileList)
+    .refine(
+      (fileList) => {
+        if (fileList.length > 0 && fileList[0]) {
+          return fileList[0].size <= 5000000;
+        }
+        return true;
+      },
+      { message: "Cover image must be less than 5MB" },
+    )
+    .refine(
+      (fileList) => {
+        if (fileList.length > 0 && fileList[0]) {
+          return [
+            "image/jpeg",
+            "image/png",
+            "image/jpg",
+            "image/webp",
+          ].includes(fileList[0].type);
+        }
+        return true;
+      },
+      { message: "Cover must be a JPEG, PNG, or WebP image" },
+    )
+    .optional(),
+});

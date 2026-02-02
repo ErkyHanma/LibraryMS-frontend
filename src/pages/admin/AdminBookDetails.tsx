@@ -1,17 +1,37 @@
 import { Button } from "@/components/ui/button";
-import { mockBook, mockBooks } from "@/mocks";
 
 import { Calendar, Edit } from "lucide-react";
 import { Link, useParams } from "react-router";
 import BackButton from "./BackButton";
 import { dateConverter } from "@/lib/utils";
 import type { Category } from "@/types";
+import { useGetBookById } from "@/services/admin/queries";
+import { Spinner } from "@/components/ui/spinner";
 
 const AdminBookDetails = () => {
   const { id } = useParams();
 
+  const { data: book, isFetching } = useGetBookById(id ?? "0");
+
+  if (isFetching) {
+    return (
+      <div className="flex h-screen items-center justify-center p-8">
+        <Spinner className="size-10" />
+      </div>
+    );
+  }
+
+  if (!book) {
+    return (
+      <div className="p-8">
+        <p>Book not found</p>
+        <BackButton to="/admin/books" label="Go to Books" variant="ghost" />
+      </div>
+    );
+  }
+
   const { coverUrl, categories, bookId, title, author, createdAt, summary } =
-    mockBooks.find((book) => book.bookId === id) || mockBook;
+    book;
 
   return (
     <div className="min-h-screen w-full pt-20 pb-8 lg:pt-8">
@@ -77,7 +97,7 @@ const AdminBookDetails = () => {
             </div>
             <div className="bg-card rounded-lg border p-6 shadow-sm">
               <div className="space-y-4 text-base text-[#64748B]">
-                {summary.split("\n").map((line, i) => (
+                {summary.split("\n").map((line: string, i: number) => (
                   <p key={i}>{line}</p>
                 ))}
               </div>

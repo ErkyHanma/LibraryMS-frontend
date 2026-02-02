@@ -6,8 +6,6 @@ export type UserStatus = "PENDING" | "APPROVED" | "BLOCKED";
 
 export type AccountRequestStatus = "PENDING" | "APPROVED" | "REJECTED";
 
-// export type AccountRequestStatus = 1 | 2 | 3;
-
 export type Pagination = {
   limit: number;
   page: number;
@@ -51,12 +49,12 @@ export interface AccountRequest {
 }
 
 export type Category = {
-  categoryId: string | number;
+  categoryId: number;
   name: string;
 };
 
 export interface Book {
-  bookId: number | string;
+  bookId: number;
   title: string;
   author: string;
   categories: Category[];
@@ -68,6 +66,32 @@ export interface Book {
   totalCopies: number;
   availableCopies: number;
   createdAt: string | null;
+}
+
+export interface BookParams {
+  title: string;
+  author: string;
+  categories: number[] | string[];
+  description: string;
+  publishDate: string;
+  coverFile: File;
+  totalCopies: number | string;
+  availableCopies: number | string;
+  pages?: number | string;
+  summary: string;
+}
+
+export interface UpdateBookParams {
+  title: string;
+  author: string;
+  categories: number[] | string[];
+  description: string;
+  publishDate: string;
+  coverFile?: File;
+  totalCopies: number | string;
+  availableCopies: number | string;
+  pages: number | string;
+  summary: string;
 }
 
 export type BorrowStatus = "BORROWED" | "RETURNED" | "OVERDUE" | "LATE RETURN";

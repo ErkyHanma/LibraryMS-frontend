@@ -2,7 +2,6 @@ import SearchInput from "@/components/admin/SearchInput";
 import TableSkeleton from "@/components/admin/TableSkeleton";
 import TableWrapper from "@/components/admin/TableWrapper";
 import useDebounce from "@/hooks/useDebounce";
-
 import { useGetBooks } from "@/services/admin/queries";
 import { useMemo, useState } from "react";
 
