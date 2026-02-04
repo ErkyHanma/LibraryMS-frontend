@@ -44,3 +44,23 @@ export function invalidateBooksQueries(queryClient: QueryClient) {
     refetchType: "active",
   });
 }
+
+export function invalidateUserQueries(queryClient: QueryClient) {
+  queryClient.invalidateQueries({
+    queryKey: [QUERY_KEYS.GET_USERS],
+    exact: false,
+    refetchType: "active",
+  });
+
+  queryClient.invalidateQueries({
+    queryKey: [QUERY_KEYS.GET_USER_PROFILE],
+    exact: false,
+    refetchType: "active",
+  });
+
+  queryClient.invalidateQueries({
+    queryKey: [QUERY_KEYS.GET_RECORDS_BOOK_BY_USERID],
+    exact: false,
+    refetchType: "active",
+  });
+}

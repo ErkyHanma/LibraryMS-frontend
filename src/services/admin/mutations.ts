@@ -1,7 +1,16 @@
 import type { BookParams, UpdateBookParams } from "@/types";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { createBook, deleteBook, updateBook } from "./api";
-import { invalidateBooksQueries } from "./queryInvalidation";
+import {
+  changeUserRole,
+  changeUserStatus,
+  createBook,
+  deleteBook,
+  updateBook,
+} from "./api";
+import {
+  invalidateBooksQueries,
+  invalidateUserQueries,
+} from "./queryInvalidation";
 
 export const useCreateBook = () => {
   const queryClient = useQueryClient();
@@ -45,6 +54,38 @@ export const useDeleteBook = () => {
     },
     onSuccess: () => {
       invalidateBooksQueries(queryClient);
+    },
+  });
+};
+
+export const useChangeUserRole = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async ({ userId, role }: { userId: string; role: string }) => {
+      return await changeUserRole(userId, role);
+    },
+    onSuccess: () => {
+      invalidateUserQueries(queryClient);
+    },
+  });
+};
+
+export const useChangeUserStatus = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async ({
+      userId,
+      status,
+    }: {
+      userId: string;
+      status: string;
+    }) => {
+      return await changeUserStatus(userId, status);
+    },
+    onSuccess: () => {
+      invalidateUserQueries(queryClient);
     },
   });
 };

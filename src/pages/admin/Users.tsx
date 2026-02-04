@@ -9,6 +9,7 @@ const Users = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [page, setPage] = useState(1);
   const [order, setOrder] = useState("desc");
+  const [status, setStatus] = useState("");
 
   const debounceSearchTerm = useDebounce(searchTerm, 500);
 
@@ -17,12 +18,18 @@ const Users = () => {
       page: page,
       limit: 10, // Default 10
       order: order,
+      status: status,
     }),
-    [page, order],
+    [page, order, status],
   );
 
   const handleOrderChange = (newOrder: string) => {
     setOrder(newOrder);
+    setPage(1);
+  };
+
+  const handleStatusChange = (status: string) => {
+    setStatus((prev) => (prev.toLowerCase() === status.toLowerCase() ? "" : status));
     setPage(1);
   };
 
@@ -54,6 +61,8 @@ const Users = () => {
           type="Users"
           setOrder={handleOrderChange}
           order={order}
+          status={status}
+          setStatus={handleStatusChange}
           setPage={setPage}
         />
       )}

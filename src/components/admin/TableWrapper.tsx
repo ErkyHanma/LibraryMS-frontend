@@ -17,7 +17,13 @@ import {
   usersColumns,
 } from "./Columns";
 import { Button } from "../ui/button";
-import { ArrowUpDown, PlusCircle } from "lucide-react";
+import {
+  ArrowUpDown,
+  Ban,
+  ListFilter,
+  PlusCircle,
+  UserCheck,
+} from "lucide-react";
 import { DataTable } from "./DataTable";
 import { Link } from "react-router";
 import AppPagination from "../books/AppPagination";
@@ -29,6 +35,8 @@ interface TableWrapperProps<T> {
   type: "Books" | "Users" | "BorrowedBooks" | "AccountRequests";
   order?: string;
   setOrder?: (order: string) => void;
+  status?: string;
+  setStatus?: (status: string) => void;
   setPage?: (page: number) => void;
 }
 
@@ -40,6 +48,8 @@ const TableWrapper = <
   meta,
   order,
   setOrder,
+  status,
+  setStatus,
   setPage,
 }: TableWrapperProps<T>) => {
   const table = useReactTable({
@@ -80,6 +90,26 @@ const TableWrapper = <
               icon={<ArrowUpDown className="h-4 w-4" />}
               currentSort={order || "desc"}
               onSortChange={setOrder}
+            />
+          )}
+
+          {setStatus && (
+            <SortFilter
+              icon={<ListFilter className="h-4 w-4" />}
+              currentSort={status || ""}
+              onSortChange={setStatus}
+              options={[
+                {
+                  value: "Approved",
+                  label: "Approved",
+                  icon: <UserCheck className="h-4 w-4" />,
+                },
+                {
+                  value: "Blocked",
+                  label: "Blocked",
+                  icon: <Ban className="h-4 w-4" />,
+                },
+              ]}
             />
           )}
 

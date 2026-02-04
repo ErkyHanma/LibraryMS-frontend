@@ -11,7 +11,7 @@ import type {
 import { capitalize, dateConverter, getBorrowStatus } from "@/lib/utils";
 import type { ColumnDef } from "@tanstack/react-table";
 import UserAvatar from "../shared/UserAvatar";
-import { Ban, Check, ReceiptText, UserCheck, X } from "lucide-react";
+import { Check, ReceiptText, X } from "lucide-react";
 
 import {
   DropdownMenu,
@@ -30,6 +30,7 @@ import {
   ACCOUNT_REQUEST_STATUS_STYLES,
   BORROWED_BOOK_STATUS_STYLES,
 } from "@/constants";
+import UserActionCell from "./UserActionCell";
 
 export const usersColumns: ColumnDef<TableUser>[] = [
   {
@@ -87,15 +88,15 @@ export const usersColumns: ColumnDef<TableUser>[] = [
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             <DropdownMenuItem className="flex justify-between p-2">
-              <span className="bg-primary/10 text-primary rounded-2xl px-2.5 py-0.5 text-sm font-medium">
+              <button className="bg-primary/10 text-primary rounded-2xl px-2.5 py-0.5 text-sm font-medium">
                 User
-              </span>
+              </button>
               {userRole.toUpperCase() === "USER" && <Check />}
             </DropdownMenuItem>
             <DropdownMenuItem className="flex justify-between p-2">
-              <span className="rounded-2xl bg-pink-50 px-2.5 py-0.5 text-sm font-medium text-pink-700">
+              <button className="rounded-2xl bg-pink-50 px-2.5 py-0.5 text-sm font-medium text-pink-700">
                 Admin
-              </span>
+              </button>
 
               {userRole.toUpperCase() === "ADMIN" && <Check />}
             </DropdownMenuItem>
@@ -150,51 +151,9 @@ export const usersColumns: ColumnDef<TableUser>[] = [
   {
     header: "Action",
     cell: ({ row }) => {
-      const isBlocked = row.original.status.toLowerCase() === "blocked";
-
-      return isBlocked ? (
-        <DialogWrapper
-          type="SUCCESS"
-          title="Grant User Access"
-          description="Grant the student access to the system. A notification email will be sent."
-          btnText="Grant Access & Notify"
-          onConfirm={confirm}
-        >
-          <button className="flex cursor-pointer items-center justify-center gap-4 rounded-full p-1.5 transition duration-100 hover:scale-105 hover:bg-green-100">
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <span className="flex items-center">
-                  <UserCheck className="size-5 text-green-500" />
-                </span>
-              </TooltipTrigger>
-              <TooltipContent className="border-2 border-gray-300 bg-gray-100 font-medium text-gray-700">
-                <p>Grant Access</p>
-              </TooltipContent>
-            </Tooltip>
-          </button>
-        </DialogWrapper>
-      ) : (
-        <DialogWrapper
-          type="DANGER"
-          title="Restrict User Access"
-          description="Restrict the student's access to the system. A notification email will be sent."
-          btnText="Restrict Access & Notify"
-          onConfirm={confirm}
-        >
-          <button className="flex cursor-pointer items-center justify-center gap-4 rounded-full p-1.5 transition duration-100 hover:scale-105 hover:bg-red-100">
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <span className="flex items-center">
-                  <Ban className="size-5 text-red-500" />
-                </span>
-              </TooltipTrigger>
-              <TooltipContent className="border-2 border-gray-300 bg-gray-100 font-medium text-gray-700">
-                <p>Restrict Access</p>
-              </TooltipContent>
-            </Tooltip>
-          </button>
-        </DialogWrapper>
-      );
+      const userId = row.original.id;
+      const status = row.original.status;
+      return <UserActionCell userId={userId} status={status} />;
     },
   },
 ];
