@@ -8,6 +8,10 @@ export class ApiError extends Error {
   }
 
   getUserMessage(): string {
+    if (this.message) {
+      return this.message;
+    }
+
     switch (this.status) {
       case 400:
         return "Invalid request. Please check your input and try again.";
@@ -24,13 +28,11 @@ export class ApiError extends Error {
       case 429:
         return "Too many requests. Please wait a moment and try again.";
       case 500:
-        return "An internal server error occurred. Please try again later.";
       case 502:
-        return "Bad gateway. The server received an invalid response.";
       case 503:
-        return "Service unavailable. The server is temporarily unavailable.";
+        return "Server error. Please try again later.";
       default:
-        return this.message || "An unexpected error occurred.";
+        return "An unexpected error occurred.";
     }
   }
 

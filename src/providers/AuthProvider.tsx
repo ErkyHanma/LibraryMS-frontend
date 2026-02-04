@@ -1,6 +1,8 @@
 import { AuthContext } from "@/contexts/AuthContext";
+import { ApiError } from "@/services/apiError";
 import type { AuthUser } from "@/types";
 import { useState, useEffect, type ReactNode } from "react";
+import { toast } from "sonner";
 
 type LoginCredentials = {
   email: string;
@@ -19,7 +21,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
-  // Fetch current user from backend
+  // Fetch current user
   const fetchCurrentUser = async (
     authToken: string,
   ): Promise<AuthUser | null> => {
@@ -31,8 +33,16 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       });
 
       if (!res.ok) {
-        const error = await res.json();
-        throw new Error(error.detail ?? "Error has occured");
+        let errorMessage = "Failed to fetch user data";
+
+        try {
+          const errorData = await res.json();
+          errorMessage = errorData.detail || errorData.message || errorMessage;
+        } catch {
+          // If JSON parsing fails, use default message
+        }
+
+        throw new ApiError(errorMessage, res.status);
       }
 
       const userData = await res.json();
@@ -40,6 +50,12 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     } catch (error) {
       console.error("Failed to fetch current user:", error);
       localStorage.removeItem("accessToken");
+
+      // Only show toast for non-401 errors
+      if (error instanceof ApiError && error.status !== 401) {
+        toast.error(error.getUserMessage());
+      }
+
       return null;
     }
   };
@@ -76,20 +92,46 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       });
 
       if (!res.ok) {
-        const error = await res.json();
-        throw new Error(error.detail);
+        let errorMessage = "Login failed";
+
+        try {
+          const errorData = await res.json();
+
+          errorMessage =
+            errorData.detail ||
+            errorData.message ||
+            errorData.title ||
+            errorMessage;
+        } catch {
+          // If JSON parsing fails, rely on ApiError's getUserMessage
+        }
+
+        throw new ApiError(errorMessage, res.status);
       }
 
       const result: LoginResponse = await res.json();
 
-      // Store token and user in state and localStorage
+      // Validate response structure
+      if (!result.accessToken || !result.user) {
+        throw new ApiError("Invalid response from server", 500);
+      }
+
       setToken(result.accessToken);
       setUser(result.user);
       localStorage.setItem("accessToken", result.accessToken);
 
+      toast.success("Logged in successfully");
+
       return result;
     } catch (error) {
-      console.error("Login error:", error);
+      if (error instanceof ApiError) {
+        toast.error(error.getUserMessage());
+      } else if (error instanceof Error) {
+        toast.error(error.message);
+      } else {
+        toast.error("An unexpected error occurred");
+      }
+
       throw error;
     }
   };
@@ -98,6 +140,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     setUser(null);
     setToken(null);
     localStorage.removeItem("accessToken");
+    toast.success("Logged out successfully");
   };
 
   const value = {
