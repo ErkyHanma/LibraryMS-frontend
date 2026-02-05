@@ -14,10 +14,15 @@ export const loginFormSchema = z.object({
 
 export const signUpFormSchema = z
   .object({
-    fullname: z
+    name: z
       .string()
       .min(3, { message: "Name must be at least 3 characters" })
       .max(100, { message: "Name must be less than 100 characters" }),
+
+    lastName: z
+      .string()
+      .min(3, { message: "Lastname must be at least 3 characters" })
+      .max(100, { message: "Lastname must be less than 100 characters" }),
 
     email: z
       .email({ message: "Invalid email format" })

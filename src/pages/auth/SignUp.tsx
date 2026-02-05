@@ -1,12 +1,16 @@
 import { FormField } from "@/components/shared/FormField";
 import { Button } from "@/components/ui/button";
 import { signUpFormSchema } from "@/lib/validation";
+import { ApiError } from "@/services/apiError";
+import { signUp, type SignUpCredentials } from "@/services/auth/api";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
+import { toast } from "sonner";
 import z from "zod";
 
 const SignUp = () => {
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -14,7 +18,8 @@ const SignUp = () => {
   } = useForm<z.infer<typeof signUpFormSchema>>({
     resolver: zodResolver(signUpFormSchema),
     defaultValues: {
-      fullname: "",
+      name: "",
+      lastName: "",
       email: "",
       universityId: "",
       password: "",
@@ -22,8 +27,31 @@ const SignUp = () => {
     },
   });
 
-  function handleOnSubmit(data: z.infer<typeof signUpFormSchema>) {
-    console.log(data);
+  async function handleOnSubmit(data: z.infer<typeof signUpFormSchema>) {
+    try {
+      const payload: SignUpCredentials = {
+        name: data.name,
+        lastName: data.lastName,
+        email: data.email,
+        password: data.password,
+        confirmPassword: data.confirmPassword,
+        universityId: data.universityId,
+      };
+
+      await signUp(payload);
+      toast.success("Account created successfully!", {
+        description: "You can now log in to access the library.",
+      });
+      navigate("/auth/login");
+    } catch (error) {
+      if (error instanceof ApiError) {
+        toast.error(error.getUserMessage());
+      } else if (error instanceof Error) {
+        toast.error(error.message);
+      } else {
+        toast.error("An unexpected error occurred");
+      }
+    }
   }
 
   return (
@@ -40,7 +68,15 @@ const SignUp = () => {
           label="Name"
           placeholder="John"
           register={register}
-          error={errors.fullname}
+          error={errors.name}
+        />
+
+        <FormField
+          id="lastName"
+          label="Lastname"
+          placeholder="Doe"
+          register={register}
+          error={errors.lastName}
         />
 
         <FormField
