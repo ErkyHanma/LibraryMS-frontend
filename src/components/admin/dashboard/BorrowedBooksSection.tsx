@@ -1,7 +1,7 @@
 import { useGetBorrowedBooks } from "@/services/admin/queries";
 import { Link } from "react-router";
 import { BookOpen, Calendar, Eye } from "lucide-react";
-import { dateConverter } from "@/lib/utils";
+import { formatDate } from "@/lib/utils";
 import AdminBookWithUserSkeleton from "../AdminBookWithUserSkeleton";
 import type { BorrowRecord } from "@/types";
 
@@ -61,7 +61,7 @@ const BorrowedBooksSection = () => {
                         </span>
                         <span className="flex shrink items-center gap-1">
                           <Calendar className="h-4 w-4" />
-                          {dateConverter(book.borrowDate)}
+                          {formatDate(book.borrowDate)}
                         </span>
                       </div>
                     </div>

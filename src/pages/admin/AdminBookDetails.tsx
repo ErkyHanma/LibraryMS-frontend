@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { BookOpen, Calendar, Edit } from "lucide-react";
 import { Link, useParams } from "react-router";
 import BackButton from "./BackButton";
-import { dateConverter } from "@/lib/utils";
+import { formatDate } from "@/lib/utils";
 import type { Category } from "@/types";
 import { useGetBookById } from "@/services/admin/queries";
 import { Spinner } from "@/components/ui/spinner";
@@ -68,7 +68,7 @@ const AdminBookDetails = () => {
               <div className="space-y-4">
                 <div className="text-muted-foreground flex items-center gap-2 text-xs">
                   <Calendar className="h-3.5 w-3.5" />
-                  <span>Created At: {dateConverter(createdAt)}</span>
+                  <span>Created At: {formatDate(createdAt)}</span>
                 </div>
 
                 <h1 className="text-3xl font-bold tracking-tight lg:text-4xl xl:text-5xl">
@@ -83,7 +83,7 @@ const AdminBookDetails = () => {
                 <div className="-mt-2 mb-4 flex items-center gap-2 border-gray-100 text-xs text-gray-500">
                   <div className="flex items-center gap-1">
                     <Calendar className="h-3.5 w-3.5" />
-                    <span>{dateConverter(publishDate)}</span>
+                    <span>{formatDate(publishDate)}</span>
                   </div>
                   <span>•</span>
                   <div className="flex items-center gap-1">

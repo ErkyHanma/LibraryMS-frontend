@@ -1,6 +1,12 @@
-import type { BookParams, UpdateBookParams } from "@/types";
+import type {
+  AccountRequestStatus,
+  BookParams,
+  UpdateBookParams,
+  UserStatus,
+} from "@/types";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import {
+  ChangeAccountRequestStatus,
   changeUserRole,
   changeUserStatus,
   createBook,
@@ -8,6 +14,7 @@ import {
   updateBook,
 } from "./api";
 import {
+  invalidateAccountRequestQueries,
   invalidateBooksQueries,
   invalidateUserQueries,
 } from "./queryInvalidation";
@@ -80,12 +87,41 @@ export const useChangeUserStatus = () => {
       status,
     }: {
       userId: string;
-      status: string;
+      status: UserStatus;
     }) => {
       return await changeUserStatus(userId, status);
     },
     onSuccess: () => {
       invalidateUserQueries(queryClient);
+    },
+  });
+};
+
+export const useChangeAccountRequestStatus = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async ({
+      accountRequestId,
+      status,
+      userId,
+      rejectionReason,
+    }: {
+      accountRequestId: number;
+      status: AccountRequestStatus;
+      userId: string;
+      rejectionReason?: string;
+    }) => {
+      return await ChangeAccountRequestStatus(
+        accountRequestId,
+        status,
+        userId,
+        rejectionReason,
+      );
+    },
+    onSuccess: () => {
+      invalidateUserQueries(queryClient);
+      invalidateAccountRequestQueries(queryClient);
     },
   });
 };

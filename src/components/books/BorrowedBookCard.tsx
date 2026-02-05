@@ -1,4 +1,4 @@
-import { dateConverter, getBorrowStatus } from "@/lib/utils";
+import { formatDate, getBorrowStatus } from "@/lib/utils";
 import type { BorrowRecord } from "@/types";
 import { Calendar, ReceiptText } from "lucide-react";
 
@@ -24,7 +24,7 @@ const BorrowedBookCard = ({ book }: { book: BorrowRecord }) => {
               <div className="mt-3 flex items-center gap-4 text-sm text-gray-600">
                 <span className="flex items-center gap-1">
                   <Calendar className="h-4 w-4" />
-                  Borrowed: {dateConverter(book.createdAt)}
+                  Borrowed: {formatDate(book.createdAt)}
                 </span>
                 {getBorrowStatus(book) === "RETURNED" ? (
                   <span className="flex items-center gap-1 text-green-600">
@@ -41,7 +41,7 @@ const BorrowedBookCard = ({ book }: { book: BorrowRecord }) => {
                         />
                       </svg>
                     </div>
-                    Returned: {dateConverter(book.returnDate)}
+                    Returned: {formatDate(book.returnDate)}
                   </span>
                 ) : getBorrowStatus(book) === "LATE RETURN" ? (
                   <span className="text-status-lateReturn flex items-center gap-1">
@@ -58,14 +58,14 @@ const BorrowedBookCard = ({ book }: { book: BorrowRecord }) => {
                         />
                       </svg>
                     </div>
-                    Returned: {dateConverter(book.returnDate)}
+                    Returned: {formatDate(book.returnDate)}
                   </span>
                 ) : (
                   <span
                     className={`flex items-center gap-1 ${getBorrowStatus(book) === "OVERDUE" && "text-status-overdue"}`}
                   >
                     <Calendar className="h-4 w-4" />
-                    Due: {dateConverter(book.dueDate)}
+                    Due: {formatDate(book.dueDate)}
                   </span>
                 )}
               </div>

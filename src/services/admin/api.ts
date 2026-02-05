@@ -1,4 +1,11 @@
-import type { Book, BookParams, UpdateBookParams } from "@/types";
+import type {
+  AccountRequest,
+  AccountRequestStatus,
+  Book,
+  BookParams,
+  UpdateBookParams,
+  UserStatus,
+} from "@/types";
 import { ApiError } from "../apiError";
 
 type PaginationFilter = {
@@ -175,6 +182,45 @@ export async function getAccountRequest(
       Authorization: `Bearer ${token}`,
     },
   });
+
+  if (!response.ok) {
+    let errorMessage = "Something went wrong";
+
+    try {
+      const errorData = await response.json();
+      errorMessage = errorData.detail || errorData.title || errorData.message;
+    } catch {
+      if (import.meta.env.DEV) {
+        console.error(errorMessage);
+      }
+    }
+
+    throw new ApiError(errorMessage, response.status);
+  }
+
+  const data = await response.json();
+  return data;
+}
+
+export async function getAccountRequestById(
+  accountRequestId: number,
+): Promise<AccountRequest> {
+  const token = localStorage.getItem("accessToken");
+
+  if (!token) {
+    throw new ApiError("User not authenticated", 401);
+  }
+
+  const response = await fetch(
+    `${API_URL}/accountRequests/${accountRequestId}`,
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    },
+  );
 
   if (!response.ok) {
     let errorMessage = "Something went wrong";
@@ -486,7 +532,7 @@ export async function deleteBook(bookId: number) {
   return true;
 }
 
-export async function changeUserStatus(userId: string, status: string) {
+export async function changeUserStatus(userId: string, status: UserStatus) {
   const token = localStorage.getItem("accessToken");
 
   if (!token) throw new ApiError("User not authenticated", 401);
@@ -574,4 +620,57 @@ export async function changeUserRole(userId: string, role: string) {
   console.log(data);
 
   return true;
+}
+
+export async function ChangeAccountRequestStatus(
+  accountRequestId: number,
+  status: AccountRequestStatus,
+  userId: string,
+  rejectionReason?: string,
+) {
+  const token = localStorage.getItem("accessToken");
+
+  if (!token) throw new ApiError("User not authenticated", 401);
+
+  const response = await fetch(
+    `${API_URL}/accountRequests/${accountRequestId}/change-status`,
+    {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ status, userId, rejectionReason }),
+    },
+  );
+
+  if (!response.ok) {
+    let errorMessage = "Something went wrong";
+
+    try {
+      const errorData = await response.json();
+
+      if (errorData.errors && typeof errorData.errors === "object") {
+        const firstError = Object.values(errorData.errors)[0];
+        errorMessage = Array.isArray(firstError) ? firstError[0] : firstError;
+      } else {
+        errorMessage =
+          errorData.detail ||
+          errorData.title ||
+          errorData.message ||
+          errorMessage;
+      }
+    } catch {
+      if (import.meta.env.DEV) {
+        console.error(errorMessage);
+      }
+    }
+
+    throw new ApiError(errorMessage, response.status);
+  }
+
+  const data = await response.json();
+  console.log(data);
+
+  return { success: true };
 }

@@ -1,4 +1,4 @@
-import { dateConverter } from "@/lib/utils";
+import { formatDate } from "@/lib/utils";
 import { useGetBooks } from "@/services/admin/queries";
 
 import type { Book } from "@/types";
@@ -65,7 +65,7 @@ const RecentBooksSection = () => {
                         <div className="mt-3 flex items-center gap-4 text-sm text-gray-600">
                           <span className="flex items-center gap-1">
                             <Calendar className="h-4 w-4" />
-                            {dateConverter(book.createdAt)}
+                            {formatDate(book.createdAt)}
                           </span>
                         </div>
                       </div>

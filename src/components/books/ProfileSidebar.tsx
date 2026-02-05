@@ -1,4 +1,4 @@
-import { dateConverter } from "@/lib/utils";
+import { formatDate } from "@/lib/utils";
 import type { User } from "@/types";
 import { Calendar, IdCard, Mail } from "lucide-react";
 import UserAvatar from "../shared/UserAvatar";
@@ -47,7 +47,7 @@ const ProfileSidebar = ({ user }: { user: User }) => {
             <div>
               <p className="text-xs text-gray-500">Member Since</p>
               <p className="text-sm text-gray-900">
-                {dateConverter(user.joinedAt)}
+                {formatDate(user.joinedAt)}
               </p>
             </div>
           </div>

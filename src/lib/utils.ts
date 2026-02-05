@@ -19,9 +19,7 @@ export const getInitials = (name: string) =>
     .toUpperCase()
     .slice(0, 2);
 
-export const dateConverter = (
-  date: Date | string | null | undefined,
-): string => {
+export const formatDate = (date: Date | string | null | undefined): string => {
   if (!date) return "-";
 
   try {
@@ -35,6 +33,28 @@ export const dateConverter = (
       year: "numeric",
       month: "short",
       day: "numeric",
+    });
+  } catch {
+    return "-";
+  }
+};
+
+export const formatDateTime = (
+  date: Date | string | null | undefined,
+): string => {
+  if (!date) return "-";
+
+  try {
+    const dateObj = typeof date === "string" ? new Date(date) : date;
+
+    if (isNaN(dateObj.getTime())) {
+      return "-";
+    }
+
+    return dateObj.toLocaleTimeString("en-US", {
+      hour: "numeric",
+      minute: "2-digit",
+      hour12: true,
     });
   } catch {
     return "-";

@@ -5,6 +5,7 @@ import { useChangeUserStatus } from "@/services/admin/mutations";
 import { toast } from "sonner";
 import { useAuth } from "@/contexts/AuthContext";
 import clsx from "clsx";
+import type { UserStatus } from "@/types";
 
 const UserActionCell = ({
   userId,
@@ -20,7 +21,7 @@ const UserActionCell = ({
   const isSelfAction = user?.id === userId;
   const isDisabled = isPending || isSelfAction;
 
-  const newStatus = isBlocked ? "approved" : "blocked";
+  const newStatus: UserStatus = isBlocked ? "APPROVED" : "BLOCKED";
 
   const handleStatusChange = () => {
     if (isDisabled) return;

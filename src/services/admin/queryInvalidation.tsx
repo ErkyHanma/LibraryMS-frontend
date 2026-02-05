@@ -64,3 +64,11 @@ export function invalidateUserQueries(queryClient: QueryClient) {
     refetchType: "active",
   });
 }
+
+export function invalidateAccountRequestQueries(queryClient: QueryClient) {
+  queryClient.invalidateQueries({
+    queryKey: [QUERY_KEYS.GET_ACCOUNT_REQUESTS],
+    exact: false,
+    refetchType: "active",
+  });
+}

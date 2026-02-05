@@ -8,10 +8,10 @@ import type {
   TableUser,
   UserRole,
 } from "@/types";
-import { capitalize, dateConverter, getBorrowStatus } from "@/lib/utils";
+import { capitalize, formatDate, getBorrowStatus } from "@/lib/utils";
 import type { ColumnDef } from "@tanstack/react-table";
 import UserAvatar from "../shared/UserAvatar";
-import { Check, ReceiptText, X } from "lucide-react";
+import { Check, ReceiptText } from "lucide-react";
 
 import {
   DropdownMenu,
@@ -19,18 +19,13 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
-import DialogWrapper from "./DialogWrapper";
 import BookActionsCell from "./BookActionCell";
 import {
   ACCOUNT_REQUEST_STATUS_STYLES,
   BORROWED_BOOK_STATUS_STYLES,
 } from "@/constants";
 import UserActionCell from "./UserActionCell";
+import AccountRequestActionCell from "./AccountRequestActionCell";
 
 export const usersColumns: ColumnDef<TableUser>[] = [
   {
@@ -60,7 +55,7 @@ export const usersColumns: ColumnDef<TableUser>[] = [
     header: "Date Joined",
     cell: ({ row }) => {
       const date = new Date(row.getValue("joinedAt"));
-      const formattedDate = dateConverter(date);
+      const formattedDate = formatDate(date);
 
       return <div>{formattedDate}</div>;
     },
@@ -293,7 +288,7 @@ export const borrowedBooksColumns: ColumnDef<BorrowRecord>[] = [
     accessorKey: "borrowDate",
     header: "Borrowed Date",
     cell: ({ row }) => {
-      const formattedDate = dateConverter(row.getValue("borrowDate"));
+      const formattedDate = formatDate(row.getValue("borrowDate"));
       return <div>{formattedDate}</div>;
     },
   },
@@ -301,7 +296,7 @@ export const borrowedBooksColumns: ColumnDef<BorrowRecord>[] = [
     accessorKey: "returnDate",
     header: "Return Date",
     cell: ({ row }) => {
-      const formattedDate = dateConverter(row.getValue("returnDate"));
+      const formattedDate = formatDate(row.getValue("returnDate"));
 
       return <div>{formattedDate}</div>;
     },
@@ -310,7 +305,7 @@ export const borrowedBooksColumns: ColumnDef<BorrowRecord>[] = [
     accessorKey: "dueDate",
     header: "Due Date",
     cell: ({ row }) => {
-      const formattedDate = dateConverter(row.getValue("dueDate"));
+      const formattedDate = formatDate(row.getValue("dueDate"));
       return <div>{formattedDate}</div>;
     },
   },
@@ -373,7 +368,7 @@ export const accountRequestsColumns: ColumnDef<AccountRequest>[] = [
     accessorKey: "createdAt",
     header: "Request Date",
     cell: ({ row }) => {
-      const formattedDate = dateConverter(row.getValue("createdAt"));
+      const formattedDate = formatDate(row.getValue("createdAt"));
       return <div>{formattedDate}</div>;
     },
   },
@@ -400,65 +395,9 @@ export const accountRequestsColumns: ColumnDef<AccountRequest>[] = [
   {
     header: "Action",
     cell: ({ row }) => {
-      // const id: string = row.getValue("id");
+      const id = row.original.accountRequestId;
       const status = row.original.status;
-
-      const confirm = () => {
-        // handle confirm using id
-      };
-
-      return status.toUpperCase() === "PENDING" ? (
-        <div className="flex gap-3">
-          <DialogWrapper
-            type="SUCCESS"
-            title="Approve Account Request"
-            description="Approve the student's account request and grant access. A confirmation email will be sent upon approval."
-            btnText="Approve & Send Confirmation"
-            onConfirm={confirm}
-          >
-            <button className="flex cursor-pointer items-center justify-center gap-1 rounded-full bg-green-100 p-2 font-medium text-green-700 transition duration-100 hover:bg-green-50">
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <span className="flex items-center">
-                    <Check className="size-5" />
-                  </span>
-                </TooltipTrigger>
-                <TooltipContent className="border-2 border-gray-300 bg-gray-100 font-medium text-gray-700">
-                  <p>Approve</p>
-                </TooltipContent>
-              </Tooltip>
-            </button>
-          </DialogWrapper>
-
-          <DialogWrapper
-            type="DANGER"
-            title="Reject Account Request"
-            description="Reject the student's account request and restrict access. A notification email will be sent upon decision."
-            btnText="Reject & Send decision"
-            onConfirm={confirm}
-          >
-            <button className="flex cursor-pointer items-center justify-center gap-1 rounded-full bg-red-100 p-2 font-medium text-red-700 transition duration-100 hover:bg-red-50">
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <span className="flex items-center">
-                    <X className="size-5" />
-                  </span>
-                </TooltipTrigger>
-                <TooltipContent className="border-2 border-gray-300 bg-gray-100 font-medium text-gray-700">
-                  <p>Reject</p>
-                </TooltipContent>
-              </Tooltip>
-            </button>
-          </DialogWrapper>
-        </div>
-      ) : (
-        <a
-          href={`/admin/account-requests`}
-          className="flex cursor-pointer gap-4 rounded-md bg-gray-200 px-3 py-1 transition duration-100 hover:bg-gray-300"
-        >
-          View
-        </a>
-      );
+      return <AccountRequestActionCell accountRequestId={id} status={status} />;
     },
   },
 ];

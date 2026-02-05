@@ -12,6 +12,7 @@ export const QUERY_KEYS = {
   GET_ADMIN_BOOKS: "get-admin-books",
   GET_ADMIN_BOOK_BY_ID: "get-admin-book-by-id",
   GET_ACCOUNT_REQUESTS: "get-account-requests",
+  GET_ACCOUNT_REQUEST_BY_ID: "get-account-request-by-id",
   GET_BORROWED_BOOKS: "get-borrowed-books",
   GET_USERS: "get-users",
   GET_CATEGORIES: "get-categories",

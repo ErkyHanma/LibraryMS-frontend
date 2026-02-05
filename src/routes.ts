@@ -18,6 +18,7 @@ import AdminBookDetails from "./pages/admin/AdminBookDetails.tsx";
 import CreateBook from "./pages/admin/CreateBook.tsx";
 import EditBook from "./pages/admin/EditBook.tsx";
 import ErrorBoundary from "./components/shared/ErrorBoundary.tsx";
+import AccountRequestDetail from "./pages/admin/AccountRequestDetail.tsx";
 
 const router = createBrowserRouter([
   {
@@ -52,6 +53,10 @@ const router = createBrowserRouter([
           { path: "/admin/books/edit/:id", Component: EditBook },
           { path: "/admin/books-borrowed", Component: BorrowedBooks },
           { path: "/admin/account-requests", Component: AccountRequest },
+          {
+            path: "/admin/account-requests/:id",
+            Component: AccountRequestDetail,
+          },
         ],
       },
     ],

@@ -41,8 +41,8 @@ export interface AccountRequest {
   accountRequestId: number;
   status: AccountRequestStatus;
   rejectionReason?: string;
-  reviewAt?: string;
-  reviewBy?: string;
+  reviewedAt?: string;
+  reviewedBy?: User;
   createdAt?: string;
   updateAt?: string;
   user: User;

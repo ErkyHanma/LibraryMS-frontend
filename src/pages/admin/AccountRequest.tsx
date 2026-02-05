@@ -31,8 +31,6 @@ const AccountRequest = () => {
     filters,
   );
 
-  console.log(data);
-
   return (
     <div className="min-h-screen w-full pt-20 pb-4 md:pt-4">
       {/* Header Section */}
