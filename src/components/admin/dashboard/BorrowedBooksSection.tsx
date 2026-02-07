@@ -4,6 +4,7 @@ import { BookOpen, Calendar, Eye } from "lucide-react";
 import { formatDate } from "@/lib/utils";
 import AdminBookWithUserSkeleton from "../AdminBookWithUserSkeleton";
 import type { BorrowRecord } from "@/types";
+import UserAvatar from "@/components/shared/UserAvatar";
 
 const BorrowedBooksSection = () => {
   const { data: borrowedBooks, isFetching } = useGetBorrowedBooks("", {
@@ -50,10 +51,12 @@ const BorrowedBooksSection = () => {
                       </p>
                       <div className="mt-3 flex items-center gap-4 text-sm text-gray-600">
                         <span className="flex items-center gap-1 truncate">
-                          <img
-                            className="h-6 w-6 shrink rounded-full"
-                            src={book.user.profileImageUrl}
-                            alt=""
+                          <UserAvatar
+                            fullname={book.user.name + " " + book.user.lastName}
+                            profileImageUrl={book.user.profileImageUrl}
+                            width={26}
+                            height={26}
+                            textSize={13}
                           />
                           <span className="truncate">
                             {book.user.name + book.user.lastName}

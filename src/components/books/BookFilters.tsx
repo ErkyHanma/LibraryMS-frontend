@@ -17,7 +17,7 @@ const BookFilters = ({
   activeCategories,
   activeIsAvailable,
 }: FiltersProps) => {
-  const { data: popularCategories, isFetching } = useGetPopularCategories();
+  const { data: popularCategories, isFetching } = useGetPopularCategories(9);
 
   return (
     <section className="sticky top-20 hidden max-h-120 w-full max-w-90 rounded-lg bg-white p-5 shadow-md lg:block">
@@ -71,7 +71,7 @@ const BookFilters = ({
 
       <div className="my-4 ml-4 flex h-px w-[90%] bg-gray-200 px-8"></div>
 
-      {/*Genre Filters*/}
+      {/*Category Filters*/}
       <div className="flex flex-col space-y-1.5">
         <p className="text-lg font-medium">Category</p>
 

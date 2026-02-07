@@ -1,5 +1,5 @@
-import { Button } from "../ui/button";
 import type { Book } from "@/types";
+import BorrowBookBtnAction from "./BorrowBookBtnAction";
 
 type Props = {
   book: Book;
@@ -7,6 +7,7 @@ type Props = {
 
 const BookOverview = ({ book }: Props) => {
   const {
+    bookId,
     title,
     author,
     coverUrl,
@@ -66,9 +67,7 @@ const BookOverview = ({ book }: Props) => {
 
         <p className="mb-6">{description}</p>
 
-        <Button className="form-btn mt-2 md:max-w-62.5">
-          Borrow Book Request
-        </Button>
+        <BorrowBookBtnAction bookId={bookId} bookTitle={title} />
       </div>
     </section>
   );

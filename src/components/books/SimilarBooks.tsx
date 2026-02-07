@@ -34,7 +34,7 @@ const SimilarBooks = ({ categoryId, currentBookId }: SimilarBooksProps) => {
           key={bookId}
         >
           <img
-            className="h-auto w-full rounded"
+            className="h-68 md:h-48 w-full object-contain "
             src={coverUrl}
             alt={`${title} cover`}
             loading="lazy"

@@ -10,13 +10,13 @@ import BookOverviewSkeleton from "@/components/books/BookOverviewSkeleton";
 
 const BookDetails = () => {
   const { id } = useParams();
-  const { data: book, isLoading, error } = useGetBookById(id ?? 0);
+  const { data: book, isFetching, error } = useGetBookById(id ?? 0);
 
   if (error) {
     return <ErrorState message={(error as ApiError).message} />;
   }
 
-  if (isLoading) {
+  if (isFetching) {
     return (
       <main className="w-full p-8 pt-14">
         <div className="mx-auto flex max-w-6xl flex-col space-y-10">

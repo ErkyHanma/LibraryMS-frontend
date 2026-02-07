@@ -11,7 +11,7 @@ const BookList = ({ title, books }: BookList) => {
   return (
     <section className="w-full">
       <h1 className="text-2xl font-semibold">{title}</h1>
-      <div className="mt-4 grid grid-cols-2 gap-8 space-y-4 sm:flex sm:gap-6 lg:gap-12">
+      <div className="mt-4 grid grid-cols-2 gap-8 space-y-4 sm:flex sm:gap-6 lg:gap-8">
         {/* Show only 5 books*/}
         {books.slice(0, 5).map((book) => (
           <BookItem key={book.bookId} book={book} />
@@ -19,7 +19,7 @@ const BookList = ({ title, books }: BookList) => {
 
         {/* 6th book - only visible on large screens */}
         {books.length > 5 && (
-          <div className="hidden w-full xl:block">
+          <div className="hidden w-full xl:flex">
             <BookItem key={books[5].bookId} book={books[5]} />
           </div>
         )}

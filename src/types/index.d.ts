@@ -35,6 +35,7 @@ export type AuthUser = {
   universityId: string;
   role: UserRole;
   profileImageUrl?: string;
+  status: UserStatus;
 };
 
 export interface AccountRequest {
