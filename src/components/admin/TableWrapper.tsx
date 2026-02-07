@@ -93,7 +93,7 @@ const TableWrapper = <
             />
           )}
 
-          {setStatus && (
+          {setStatus && type === "Users" && (
             <SortFilter
               icon={<ListFilter className="h-4 w-4" />}
               currentSort={status || ""}
@@ -107,6 +107,31 @@ const TableWrapper = <
                 {
                   value: "Blocked",
                   label: "Blocked",
+                  icon: <Ban className="h-4 w-4" />,
+                },
+              ]}
+            />
+          )}
+
+          {setStatus && type === "AccountRequests" && (
+            <SortFilter
+              icon={<ListFilter className="h-4 w-4" />}
+              currentSort={status || ""}
+              onSortChange={setStatus}
+              options={[
+                {
+                  value: "PENDING",
+                  label: "Pending",
+                  icon: <UserCheck className="h-4 w-4" />,
+                },
+                {
+                  value: "APPROVED",
+                  label: "Approved",
+                  icon: <UserCheck className="h-4 w-4" />,
+                },
+                {
+                  value: "REJECTED",
+                  label: "Rejected",
                   icon: <Ban className="h-4 w-4" />,
                 },
               ]}

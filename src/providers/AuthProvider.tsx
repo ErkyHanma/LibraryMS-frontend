@@ -4,12 +4,12 @@ import type { AuthUser } from "@/types";
 import { useState, useEffect, type ReactNode } from "react";
 import { toast } from "sonner";
 
-type LoginCredentials = {
+export type LoginCredentials = {
   email: string;
   password: string;
 };
 
-type LoginResponse = {
+export type LoginResponse = {
   user: AuthUser;
   accessToken: string;
 };
@@ -110,7 +110,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       }
 
       const result: LoginResponse = await res.json();
-
       // Validate response structure
       if (!result.accessToken || !result.user) {
         throw new ApiError("Invalid response from server", 500);

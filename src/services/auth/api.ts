@@ -20,8 +20,6 @@ export async function signUp(credentials: SignUpCredentials) {
     body: JSON.stringify(credentials),
   });
 
-  console.log(res);
-
   if (!res.ok) {
     let errorMessage = "Login failed";
 
@@ -41,6 +39,5 @@ export async function signUp(credentials: SignUpCredentials) {
   }
 
   const result = await res.json();
-  console.log(result);
   return result;
 }

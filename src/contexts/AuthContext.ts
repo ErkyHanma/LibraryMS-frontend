@@ -1,11 +1,6 @@
-import type { LoginCredentials } from "@/lib/services/auth/api";
+import type { LoginCredentials, LoginResponse } from "@/providers/AuthProvider";
 import type { AuthUser } from "@/types";
 import { createContext, useContext } from "react";
-
-type LoginResponse = {
-  user: AuthUser;
-  accessToken: string;
-};
 
 type AuthContextType = {
   user: AuthUser | null;
