@@ -18,16 +18,24 @@ import {
 } from "./Columns";
 import { Button } from "../ui/button";
 import {
+  AlertCircle,
   ArrowUpDown,
   Ban,
+  BookCheck,
+  BookOpen,
+  CheckCircle,
+  Clock,
+  Hourglass,
   ListFilter,
   PlusCircle,
   UserCheck,
+  XCircle,
 } from "lucide-react";
 import { DataTable } from "./DataTable";
 import { Link } from "react-router";
 import AppPagination from "../books/AppPagination";
 import SortFilter from "../shared/SortFilter";
+import type { ReactNode } from "react";
 
 interface TableWrapperProps<T> {
   data: T[];
@@ -39,6 +47,63 @@ interface TableWrapperProps<T> {
   setStatus?: (status: string) => void;
   setPage?: (page: number) => void;
 }
+
+const STATUS_FILTER_CONFIGS: Record<
+  string,
+  { value: string; label: string; icon: ReactNode }[]
+> = {
+  Users: [
+    {
+      value: "Approved",
+      label: "Approved",
+      icon: <UserCheck className="h-4 w-4" />,
+    },
+    {
+      value: "Blocked",
+      label: "Blocked",
+      icon: <Ban className="h-4 w-4" />,
+    },
+  ],
+  BorrowedBooks: [
+    {
+      value: "BORROWED",
+      label: "Borrowed",
+      icon: <BookOpen className="h-4 w-4" />,
+    },
+    {
+      value: "RETURNED",
+      label: "Returned",
+      icon: <BookCheck className="h-4 w-4" />,
+    },
+    {
+      value: "OVERDUE",
+      label: "Overdue",
+      icon: <AlertCircle className="h-4 w-4" />,
+    },
+    {
+      value: "LATE RETURN",
+      label: "Late Return",
+      icon: <Clock className="h-4 w-4" />,
+    },
+  ],
+  AccountRequests: [
+    {
+      value: "PENDING",
+      label: "Pending",
+      icon: <Hourglass className="h-4 w-4" />,
+    },
+    {
+      value: "APPROVED",
+      label: "Approved",
+      icon: <CheckCircle className="h-4 w-4" />,
+    },
+    {
+      value: "REJECTED",
+      label: "Rejected",
+      icon: <XCircle className="h-4 w-4" />,
+    },
+  ],
+};
 
 const TableWrapper = <
   T extends Book | TableUser | BorrowRecord | AccountRequest,
@@ -85,56 +150,19 @@ const TableWrapper = <
         </h1>
 
         <div className="flex gap-2">
+          {setStatus && STATUS_FILTER_CONFIGS[type] && (
+            <SortFilter
+              icon={<ListFilter className="h-4 w-4" />}
+              currentSort={status || ""}
+              onSortChange={setStatus}
+              options={STATUS_FILTER_CONFIGS[type]}
+            />
+          )}
           {setOrder && (
             <SortFilter
               icon={<ArrowUpDown className="h-4 w-4" />}
               currentSort={order || "desc"}
               onSortChange={setOrder}
-            />
-          )}
-
-          {setStatus && type === "Users" && (
-            <SortFilter
-              icon={<ListFilter className="h-4 w-4" />}
-              currentSort={status || ""}
-              onSortChange={setStatus}
-              options={[
-                {
-                  value: "Approved",
-                  label: "Approved",
-                  icon: <UserCheck className="h-4 w-4" />,
-                },
-                {
-                  value: "Blocked",
-                  label: "Blocked",
-                  icon: <Ban className="h-4 w-4" />,
-                },
-              ]}
-            />
-          )}
-
-          {setStatus && type === "AccountRequests" && (
-            <SortFilter
-              icon={<ListFilter className="h-4 w-4" />}
-              currentSort={status || ""}
-              onSortChange={setStatus}
-              options={[
-                {
-                  value: "PENDING",
-                  label: "Pending",
-                  icon: <UserCheck className="h-4 w-4" />,
-                },
-                {
-                  value: "APPROVED",
-                  label: "Approved",
-                  icon: <UserCheck className="h-4 w-4" />,
-                },
-                {
-                  value: "REJECTED",
-                  label: "Rejected",
-                  icon: <Ban className="h-4 w-4" />,
-                },
-              ]}
             />
           )}
 

@@ -45,6 +45,20 @@ export function invalidateBooksQueries(queryClient: QueryClient) {
   });
 }
 
+export function invalidateBorrowedBooksQueries(queryClient: QueryClient) {
+  queryClient.invalidateQueries({
+    queryKey: [QUERY_KEYS.GET_BORROWED_BOOKS],
+    exact: false,
+    refetchType: "active",
+  });
+
+  queryClient.invalidateQueries({
+    queryKey: [QUERY_KEYS.GET_RECORDS_BOOK_BY_USERID],
+    exact: false,
+    refetchType: "active",
+  });
+}
+
 export function invalidateUserQueries(queryClient: QueryClient) {
   queryClient.invalidateQueries({
     queryKey: [QUERY_KEYS.GET_USERS],

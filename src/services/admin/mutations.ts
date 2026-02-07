@@ -11,11 +11,13 @@ import {
   changeUserStatus,
   createBook,
   deleteBook,
+  returnBorrowedBook,
   updateBook,
 } from "./api";
 import {
   invalidateAccountRequestQueries,
   invalidateBooksQueries,
+  invalidateBorrowedBooksQueries,
   invalidateUserQueries,
 } from "./queryInvalidation";
 
@@ -122,6 +124,21 @@ export const useChangeAccountRequestStatus = () => {
     onSuccess: () => {
       invalidateUserQueries(queryClient);
       invalidateAccountRequestQueries(queryClient);
+    },
+  });
+};
+
+export const useReturnBorrowedBookAction = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (borrowedBookId: number) => {
+      return await returnBorrowedBook(borrowedBookId);
+    },
+    onSuccess: () => {
+      invalidateUserQueries(queryClient);
+      invalidateBooksQueries(queryClient);
+      invalidateBorrowedBooksQueries(queryClient);
     },
   });
 };

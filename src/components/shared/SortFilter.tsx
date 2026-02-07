@@ -30,7 +30,7 @@ const SortFilter = ({
           {icon ?? <Filter className="h-4 w-4 text-gray-600" />}
         </button>
       </PopoverTrigger>
-      <PopoverContent className="w-48 p-2">
+      <PopoverContent className="w-38 p-2 mr-1">
         <div className="flex flex-col gap-1">
           {options.map((option) => (
             <button

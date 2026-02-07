@@ -11,7 +11,7 @@ import type {
 import { capitalize, formatDate, getBorrowStatus } from "@/lib/utils";
 import type { ColumnDef } from "@tanstack/react-table";
 import UserAvatar from "../shared/UserAvatar";
-import { Check, ReceiptText } from "lucide-react";
+import { Check } from "lucide-react";
 
 import {
   DropdownMenu,
@@ -26,6 +26,7 @@ import {
 } from "@/constants";
 import UserActionCell from "./UserActionCell";
 import AccountRequestActionCell from "./AccountRequestActionCell";
+import BorrowedBooksActionCell from "./BorrowedBooksActionCell";
 
 export const usersColumns: ColumnDef<TableUser>[] = [
   {
@@ -313,18 +314,10 @@ export const borrowedBooksColumns: ColumnDef<BorrowRecord>[] = [
     header: "Action",
     cell: ({ row }) => {
       const record = row.original;
+      const id = row.original.borrowRecordId;
       const status = getBorrowStatus(record);
-      const isReturned = status === "RETURNED" || status === "LATE RETURN";
 
-      return (
-        <button
-          disabled={isReturned}
-          className={`bg-primary/10 text-primary hover:bg-primary/15 flex items-center justify-center gap-1 rounded-full px-2 py-1 font-medium transition duration-100 ${isReturned ? "hover:bg-primary/10 opacity-50" : "cursor-pointer"} `}
-        >
-          Generate
-          <ReceiptText className="size-4" />
-        </button>
-      );
+      return <BorrowedBooksActionCell borrowedBookId={id} status={status} />;
     },
   },
 ];

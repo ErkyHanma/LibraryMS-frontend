@@ -118,7 +118,9 @@ export function DataTable<
                     <p className="mt-1 text-xs text-gray-500">
                       {type === "Books"
                         ? "Try creating your first book"
-                        : "No users match your criteria"}
+                        : type === "Users"
+                          ? "No users match your criteria"
+                          : "No records found"}
                     </p>
                   </div>
                 </div>

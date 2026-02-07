@@ -674,3 +674,45 @@ export async function ChangeAccountRequestStatus(
 
   return { success: true };
 }
+
+export async function returnBorrowedBook(borrowedBookId: number) {
+  const token = localStorage.getItem("accessToken");
+
+  if (!token) {
+    throw new ApiError("User not authenticated", 401);
+  }
+
+  const res = await fetch(`${API_URL}/borrowRecords/${borrowedBookId}/return`, {
+    method: "PATCH",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  if (!res.ok) {
+    let errorMessage = "Something went wrong";
+
+    try {
+      const errorData = await res.json();
+
+      if (errorData.errors && typeof errorData.errors === "object") {
+        const firstError = Object.values(errorData.errors)[0];
+        errorMessage = Array.isArray(firstError) ? firstError[0] : firstError;
+      } else {
+        errorMessage =
+          errorData.detail ||
+          errorData.title ||
+          errorData.message ||
+          errorMessage;
+      }
+    } catch {
+      if (import.meta.env.DEV) {
+        console.error(errorMessage);
+      }
+    }
+
+    throw new ApiError(errorMessage, res.status);
+  }
+
+  return await res.json();
+}
