@@ -135,7 +135,7 @@ const TableWrapper = <
   });
 
   return (
-    <div className="w-full space-y-6 rounded-xl bg-linear-to-br from-gray-50 to-white p-6 shadow-lg">
+    <div className="w-full space-y-6 rounded-xl bg-linear-to-br from-gray-50 to-white pb-4 pt-6 px-6 shadow-lg">
       <div className="mb-4 flex w-full items-center justify-between">
         <h1 className="text-2xl font-medium">
           {type === "Users"
@@ -177,7 +177,7 @@ const TableWrapper = <
       </div>
 
       <div className="overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm">
-        <div className="hide-scrollbar overflow-auto md:max-h-125">
+        <div className="hide-scrollbar overflow-auto md:max-h-96 lg:max-h-105 xl:max-h-112">
           <DataTable
             type={type}
             table={table}
@@ -188,11 +188,15 @@ const TableWrapper = <
 
       {/* Pagination Footer */}
       {meta && setPage && (
-        <AppPagination
-          totalPage={meta.totalPage}
-          currentPage={meta.page}
-          setPage={setPage}
-        />
+        <div className="flex w-full justify-end">
+          <div className="w-auto">
+            <AppPagination
+              totalPage={meta.totalPage}
+              currentPage={meta.page}
+              setPage={setPage}
+            />
+          </div>
+        </div>
       )}
     </div>
   );

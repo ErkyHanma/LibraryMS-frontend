@@ -16,12 +16,14 @@ const UserAvatar = ({
   height = 36,
   textSize = 16,
 }: UserAvatarProps) => {
+  const validImageUrl = profileImageUrl?.trim() || undefined;
+
   return (
     <Avatar
       style={{ width: width, height: height }}
       className="border-primary text-white transition duration-300 hover:border-2"
     >
-      <AvatarImage src={profileImageUrl} />
+      <AvatarImage src={validImageUrl} />
       <AvatarFallback style={{ fontSize: textSize }} className="bg-primary">
         {getInitials(fullname)}
       </AvatarFallback>

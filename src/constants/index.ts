@@ -29,7 +29,7 @@ export const BORROWED_BOOK_STATUS_STYLES: Record<
 };
 
 export const ACCOUNT_REQUEST_STATUS_STYLES: Record<
-  AccountRequestStatus,
+  string | AccountRequestStatus,
   { bg: string; text: string }
 > = {
   PENDING: {

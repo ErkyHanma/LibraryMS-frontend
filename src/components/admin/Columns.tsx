@@ -332,7 +332,7 @@ export const accountRequestsColumns: ColumnDef<AccountRequest>[] = [
       const name = row.original.user.name ?? "";
       const lastName = row.original.user.lastName ?? "";
       const email = row.original.user.email ?? "";
-      const profileImageUrl = row.original.user.profileImageUrl ?? "";
+      const profileImageUrl = row.original.user.profileImageUrl;
 
       return (
         <div className="flex flex-row items-center gap-2">

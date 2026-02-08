@@ -1,4 +1,5 @@
 // import SearchInput from "@/components/admin/SearchInput";
+import SearchInput from "@/components/admin/SearchInput";
 import TableSkeleton from "@/components/admin/TableSkeleton";
 import TableWrapper from "@/components/admin/TableWrapper";
 import useDebounce from "@/hooks/useDebounce";
@@ -6,12 +7,12 @@ import { useGetAccountRequest } from "@/services/admin/queries";
 import { useMemo, useState } from "react";
 
 const AccountRequest = () => {
-  // const [searchTerm, setSearchTerm] = useState("");
+  const [searchTerm, setSearchTerm] = useState("");
   const [page, setPage] = useState(1);
   const [order, setOrder] = useState("desc");
   const [status, setStatus] = useState<string | undefined>(undefined);
 
-  const debounceSearchTerm = useDebounce("", 500);
+  const debounceSearchTerm = useDebounce(searchTerm, 500);
 
   const filters = useMemo(
     () => ({
@@ -53,11 +54,11 @@ const AccountRequest = () => {
           </p>
         </div>
 
-        {/* <SearchInput
-          placeholder="Search user by name or email"
+        <SearchInput
+          placeholder="Search users by name"
           searchValue={searchTerm}
           handleSearch={setSearchTerm}
-        /> */}
+        />
       </div>
 
       {isFetching ? (
