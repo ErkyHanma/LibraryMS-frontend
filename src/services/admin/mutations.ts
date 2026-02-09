@@ -1,7 +1,7 @@
 import type {
   AccountRequestStatus,
-  BookParams,
-  UpdateBookParams,
+  CreateBookParams,
+  EditBookParams,
   UserStatus,
 } from "@/types";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -12,7 +12,7 @@ import {
   createBook,
   deleteBook,
   returnBorrowedBook,
-  updateBook,
+  editBook,
 } from "./api";
 import {
   invalidateAccountRequestQueries,
@@ -25,7 +25,7 @@ export const useCreateBook = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async (params: BookParams) => {
+    mutationFn: async (params: CreateBookParams) => {
       return await createBook(params);
     },
     onSuccess: () => {
@@ -35,7 +35,7 @@ export const useCreateBook = () => {
   });
 };
 
-export const useUpdateBook = () => {
+export const useEditBook = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
@@ -44,9 +44,9 @@ export const useUpdateBook = () => {
       params,
     }: {
       bookId: number;
-      params: UpdateBookParams;
+      params: EditBookParams;
     }) => {
-      return await updateBook(bookId, params);
+      return await editBook(bookId, params);
     },
     onSuccess: () => {
       invalidateBooksQueries(queryClient);

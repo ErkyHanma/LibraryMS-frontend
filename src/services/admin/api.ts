@@ -2,8 +2,8 @@ import type {
   AccountRequest,
   AccountRequestStatus,
   Book,
-  BookParams,
-  UpdateBookParams,
+  CreateBookParams,
+  EditBookParams,
   UserStatus,
 } from "@/types";
 import { ApiError } from "../apiError";
@@ -381,7 +381,7 @@ export async function getCategories() {
   return data;
 }
 
-export async function createBook(book: BookParams) {
+export async function createBook(book: CreateBookParams) {
   const token = localStorage.getItem("accessToken");
 
   if (!token) throw new ApiError("User not authenticated", 401);
@@ -434,7 +434,7 @@ export async function createBook(book: BookParams) {
   return data;
 }
 
-export async function updateBook(bookId: number, book: UpdateBookParams) {
+export async function editBook(bookId: number, book: EditBookParams) {
   const token = localStorage.getItem("accessToken");
 
   if (!token) throw new ApiError("User not authenticated", 401);

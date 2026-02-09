@@ -1,3 +1,4 @@
+import type { EditProfileParams } from "@/types";
 import { ApiError } from "../apiError";
 
 type BookFilters = {
@@ -311,4 +312,43 @@ export async function BorrowBookAction(BookId: number, userId: string) {
 
   const data = await response.json();
   return data;
+}
+
+export async function EditProfile(userId: string, params: EditProfileParams) {
+  const token = localStorage.getItem("accessToken");
+
+  if (!token) throw new ApiError("User not authenticated", 401);
+
+  const formData = new FormData();
+
+  formData.append("name", params.name);
+  formData.append("lastName", params.lastName);
+  if (params.ProfileImageFile) {
+    formData.append("profileImageFile", params.ProfileImageFile);
+  }
+
+  const response = await fetch(`${API_URL}/users/${userId}/profile`, {
+    method: "PUT",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+    body: formData,
+  });
+
+  if (!response.ok) {
+    let errorMessage = "Something went wrong";
+
+    try {
+      const errorData = await response.json();
+      errorMessage = errorData.detail || errorData.title || errorData.message;
+    } catch {
+      if (import.meta.env.DEV) {
+        console.error(errorMessage);
+      }
+    }
+
+    throw new ApiError(errorMessage, response.status);
+  }
+
+  return await response.json();
 }

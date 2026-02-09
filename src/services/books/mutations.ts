@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { BorrowBookAction } from "./api";
+import { BorrowBookAction, EditProfile, type EditProfileParams } from "./api";
 import {
   invalidateBooksQueries,
   invalidateBorrowedBooksQueries,
@@ -23,6 +23,25 @@ export const useBorrowBookAction = () => {
       invalidateUserQueries(queryClient);
       invalidateBorrowedBooksQueries(queryClient);
       invalidateBooksQueries(queryClient);
+    },
+  });
+};
+
+export const useEditProfile = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async ({
+      userId,
+      params,
+    }: {
+      userId: string;
+      params: EditProfileParams;
+    }) => {
+      return await EditProfile(userId, params);
+    },
+    onSuccess: () => {
+      invalidateUserQueries(queryClient);
     },
   });
 };

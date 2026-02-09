@@ -27,6 +27,12 @@ export interface User {
   updatedAt?: string;
 }
 
+export type EditProfileParams = {
+  name: string;
+  lastName: string;
+  ProfileImageFile?: File;
+};
+
 export type AuthUser = {
   id: string;
   name: string;
@@ -69,7 +75,7 @@ export interface Book {
   createdAt: string | null;
 }
 
-export interface BookParams {
+export interface CreateBookParams {
   title: string;
   author: string;
   categories: number[] | string[];
@@ -82,7 +88,7 @@ export interface BookParams {
   summary: string;
 }
 
-export interface UpdateBookParams {
+export interface EditBookParams {
   title: string;
   author: string;
   categories: number[] | string[];

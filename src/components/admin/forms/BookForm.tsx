@@ -6,7 +6,7 @@ import z from "zod";
 import { Button } from "../../ui/button";
 import { Textarea } from "../../ui/textarea";
 import { Label } from "../../ui/label";
-import type { Book, BookParams, Category, UpdateBookParams } from "@/types";
+import type { Book, CreateBookParams, Category, EditBookParams } from "@/types";
 import { cn } from "@/lib/utils";
 import { useEffect, useState } from "react";
 import { Check, Image } from "lucide-react";
@@ -19,7 +19,7 @@ import {
   ComboboxItem,
   ComboboxList,
 } from "@/components/ui/combobox";
-import { useCreateBook, useUpdateBook } from "@/services/admin/mutations";
+import { useCreateBook, useEditBook } from "@/services/admin/mutations";
 import { useNavigate } from "react-router";
 import { toast } from "sonner";
 
@@ -79,7 +79,7 @@ const BookForm = ({ type = "CREATE", book }: BookFormProps) => {
   }, [coverFile]);
 
   const { mutate: createBook, isPending: isCreating } = useCreateBook();
-  const { mutate: updateBook, isPending: isUpdating } = useUpdateBook();
+  const { mutate: updateBook, isPending: isUpdating } = useEditBook();
 
   function handleOnSubmit(data: z.infer<typeof schema>) {
     if (type === "CREATE") {
@@ -87,7 +87,7 @@ const BookForm = ({ type = "CREATE", book }: BookFormProps) => {
 
       if (!file) return;
 
-      const payload: BookParams = {
+      const payload: CreateBookParams = {
         title: data.title,
         author: data.author,
         categories: categoryList.length > 0 ? categoryList : [],
@@ -112,7 +112,7 @@ const BookForm = ({ type = "CREATE", book }: BookFormProps) => {
     } else {
       const file = data.coverFile?.[0];
 
-      const payload: UpdateBookParams = {
+      const payload: EditBookParams = {
         title: data.title,
         author: data.author,
         categories: categoryList.length > 0 ? categoryList : [],
@@ -230,6 +230,7 @@ const BookForm = ({ type = "CREATE", book }: BookFormProps) => {
           </div>
         )}
       </div>
+
       <FormField
         id="description"
         label="Description"

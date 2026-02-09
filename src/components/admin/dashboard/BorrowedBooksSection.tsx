@@ -31,7 +31,7 @@ const BorrowedBooksSection = () => {
         ) : borrowedBooks.data.length > 0 ? (
           borrowedBooks.data.map((book: BorrowRecord) => (
             <div
-              key={book.book.bookId}
+              key={book.borrowRecordId}
               className="shrink rounded-md bg-gray-50 px-4 py-2 transition-colors"
             >
               <div className="flex items-start gap-4">

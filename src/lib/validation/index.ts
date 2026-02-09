@@ -142,3 +142,39 @@ export const editBookSchema = bookSchema.extend({
     )
     .optional(),
 });
+
+export const EditUserSchema = z.object({
+  name: z
+    .string()
+    .min(3, { message: "Name must be at least 3 characters" })
+    .max(100, { message: "Name must be less than 100 characters" }),
+
+  lastName: z
+    .string()
+    .min(3, { message: "Lastname must be at least 3 characters" })
+    .max(100, { message: "Lastname must be less than 100 characters" }),
+
+  profileImageFile: z
+    .instanceof(FileList)
+    .refine(
+      (fileList) => {
+        const file = fileList[0];
+        return file && file.size <= 5000000; // 5MB
+      },
+      {
+        message: "Profile image must be less than 5MB",
+      },
+    )
+    .refine(
+      (fileList) => {
+        const file = fileList[0];
+        return (
+          file &&
+          ["image/jpeg", "image/png", "image/jpg", "image/webp"].includes(
+            file.type,
+          )
+        );
+      },
+      { message: "Profile image must be a JPEG, PNG, or WebP image" },
+    ),
+});

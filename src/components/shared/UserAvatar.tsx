@@ -21,7 +21,7 @@ const UserAvatar = ({
   return (
     <Avatar
       style={{ width: width, height: height }}
-      className="border-primary text-white transition duration-300 hover:border-2"
+      className="text-white "
     >
       <AvatarImage src={validImageUrl} />
       <AvatarFallback style={{ fontSize: textSize }} className="bg-primary">
