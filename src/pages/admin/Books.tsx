@@ -35,7 +35,7 @@ const Books = () => {
         <div>
           <h1 className="text-3xl font-semibold text-gray-900">Books</h1>
           <p className="text-sm text-gray-600">
-            Welcome back! Here's what's happening with your library today.
+           Check all books
           </p>
         </div>
         <SearchInput

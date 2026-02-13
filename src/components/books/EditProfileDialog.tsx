@@ -88,10 +88,10 @@ const EditProfileDialog = ({
       { userId: user.id, params: payload },
       {
         onSuccess: () => {
-          toast.success("Book created successfully");
+          toast.success("Profile updated successfully");
         },
         onError: (error: Error) => {
-          toast.error(`Creation Failed ${error.message}`);
+          toast.error(`Update Failed ${error.message}`);
         },
         onSettled: () => {
           setOpen(false);

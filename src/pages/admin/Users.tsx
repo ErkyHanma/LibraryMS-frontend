@@ -29,7 +29,9 @@ const Users = () => {
   };
 
   const handleStatusChange = (status: string) => {
-    setStatus((prev) => (prev.toLowerCase() === status.toLowerCase() ? "" : status));
+    setStatus((prev) =>
+      prev.toLowerCase() === status.toLowerCase() ? "" : status,
+    );
     setPage(1);
   };
 
@@ -41,9 +43,7 @@ const Users = () => {
       <div className="mb-6 flex flex-col justify-between gap-4 md:flex-row md:items-end">
         <div>
           <h1 className="text-3xl font-semibold text-gray-900">Users</h1>
-          <p className="text-sm text-gray-600">
-            Welcome back! Here's what's happening with your library today.
-          </p>
+          <p className="text-sm text-gray-600">Check all the approved users</p>
         </div>
         <SearchInput
           placeholder="Search users by name, email or university ID"
