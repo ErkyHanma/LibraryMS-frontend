@@ -9,6 +9,7 @@ import {
   getCategories,
   getBookById,
   getAccountRequestById,
+  getCategoriesWithPagination,
 } from "./api";
 import { QUERY_KEYS } from "@/lib/queryKeys";
 
@@ -116,6 +117,26 @@ export function useGetCategories(enabled = true) {
   return useQuery({
     queryKey: [QUERY_KEYS.GET_CATEGORIES],
     queryFn: async () => getCategories(),
+    enabled: enabled && isAuthenticated,
+    staleTime: Infinity,
+    gcTime: 5 * 60 * 1000,
+    retry: 1,
+    refetchOnMount: true,
+  });
+}
+
+export function useGetCategoriesWithPagination(
+  searchTerm = "",
+  filters = {},
+  enabled = true,
+) {
+  const { isAuthenticated } = useAuth();
+
+  return useQuery({
+    queryKey: [QUERY_KEYS.GET_CATEGORIES_WITH_PAGINATION, searchTerm, filters],
+    queryFn: async () => {
+      return getCategoriesWithPagination(searchTerm, filters);
+    },
     enabled: enabled && isAuthenticated,
     staleTime: Infinity,
     gcTime: 5 * 60 * 1000,

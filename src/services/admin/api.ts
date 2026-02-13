@@ -18,12 +18,6 @@ type FilterWithStatus = PaginationFilter & {
   status?: string;
 };
 
-// Usage
-type AccountRequestFilter = FilterWithStatus;
-type BorrowedBooksFilter = FilterWithStatus;
-type BookFilter = PaginationFilter;
-type UserFilter = PaginationFilter;
-
 // Base API URL from environment
 const API_URL = import.meta.env.VITE_BACKEND_URL || "";
 
@@ -61,7 +55,10 @@ export async function getDashboard() {
   return data;
 }
 
-export async function getBooks(searchTerm = "", filters: BookFilter = {}) {
+export async function getBooks(
+  searchTerm = "",
+  filters: PaginationFilter = {},
+) {
   const token = localStorage.getItem("accessToken");
 
   if (!token) {
@@ -149,7 +146,7 @@ export async function getBookById(bookId: number | string): Promise<Book> {
 
 export async function getAccountRequest(
   searchTerm = "",
-  filters: AccountRequestFilter = {},
+  filters: FilterWithStatus = {},
 ) {
   const token = localStorage.getItem("accessToken");
 
@@ -243,7 +240,7 @@ export async function getAccountRequestById(
 
 export async function getBorrowedBooks(
   searchTerm = "",
-  filters: BorrowedBooksFilter = {},
+  filters: FilterWithStatus = {},
 ) {
   const token = localStorage.getItem("accessToken");
 
@@ -296,7 +293,10 @@ export async function getBorrowedBooks(
   return data;
 }
 
-export async function getUsers(searchTerm = "", filters: UserFilter = {}) {
+export async function getUsers(
+  searchTerm = "",
+  filters: PaginationFilter = {},
+) {
   const token = localStorage.getItem("accessToken");
 
   if (!token) {
@@ -355,6 +355,61 @@ export async function getCategories() {
     throw new ApiError("User not authenticated", 401);
   }
   const response = await fetch(`${API_URL}/categories`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  if (!response.ok) {
+    let errorMessage = "Something went wrong";
+
+    try {
+      const errorData = await response.json();
+      errorMessage = errorData.detail || errorData.title || errorData.message;
+    } catch {
+      if (import.meta.env.DEV) {
+        console.error(errorMessage);
+      }
+    }
+
+    throw new ApiError(errorMessage, response.status);
+  }
+
+  const data = await response.json();
+  return data;
+}
+
+export async function getCategoriesWithPagination(
+  searchTerm = "",
+  filters: PaginationFilter = {},
+) {
+  const token = localStorage.getItem("accessToken");
+
+  if (!token) {
+    throw new ApiError("User not authenticated", 401);
+  }
+
+  const params = new URLSearchParams();
+
+  if (searchTerm) params.set("search", searchTerm);
+
+  Object.entries(filters).forEach(([key, value]) => {
+    if (Array.isArray(value)) {
+      value.forEach((v) => params.append(key, v));
+    } else if (value) {
+      params.append(key, value);
+    }
+  });
+
+  const queryString = params.toString();
+
+  const url = queryString
+    ? `${API_URL}/categories/pagination?${queryString}`
+    : `${API_URL}/categories/pagination`;
+
+  const response = await fetch(`${url}`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",

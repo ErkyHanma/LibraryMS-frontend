@@ -58,6 +58,8 @@ export interface AccountRequest {
 export type Category = {
   categoryId: number;
   name: string;
+  createdAt: string;
+  books: number; // Count of book with this category
 };
 
 export interface Book {

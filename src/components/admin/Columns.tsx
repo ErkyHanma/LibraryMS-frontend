@@ -394,3 +394,31 @@ export const accountRequestsColumns: ColumnDef<AccountRequest>[] = [
     },
   },
 ];
+
+export const categoriesColumns: ColumnDef<Category>[] = [
+  {
+    accessorKey: "name",
+    header: "Name",
+  },
+  {
+    accessorKey: "createdAt",
+    header: "Creation Date",
+    cell: ({ row }) => {
+      const date = new Date(row.getValue("createdAt"));
+      const formattedDate = formatDate(date);
+
+      return <div>{formattedDate}</div>;
+    },
+  },
+  {
+    accessorKey: "booksCount",
+    header: "Books",
+  },
+  {
+    header: "Action",
+    cell: ({ row }) => {
+      const bookId = row.original.categoryId;
+      return <BookActionsCell bookId={bookId} />;
+    },
+  },
+];
