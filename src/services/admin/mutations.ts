@@ -13,11 +13,13 @@ import {
   deleteBook,
   returnBorrowedBook,
   editBook,
+  deleteCategory,
 } from "./api";
 import {
   invalidateAccountRequestQueries,
   invalidateBooksQueries,
   invalidateBorrowedBooksQueries,
+  invalidateCategoriesQueries,
   invalidateUserQueries,
 } from "./queryInvalidation";
 
@@ -62,6 +64,20 @@ export const useDeleteBook = () => {
       return await deleteBook(bookId);
     },
     onSuccess: () => {
+      invalidateBooksQueries(queryClient);
+    },
+  });
+};
+
+export const useDeleteCategory = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (categoryId: number) => {
+      return await deleteCategory(categoryId);
+    },
+    onSuccess: () => {
+      invalidateCategoriesQueries(queryClient);
       invalidateBooksQueries(queryClient);
     },
   });

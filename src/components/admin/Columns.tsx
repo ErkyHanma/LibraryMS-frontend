@@ -27,6 +27,7 @@ import {
 import UserActionCell from "./UserActionCell";
 import AccountRequestActionCell from "./AccountRequestActionCell";
 import BorrowedBooksActionCell from "./BorrowedBooksActionCell";
+import CategoryActionCell from "./CategoryActionCell";
 
 export const usersColumns: ColumnDef<TableUser>[] = [
   {
@@ -417,8 +418,11 @@ export const categoriesColumns: ColumnDef<Category>[] = [
   {
     header: "Action",
     cell: ({ row }) => {
-      const bookId = row.original.categoryId;
-      return <BookActionsCell bookId={bookId} />;
+      const categoryId = row.original.categoryId;
+      const booksCount = row.original.booksCount;
+      return (
+        <CategoryActionCell categoryId={categoryId} booksCount={booksCount} />
+      );
     },
   },
 ];
