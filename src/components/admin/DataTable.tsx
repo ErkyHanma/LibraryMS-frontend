@@ -12,21 +12,27 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import type { AccountRequest, Book, BorrowRecord, TableUser } from "@/types";
+import type {
+  AccountRequest,
+  Book,
+  BorrowRecord,
+  Category,
+  TableUser,
+} from "@/types";
 import { FileX } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface DataTableProps<
-  TData extends Book | BorrowRecord | TableUser | AccountRequest,
+  TData extends Book | BorrowRecord | TableUser | AccountRequest | Category,
   TValue,
 > {
   columns: ColumnDef<TData, TValue>[];
   table: TableType<TData>;
-  type: "Books" | "Users" | "BorrowedBooks" | "AccountRequests";
+  type: "Books" | "Users" | "BorrowedBooks" | "AccountRequests" | "Categories";
 }
 
 export function DataTable<
-  TData extends Book | BorrowRecord | TableUser | AccountRequest,
+  TData extends Book | BorrowRecord | TableUser | AccountRequest | Category,
   TValue,
 >({ columns, table, type }: DataTableProps<TData, TValue>) {
   return (
@@ -51,6 +57,7 @@ export function DataTable<
                           "availableCopies",
                           "status",
                           "booksBorrowed",
+                          "booksCount",
                           "role",
                         ].includes(header.column.id),
                       })}
@@ -92,6 +99,7 @@ export function DataTable<
                             "availableCopies",
                             "status",
                             "borrowedBooksCount",
+                            "booksCount",
                             "role",
                           ].includes(cell.column.id),
                         })}

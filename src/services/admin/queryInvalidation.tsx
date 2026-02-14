@@ -86,3 +86,29 @@ export function invalidateAccountRequestQueries(queryClient: QueryClient) {
     refetchType: "active",
   });
 }
+
+export function invalidateCategoriesQueries(queryClient: QueryClient) {
+  queryClient.invalidateQueries({
+    queryKey: [QUERY_KEYS.GET_CATEGORIES],
+    exact: false,
+    refetchType: "active",
+  });
+
+  queryClient.invalidateQueries({
+    queryKey: [QUERY_KEYS.GET_CATEGORIES_WITH_PAGINATION],
+    exact: false,
+    refetchType: "active",
+  });
+
+  queryClient.invalidateQueries({
+    queryKey: [QUERY_KEYS.GET_POPULAR_CATEGORIES],
+    exact: false,
+    refetchType: "active",
+  });
+
+  queryClient.invalidateQueries({
+    queryKey: [QUERY_KEYS.GET_BOOKS_BY_CATEGORYID],
+    exact: false,
+    refetchType: "active",
+  });
+}

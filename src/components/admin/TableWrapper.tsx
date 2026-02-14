@@ -14,6 +14,7 @@ import {
   accountRequestsColumns,
   booksColumns,
   borrowedBooksColumns,
+  categoriesColumns,
   usersColumns,
 } from "./Columns";
 import { Button } from "../ui/button";
@@ -36,11 +37,12 @@ import { Link } from "react-router";
 import AppPagination from "../books/AppPagination";
 import SortFilter from "../shared/SortFilter";
 import type { ReactNode } from "react";
+import CategoryForm from "./forms/CategoryForm";
 
 interface TableWrapperProps<T> {
   data: T[];
   meta?: Pagination;
-  type: "Books" | "Users" | "BorrowedBooks" | "AccountRequests";
+  type: "Books" | "Users" | "BorrowedBooks" | "AccountRequests" | "Categories";
   order?: string;
   setOrder?: (order: string) => void;
   status?: string;
@@ -105,6 +107,22 @@ const STATUS_FILTER_CONFIGS: Record<
   ],
 };
 
+const PAGE_TITLES = {
+  Users: "All Users",
+  Books: "All Books",
+  BorrowedBooks: "Borrowed Books",
+  AccountRequests: "Account Requests",
+  Categories: "All Categories",
+} as const;
+
+const PAGE_COLUMNS = {
+  Users: usersColumns,
+  Books: booksColumns,
+  BorrowedBooks: borrowedBooksColumns,
+  AccountRequests: accountRequestsColumns,
+  Categories: categoriesColumns,
+} as const;
+
 const TableWrapper = <
   T extends Book | TableUser | BorrowRecord | AccountRequest,
 >({
@@ -119,35 +137,16 @@ const TableWrapper = <
 }: TableWrapperProps<T>) => {
   const table = useReactTable({
     data: data,
-    columns: (type === "Users"
-      ? usersColumns
-      : type === "Books"
-        ? booksColumns
-        : type === "BorrowedBooks"
-          ? borrowedBooksColumns
-          : type === "AccountRequests" && accountRequestsColumns) as ColumnDef<
-      T,
-      any
-    >[],
+    columns: PAGE_COLUMNS[type] as ColumnDef<T, any>[],
     getCoreRowModel: getCoreRowModel(),
     manualPagination: true,
     manualFiltering: true,
   });
 
   return (
-    <div className="w-full space-y-6 rounded-xl bg-linear-to-br from-gray-50 to-white pb-4 pt-6 px-6 shadow-lg">
+    <div className="w-full space-y-6 rounded-xl bg-linear-to-br from-gray-50 to-white px-6 pt-6 pb-4 shadow-lg">
       <div className="mb-4 flex w-full items-center justify-between">
-        <h1 className="text-2xl font-medium">
-          {type === "Users"
-            ? "All Users"
-            : type === "Books"
-              ? "All Books"
-              : type === "BorrowedBooks"
-                ? "Borrowed Books"
-                : type === "AccountRequests"
-                  ? "Account Requested"
-                  : ""}
-        </h1>
+        <h1 className="text-2xl font-medium">{PAGE_TITLES[type]}</h1>
 
         <div className="flex gap-2">
           {setStatus && STATUS_FILTER_CONFIGS[type] && (
@@ -167,11 +166,19 @@ const TableWrapper = <
           )}
 
           {type === "Books" && (
-            <Link to={"/admin/books/new"}>
+            <Link to={"/admin/books/create"}>
               <Button className="form-btn">
                 <PlusCircle /> Create new Book{" "}
               </Button>
             </Link>
+          )}
+
+          {type === "Categories" && (
+            <CategoryForm type="CREATE">
+              <Button className="form-btn">
+                <PlusCircle /> Create new{" "}
+              </Button>
+            </CategoryForm>
           )}
         </div>
       </div>

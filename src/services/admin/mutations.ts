@@ -1,5 +1,6 @@
 import type {
   AccountRequestStatus,
+  CategoryParams,
   CreateBookParams,
   EditBookParams,
   UserStatus,
@@ -13,11 +14,15 @@ import {
   deleteBook,
   returnBorrowedBook,
   editBook,
+  deleteCategory,
+  createCategory,
+  editCategory,
 } from "./api";
 import {
   invalidateAccountRequestQueries,
   invalidateBooksQueries,
   invalidateBorrowedBooksQueries,
+  invalidateCategoriesQueries,
   invalidateUserQueries,
 } from "./queryInvalidation";
 
@@ -62,6 +67,54 @@ export const useDeleteBook = () => {
       return await deleteBook(bookId);
     },
     onSuccess: () => {
+      invalidateBooksQueries(queryClient);
+    },
+  });
+};
+
+export const useCreateCategory = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (params: CategoryParams) => {
+      return await createCategory(params);
+    },
+    onSuccess: () => {
+      invalidateCategoriesQueries(queryClient);
+      invalidateBooksQueries(queryClient);
+    },
+  });
+};
+
+export const useEditCategory = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async ({
+      categoryId,
+      params,
+    }: {
+      categoryId: number;
+      params: CategoryParams;
+    }) => {
+      return await editCategory(categoryId, params);
+    },
+    onSuccess: () => {
+      invalidateCategoriesQueries(queryClient);
+      invalidateBooksQueries(queryClient);
+    },
+  });
+};
+
+export const useDeleteCategory = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (categoryId: number) => {
+      return await deleteCategory(categoryId);
+    },
+    onSuccess: () => {
+      invalidateCategoriesQueries(queryClient);
       invalidateBooksQueries(queryClient);
     },
   });

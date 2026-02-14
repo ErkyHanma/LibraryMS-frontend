@@ -27,6 +27,7 @@ import {
 import UserActionCell from "./UserActionCell";
 import AccountRequestActionCell from "./AccountRequestActionCell";
 import BorrowedBooksActionCell from "./BorrowedBooksActionCell";
+import CategoryActionCell from "./CategoryActionCell";
 
 export const usersColumns: ColumnDef<TableUser>[] = [
   {
@@ -391,6 +392,34 @@ export const accountRequestsColumns: ColumnDef<AccountRequest>[] = [
       const id = row.original.accountRequestId;
       const status = row.original.status;
       return <AccountRequestActionCell accountRequestId={id} status={status} />;
+    },
+  },
+];
+
+export const categoriesColumns: ColumnDef<Category>[] = [
+  {
+    accessorKey: "name",
+    header: "Name",
+  },
+  {
+    accessorKey: "createdAt",
+    header: "Creation Date",
+    cell: ({ row }) => {
+      const date = new Date(row.getValue("createdAt"));
+      const formattedDate = formatDate(date);
+
+      return <div>{formattedDate}</div>;
+    },
+  },
+  {
+    accessorKey: "booksCount",
+    header: "Books",
+  },
+  {
+    header: "Action",
+    cell: ({ row }) => {
+      const category = row.original;
+      return <CategoryActionCell category={category} />;
     },
   },
 ];

@@ -16,4 +16,5 @@ export const QUERY_KEYS = {
   GET_BORROWED_BOOKS: "get-borrowed-books",
   GET_USERS: "get-users",
   GET_CATEGORIES: "get-categories",
+  GET_CATEGORIES_WITH_PAGINATION: "get-categories-with-pagination",
 };
