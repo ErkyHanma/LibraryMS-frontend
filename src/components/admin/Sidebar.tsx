@@ -37,7 +37,7 @@ const Sidebar = () => {
     },
     {
       image: <FileText className="h-5 w-5" />,
-      route: "/admin/books-borrowed",
+      route: "/admin/borrowed-books",
       label: "Borrowed Books",
     },
     {
@@ -78,7 +78,10 @@ const Sidebar = () => {
 
             <nav className="mt-6 flex flex-col gap-2">
               {ADMIN_SIDEBAR_NAVLINKS.map((link) => {
-                const isActive = pathname === link.route;
+                const isActive =
+                  link.route === "/admin"
+                    ? pathname === "/admin"
+                    : pathname.startsWith(link.route);
                 return (
                   <Link
                     to={link.route}

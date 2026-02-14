@@ -418,11 +418,8 @@ export const categoriesColumns: ColumnDef<Category>[] = [
   {
     header: "Action",
     cell: ({ row }) => {
-      const categoryId = row.original.categoryId;
-      const booksCount = row.original.booksCount;
-      return (
-        <CategoryActionCell categoryId={categoryId} booksCount={booksCount} />
-      );
+      const category = row.original;
+      return <CategoryActionCell category={category} />;
     },
   },
 ];

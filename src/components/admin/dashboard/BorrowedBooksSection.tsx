@@ -16,7 +16,7 @@ const BorrowedBooksSection = () => {
       <div className="mb-4 flex w-full shrink items-center justify-between">
         <h1 className="text-xl font-[550]">Borrowed Books</h1>
         <Link
-          to={"/admin/books-borrowed"}
+          to={"/admin/borrowed-books"}
           className="text-primary cursor-pointer rounded-md bg-gray-50 p-1 px-2 text-sm font-medium shadow transition-colors duration-100 hover:opacity-65 active:scale-95"
         >
           View All

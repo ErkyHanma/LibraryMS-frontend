@@ -62,6 +62,10 @@ export type Category = {
   booksCount: number; // Count of book with this category
 };
 
+export type CategoryParams = {
+  name: string;
+};
+
 export interface Book {
   bookId: number;
   title: string;

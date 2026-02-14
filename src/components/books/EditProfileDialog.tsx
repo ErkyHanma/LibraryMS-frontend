@@ -15,7 +15,7 @@ import { useEditProfile } from "@/services/books/mutations";
 import { toast } from "sonner";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { EditUserSchema } from "@/lib/validation";
+import { editUserSchema } from "@/lib/validation";
 import type z from "zod";
 import { DialogTitle } from "@radix-ui/react-dialog";
 
@@ -36,8 +36,8 @@ const EditProfileDialog = ({
     watch,
     reset,
     formState: { errors },
-  } = useForm<z.infer<typeof EditUserSchema>>({
-    resolver: zodResolver(EditUserSchema),
+  } = useForm<z.infer<typeof editUserSchema>>({
+    resolver: zodResolver(editUserSchema),
     defaultValues: {
       name: user.name,
       lastName: user.lastName,
@@ -75,7 +75,7 @@ const EditProfileDialog = ({
     }
   }, [open, reset, user.name, user.lastName, previewUrl]);
 
-  function handleOnSubmit(data: z.infer<typeof EditUserSchema>) {
+  function handleOnSubmit(data: z.infer<typeof editUserSchema>) {
     const file = data.profileImageFile?.[0];
 
     const payload: EditProfileParams = {

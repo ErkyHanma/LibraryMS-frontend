@@ -2,6 +2,7 @@ import type {
   AccountRequest,
   AccountRequestStatus,
   Book,
+  CategoryParams,
   CreateBookParams,
   EditBookParams,
   UserStatus,
@@ -585,6 +586,78 @@ export async function deleteBook(bookId: number) {
   }
 
   return true;
+}
+
+export async function createCategory(category: CategoryParams) {
+  const token = localStorage.getItem("accessToken");
+
+  if (!token) throw new ApiError("User not authenticated", 401);
+
+  const response = await fetch(`${API_URL}/categories`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(category),
+  });
+
+  console.log(response);
+
+  if (!response.ok) {
+    let errorMessage = "Something went wrong";
+
+    try {
+      const errorData = await response.json();
+      errorMessage = errorData.detail || errorData.title || errorData.message;
+    } catch {
+      if (import.meta.env.DEV) {
+        console.error(errorMessage);
+      }
+    }
+
+    throw new ApiError(errorMessage, response.status);
+  }
+
+  const data = await response.json();
+  return data;
+}
+
+export async function editCategory(
+  categoryId: number,
+  category: CategoryParams,
+) {
+  const token = localStorage.getItem("accessToken");
+
+  if (!token) throw new ApiError("User not authenticated", 401);
+
+  const response = await fetch(`${API_URL}/categories/${categoryId}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(category),
+  });
+
+  if (!response.ok) {
+    let errorMessage = "Something went wrong";
+
+    try {
+      const errorData = await response.json();
+      console.log(errorData);
+      errorMessage = errorData.detail || errorData.title || errorData.message;
+    } catch {
+      if (import.meta.env.DEV) {
+        console.error(errorMessage);
+      }
+    }
+
+    throw new ApiError(errorMessage, response.status);
+  }
+
+  const data = await response.json();
+  return data;
 }
 
 export async function deleteCategory(categoryId: number) {

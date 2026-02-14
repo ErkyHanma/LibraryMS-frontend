@@ -37,6 +37,7 @@ import { Link } from "react-router";
 import AppPagination from "../books/AppPagination";
 import SortFilter from "../shared/SortFilter";
 import type { ReactNode } from "react";
+import CategoryForm from "./forms/CategoryForm";
 
 interface TableWrapperProps<T> {
   data: T[];
@@ -111,7 +112,7 @@ const PAGE_TITLES = {
   Books: "All Books",
   BorrowedBooks: "Borrowed Books",
   AccountRequests: "Account Requests",
-  Categories: "Book Categories",
+  Categories: "All Categories",
 } as const;
 
 const PAGE_COLUMNS = {
@@ -165,11 +166,19 @@ const TableWrapper = <
           )}
 
           {type === "Books" && (
-            <Link to={"/admin/books/new"}>
+            <Link to={"/admin/books/create"}>
               <Button className="form-btn">
                 <PlusCircle /> Create new Book{" "}
               </Button>
             </Link>
+          )}
+
+          {type === "Categories" && (
+            <CategoryForm type="CREATE">
+              <Button className="form-btn">
+                <PlusCircle /> Create new{" "}
+              </Button>
+            </CategoryForm>
           )}
         </div>
       </div>

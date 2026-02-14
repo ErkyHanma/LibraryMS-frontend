@@ -1,3 +1,4 @@
+import BookTabNavigation from "@/components/admin/BookTabNavigation";
 import SearchInput from "@/components/admin/SearchInput";
 import TableSkeleton from "@/components/admin/TableSkeleton";
 import TableWrapper from "@/components/admin/TableWrapper";
@@ -44,6 +45,11 @@ const Categories = () => {
           searchValue={searchTerm}
           handleSearch={setSearchTerm}
         />
+      </div>
+
+      {/* Tabs for Books and Categories */}
+      <div className="mb-2">
+        <BookTabNavigation />
       </div>
 
       {isFetching ? (

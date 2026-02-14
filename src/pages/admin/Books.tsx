@@ -4,6 +4,7 @@ import TableWrapper from "@/components/admin/TableWrapper";
 import useDebounce from "@/hooks/useDebounce";
 import { useGetBooks } from "@/services/admin/queries";
 import { useMemo, useState } from "react";
+import BookTabNavigation from "@/components/admin/BookTabNavigation";
 
 const Books = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -15,7 +16,7 @@ const Books = () => {
   const filters = useMemo(
     () => ({
       page: page,
-      limit: 10, // Default 10
+      limit: 10,
       order: order,
     }),
     [page, order],
@@ -35,7 +36,7 @@ const Books = () => {
         <div>
           <h1 className="text-3xl font-semibold text-gray-900">Books</h1>
           <p className="text-sm text-gray-600">
-           Check all books
+            Manage your library's books and categories
           </p>
         </div>
         <SearchInput
@@ -43,6 +44,11 @@ const Books = () => {
           searchValue={searchTerm}
           handleSearch={setSearchTerm}
         />
+      </div>
+
+      {/* Tabs for Books and Categories */}
+      <div className="mb-1">
+        <BookTabNavigation />
       </div>
 
       {isFetching ? (
