@@ -753,10 +753,10 @@ export async function changeUserRole(userId: string, role: string) {
   const response = await fetch(`${API_URL}/users/${userId}/role`, {
     method: "PATCH",
     headers: {
-      "Content-Type": "application-json",
+      "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
     },
-    body: JSON.stringify(role),
+    body: JSON.stringify({ role }),
   });
 
   if (!response.ok) {
@@ -764,6 +764,7 @@ export async function changeUserRole(userId: string, role: string) {
 
     try {
       const errorData = await response.json();
+      console.log(errorData);
 
       if (errorData.errors && typeof errorData.errors === "object") {
         const firstError = Object.values(errorData.errors)[0];

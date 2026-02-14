@@ -6,19 +6,11 @@ import type {
   BorrowRecord,
   Category,
   TableUser,
-  UserRole,
 } from "@/types";
 import { capitalize, formatDate, getBorrowStatus } from "@/lib/utils";
 import type { ColumnDef } from "@tanstack/react-table";
 import UserAvatar from "../shared/UserAvatar";
-import { Check } from "lucide-react";
 
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import BookActionsCell from "./BookActionCell";
 import {
   ACCOUNT_REQUEST_STATUS_STYLES,
@@ -28,6 +20,7 @@ import UserActionCell from "./UserActionCell";
 import AccountRequestActionCell from "./AccountRequestActionCell";
 import BorrowedBooksActionCell from "./BorrowedBooksActionCell";
 import CategoryActionCell from "./CategoryActionCell";
+import RoleCell from "./RoleCell";
 
 export const usersColumns: ColumnDef<TableUser>[] = [
   {
@@ -65,42 +58,9 @@ export const usersColumns: ColumnDef<TableUser>[] = [
   {
     accessorKey: "role",
     header: "Role",
-    cell: ({ row }) => {
-      const userRole: UserRole = row.getValue("role");
-
-      return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <div>
-              <span
-                className={`${
-                  userRole.toUpperCase() === "USER"
-                    ? "text-primary bg-primary/10"
-                    : "bg-pink-50 text-pink-700"
-                } rounded-2xl px-2.5 py-0.5 text-sm font-medium`}
-              >
-                {capitalize(userRole)}
-              </span>
-            </div>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuItem className="flex justify-between p-2">
-              <button className="bg-primary/10 text-primary rounded-2xl px-2.5 py-0.5 text-sm font-medium">
-                User
-              </button>
-              {userRole.toUpperCase() === "USER" && <Check />}
-            </DropdownMenuItem>
-            <DropdownMenuItem className="flex justify-between p-2">
-              <button className="rounded-2xl bg-pink-50 px-2.5 py-0.5 text-sm font-medium text-pink-700">
-                Admin
-              </button>
-
-              {userRole.toUpperCase() === "ADMIN" && <Check />}
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      );
-    },
+    cell: ({ row }) => (
+      <RoleCell userId={row.original.id} userRole={row.getValue("role")} />
+    ),
   },
   {
     accessorKey: "borrowedBooksCount",

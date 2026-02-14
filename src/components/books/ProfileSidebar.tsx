@@ -67,10 +67,10 @@ const ProfileSidebar = ({ user }: { user: User }) => {
             </div>
           </div>
 
-          <div className="mt-6 space-y-4 border-t pt-6">
-            <div className="flex items-center gap-3">
+          <div className="border- mt-6 flex w-full space-y-4 pt-6 border-t">
+            <div className="flex w-full items-center justify-center ">
               <EditProfileDialog user={user}>
-                <Button>Edit Profile</Button>
+                <Button className="w-full">Edit Profile</Button>
               </EditProfileDialog>
             </div>
           </div>

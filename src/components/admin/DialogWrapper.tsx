@@ -7,14 +7,14 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Button } from "../ui/button";
-import { Check, CircleAlert } from "lucide-react";
+import { Check, CircleAlert, TriangleAlert } from "lucide-react";
 import { DialogClose } from "@radix-ui/react-dialog";
 import { cn } from "@/lib/utils";
 
 interface DialogWrapperProps {
   children: ReactNode;
   onConfirm: () => void;
-  type: "SUCCESS" | "DANGER";
+  type: "SUCCESS" | "DANGER" | "WARNING";
   title: string;
   description: string;
   btnText: string;
@@ -37,6 +37,7 @@ const DialogWrapper = ({
 
     if (!disabled) setOpen(false);
   };
+
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>{children}</DialogTrigger>
@@ -48,6 +49,7 @@ const DialogWrapper = ({
               {
                 "bg-red-700/25": type === "DANGER",
                 "bg-green-800/25": type === "SUCCESS",
+                "bg-amber-500/25": type === "WARNING",
               },
             )}
           >
@@ -57,11 +59,14 @@ const DialogWrapper = ({
                 {
                   "bg-red-700": type === "DANGER",
                   "bg-green-800": type === "SUCCESS",
+                  "bg-amber-500": type === "WARNING",
                 },
               )}
             >
               {type === "SUCCESS" ? (
                 <Check className="size-8 text-white" />
+              ) : type === "WARNING" ? (
+                <TriangleAlert className="size-8 text-white" />
               ) : (
                 <CircleAlert className="size-8 text-white" />
               )}
@@ -79,6 +84,7 @@ const DialogWrapper = ({
             className={cn("w-full text-white", {
               "bg-red-700 hover:bg-red-600": type === "DANGER",
               "bg-green-800 hover:bg-green-700": type === "SUCCESS",
+              "bg-amber-500 hover:bg-amber-600": type === "WARNING",
             })}
             onClick={handleConfirm}
           >
