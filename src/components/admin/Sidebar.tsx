@@ -5,6 +5,7 @@ import {
   Book,
   FileText,
   UserPlus,
+  LibraryBig,
 } from "lucide-react";
 import { Link, useLocation } from "react-router";
 import type { SidebarNavLink } from "@/types";
@@ -117,6 +118,14 @@ const Sidebar = () => {
                 <p className="truncate text-xs text-gray-500">{user?.email}</p>
               </div>
             </div>
+
+            <Link
+              to="/home"
+              className="group bg-primary/10 text-primary hover:bg-primary/20 flex cursor-pointer items-center justify-center gap-2 rounded-lg px-3 py-3 text-sm font-medium transition-all duration-200 hover:shadow-md active:scale-[0.98] md:px-4"
+            >
+              <span className="font-semibold">Library Feed</span>
+              <LibraryBig className="h-4 w-4 transition-transform duration-200 group-hover:scale-110" />
+            </Link>
 
             <button
               onClick={logout}
