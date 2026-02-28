@@ -48,11 +48,11 @@ const router = createBrowserRouter([
       {
         Component: AdminLayout,
         children: [
-          { index: true, path: "/admin", Component: Dashboard },
+          { path: "/admin", Component: Dashboard },
           { path: "admin/users", Component: Users },
           { path: "admin/books", Component: Books },
-          { path: "admin/books/:id", Component: AdminBookDetails },
           { path: "admin/books/create", Component: CreateBook },
+          { path: "admin/books/:id", Component: AdminBookDetails },
           { path: "admin/books/edit/:id", Component: EditBook },
           { path: "admin/borrowed-books", Component: BorrowedBooks },
           { path: "admin/account-requests", Component: AccountRequest },

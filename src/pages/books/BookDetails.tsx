@@ -10,10 +10,14 @@ import BookOverviewSkeleton from "@/components/books/BookOverviewSkeleton";
 
 const BookDetails = () => {
   const { id } = useParams();
-  const { data: book, isFetching, error } = useGetBookById(id ?? 0);
+  if (!id) throw new Error("Book ID is required");
+
+  const { data: book, isFetching, error, refetch } = useGetBookById(id);
 
   if (error) {
-    return <ErrorState message={(error as ApiError).message} />;
+    return (
+      <ErrorState onRetry={refetch} message={(error as ApiError).message} />
+    );
   }
 
   if (isFetching) {
