@@ -13,9 +13,9 @@ const BookCard = ({ book }: { book: Book }) => {
       key={bookId}
     >
       {/* Book Image */}
-      <div className="flex items-center justify-center p-8 transition-transform duration-300">
+      <div className="flex items-center justify-center p-4 transition-transform duration-300">
         <img
-          className="h-52 w-38 rounded-lg shadow-lg"
+          className="h-52 w-38 rounded-lg object-cover shadow-lg"
           src={coverUrl}
           alt={`${title} cover`}
         />

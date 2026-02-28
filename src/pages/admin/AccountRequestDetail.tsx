@@ -1,5 +1,5 @@
 import { useGetAccountRequestById } from "@/services/admin/queries";
-import BackButton from "./BackButton";
+import BackButton from "../../components/admin/BackButton";
 import { useParams } from "react-router";
 import { Spinner } from "@/components/ui/spinner";
 import { User, TrendingUp, IdCard, Calendar, Shield, Mail } from "lucide-react";

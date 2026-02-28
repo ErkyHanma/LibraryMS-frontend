@@ -78,7 +78,9 @@ const DialogWrapper = ({
             {description}
           </DialogDescription>
         </DialogHeader>
-        <div className="flex w-full flex-col gap-2">
+        <div
+          className={`flex w-full ${disabled && "cursor-not-allowed"} flex-col gap-2`}
+        >
           <Button
             disabled={disabled}
             className={cn("w-full text-white", {
@@ -90,7 +92,7 @@ const DialogWrapper = ({
           >
             {btnText}
           </Button>
-          <DialogClose>
+          <DialogClose asChild>
             <Button variant={"outline"} className="w-full">
               Cancel
             </Button>

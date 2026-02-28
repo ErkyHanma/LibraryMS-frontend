@@ -7,6 +7,32 @@ import { Button } from "../ui/button";
 import EditProfileDialog from "./EditProfileDialog";
 
 const ProfileSidebar = ({ user }: { user: User }) => {
+  const statusStyles = {
+    approved: {
+      bg: "bg-green-100",
+      text: "text-green-700",
+      label: "Approved",
+    },
+    blocked: {
+      bg: "bg-red-100",
+      text: "text-red-700",
+      label: "Blocked",
+    },
+    pending: {
+      bg: "bg-gray-100",
+      text: "text-gray-700",
+      label: "Pending",
+    },
+  };
+
+  const status = statusStyles[
+    user.status.toLocaleLowerCase() as keyof typeof statusStyles
+  ] || {
+    bg: "bg-gray-100",
+    text: "text-gray-700",
+    label: user.status,
+  };
+
   return (
     <div className="w-full md:max-w-75 lg:max-w-87.5">
       <div className="sticky top-22 rounded-lg bg-white p-6 shadow-sm">
@@ -33,8 +59,10 @@ const ProfileSidebar = ({ user }: { user: User }) => {
           <h2 className="text-xl font-bold text-gray-900">
             {user.name + " " + user.lastName}
           </h2>
-          <span className="mt-3 rounded-full bg-green-100 px-3 py-1 text-xs font-medium text-green-700">
-            Active Member
+          <span
+            className={`mt-3 rounded-full px-3 py-1 text-xs font-medium ${status.bg} ${status.text}`}
+          >
+            {status.label}
           </span>
         </div>
 
@@ -67,8 +95,8 @@ const ProfileSidebar = ({ user }: { user: User }) => {
             </div>
           </div>
 
-          <div className="border- mt-6 flex w-full space-y-4 pt-6 border-t">
-            <div className="flex w-full items-center justify-center ">
+          <div className="border- mt-6 flex w-full space-y-4 border-t pt-6">
+            <div className="flex w-full items-center justify-center">
               <EditProfileDialog user={user}>
                 <Button className="w-full">Edit Profile</Button>
               </EditProfileDialog>

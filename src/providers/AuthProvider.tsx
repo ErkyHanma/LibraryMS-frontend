@@ -33,7 +33,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       });
 
       if (!res.ok) {
-        let errorMessage = "Failed to fetch user data";
+        let errorMessage = "Failed to get user data";
 
         try {
           const errorData = await res.json();
@@ -48,7 +48,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       const userData = await res.json();
       return userData;
     } catch (error) {
-      console.error("Failed to fetch current user:", error);
+      console.error("Failed to get user:", error);
       localStorage.removeItem("accessToken");
 
       // Only show toast for non-401 errors

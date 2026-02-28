@@ -125,7 +125,7 @@ export const booksColumns: ColumnDef<Book>[] = [
       return (
         <div className="flex min-w-52 items-center gap-2">
           <img
-            className="h-auto w-8 rounded-xs object-cover"
+            className="h-auto max-h-20 min-h-16 w-auto max-w-16 rounded-xs object-cover"
             src={coverUrl}
             alt={`${title} cover`}
           />
@@ -178,8 +178,8 @@ export const booksColumns: ColumnDef<Book>[] = [
   {
     header: "Action",
     cell: ({ row }) => {
-      const bookId = row.original.bookId;
-      return <BookActionsCell bookId={bookId} />;
+      const book = row.original;
+      return <BookActionsCell book={book} />;
     },
   },
 ];
@@ -193,7 +193,7 @@ export const borrowedBooksColumns: ColumnDef<BorrowRecord>[] = [
       return (
         <div className="flex items-center gap-2">
           <img
-            className="h-auto w-8 rounded-xs object-cover"
+            className="h-auto w-10 min-h-12 rounded-xs object-cover"
             src={coverUrl}
             alt={`${title} cover`}
           />

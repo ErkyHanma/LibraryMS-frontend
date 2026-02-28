@@ -81,8 +81,10 @@ const EditProfileDialog = ({
     const payload: EditProfileParams = {
       name: data.name,
       lastName: data.lastName,
-      ProfileImageFile: file ?? null,
+      ProfileImageFile: file ?? undefined,
     };
+
+    console.log(payload);
 
     editProfile(
       { userId: user.id, params: payload },
@@ -99,6 +101,7 @@ const EditProfileDialog = ({
       },
     );
   }
+
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>{children}</DialogTrigger>

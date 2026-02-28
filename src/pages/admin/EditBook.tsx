@@ -1,5 +1,5 @@
 import BookForm from "@/components/admin/forms/BookForm";
-import BackButton from "./BackButton";
+import BackButton from "../../components/admin/BackButton";
 import { useParams } from "react-router";
 import { Spinner } from "@/components/ui/spinner";
 import { useGetBookById } from "@/services/books/queries";

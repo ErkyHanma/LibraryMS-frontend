@@ -38,7 +38,7 @@ const BorrowedBooksSection = () => {
                 <img
                   src={book.book.coverUrl}
                   alt={book.book.title}
-                  className="h-auto w-16 shrink rounded object-cover shadow-sm"
+                  className="h-auto max-h-24 min-h-22 w-16 shrink rounded object-cover shadow-sm"
                 />
                 <div className="relative min-w-0 flex-1">
                   <div className="flex items-start justify-between gap-2">

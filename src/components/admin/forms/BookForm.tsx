@@ -241,7 +241,12 @@ const BookForm = ({ type = "CREATE", book }: BookFormProps) => {
 
       {/* Custom File Input */}
       <div className="flex flex-col gap-2">
-        <Label htmlFor="coverFile">Book Cover</Label>
+        <Label htmlFor="coverFile">
+          Book Cover
+          <span className="text-muted-foreground text-xs font-normal">
+            ( Recommended: 800×1200px )
+          </span>
+        </Label>
         <div className="relative">
           <input
             type="file"

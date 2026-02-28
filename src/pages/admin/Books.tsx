@@ -30,7 +30,7 @@ const Books = () => {
   const { data, isFetching } = useGetBooks(debounceSearchTerm, filters);
 
   return (
-    <div className="min-h-screen w-full pt-20 md:pt-4">
+    <div className="min-h-screen mb-4 w-full pt-20 md:pt-4">
       {/* Header Section */}
       <div className="mb-6 flex flex-col justify-between gap-4 md:flex-row md:items-end">
         <div>
@@ -47,7 +47,7 @@ const Books = () => {
       </div>
 
       {/* Tabs for Books and Categories */}
-      <div className="mb-1">
+      <div className="mb-2">
         <BookTabNavigation />
       </div>
 

@@ -158,25 +158,28 @@ export const editUserSchema = z.object({
     .instanceof(FileList)
     .refine(
       (fileList) => {
-        const file = fileList[0];
-        return file && file.size <= 5000000; // 5MB
+        if (fileList.length > 0 && fileList[0]) {
+          return fileList[0].size <= 5000000;
+        }
+        return true;
       },
-      {
-        message: "Profile image must be less than 5MB",
-      },
+      { message: "Profile image must be less than 5MB" },
     )
     .refine(
       (fileList) => {
-        const file = fileList[0];
-        return (
-          file &&
-          ["image/jpeg", "image/png", "image/jpg", "image/webp"].includes(
-            file.type,
-          )
-        );
+        if (fileList.length > 0 && fileList[0]) {
+          return [
+            "image/jpeg",
+            "image/png",
+            "image/jpg",
+            "image/webp",
+          ].includes(fileList[0].type);
+        }
+        return true;
       },
-      { message: "Profile image must be a JPEG, PNG, or WebP image" },
-    ),
+      { message: "Cover must be a JPEG, PNG, or WebP image" },
+    )
+    .optional(),
 });
 
 export const createCategory = z.object({

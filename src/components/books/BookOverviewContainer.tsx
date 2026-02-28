@@ -11,7 +11,7 @@ type Props = {
 
 const BookOverviewContainer = ({ bookId }: Props) => {
   const { data: book } = useGetBookByIdSuspense(bookId);
-  return <BookOverview book={book} />;
+  return <BookOverview book={book} isHome={true} />;
 };
 
 export default BookOverviewContainer;

@@ -17,7 +17,7 @@ export function ErrorState({
   const navigate = useNavigate();
 
   return (
-    <main className="flex min-h-screen items-center justify-center p-4">
+    <main className="mt-30 flex items-center justify-center p-4">
       <div className="w-full max-w-2xl">
         <div className="flex flex-col items-center justify-center p-8 md:p-12">
           <div className="mb-6 flex justify-center">

@@ -3,10 +3,22 @@ import { Edit3, Trash2Icon } from "lucide-react";
 import { useDeleteCategory } from "@/services/admin/mutations";
 import CategoryForm from "./forms/CategoryForm";
 import type { Category } from "@/types";
+import { toast } from "sonner";
 
 const CategoryActionCell = ({ category }: { category: Category }) => {
   const { booksCount, categoryId } = category;
   const { mutate: deleteCategory, isPending } = useDeleteCategory();
+
+  const handleDeleteCategory = () => {
+    deleteCategory(categoryId, {
+      onSuccess: () => {
+        toast.success("Category deleted successfully!");
+      },
+      onError: (error: Error) => {
+        toast.error(`Unable to delete category: ${error.message}`);
+      },
+    });
+  };
 
   return (
     <div className="flex items-center gap-1">
@@ -25,7 +37,7 @@ const CategoryActionCell = ({ category }: { category: Category }) => {
             : "Are you sure you want to delete this category permanently? This action cannot be undone."
         }
         btnText={isPending ? "Deleting..." : "Delete"}
-        onConfirm={() => deleteCategory(categoryId)}
+        onConfirm={handleDeleteCategory}
         disabled={isPending}
       >
         <button className="flex cursor-pointer items-center justify-center gap-4 rounded-full p-1.5 transition duration-100 hover:scale-105 hover:bg-red-100">

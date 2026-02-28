@@ -1,11 +1,14 @@
 import type { Book } from "@/types";
 import BorrowBookBtnAction from "./BorrowBookBtnAction";
+import { Link } from "react-router";
+import { Button } from "../ui/button";
 
 type Props = {
   book: Book;
+  isHome?: boolean;
 };
 
-const BookOverview = ({ book }: Props) => {
+const BookOverview = ({ book, isHome = false }: Props) => {
   const {
     bookId,
     title,
@@ -18,56 +21,91 @@ const BookOverview = ({ book }: Props) => {
   } = book;
 
   return (
-    <section className="flex w-full flex-col justify-between gap-6 md:flex-row-reverse">
-      <div className="flex w-full flex-1 items-center justify-center">
-        <img
-          className="h-auto w-full max-w-xs object-cover"
-          src={coverUrl}
-          alt="Book cover"
-        />
-      </div>
+    <section className="flex w-full flex-col items-start justify-between gap-6 md:flex-row-reverse">
+      <Link
+        to={`/book/${bookId}`}
+        className="flex w-full flex-2 items-center justify-center"
+      >
+        <div className="relative flex w-full justify-center">
+          {/* Blurred Background */}
+          <img
+            className="absolute top-8 right-4 h-auto max-h-110 min-h-90 w-full max-w-xs rotate-z-12 opacity-60 blur-sm max-sm:hidden"
+            src={coverUrl}
+            alt="Book cover background"
+          />
 
-      <div className="flex w-full flex-1 flex-col space-y-1">
-        <h1 className="mb-4 text-4xl font-bold lg:text-5xl">{title}</h1>
+          <img
+            className="relative z-10 h-auto max-h-110 min-h-90 w-full max-w-xs object-cover"
+            src={coverUrl}
+            alt="Book cover"
+          />
+        </div>
+      </Link>
 
-        <div className="mb-4 flex flex-col gap-2 md:flex-row">
-          <p>
-            By <span className="text-primary font-medium">{author}</span>
-          </p>
-          <p>
-            Category:{" "}
-            <span className="text-primary font-semibold">
-              {categories.map((c, i) => (
-                <span key={c.categoryId}>
-                  {c.name}
-                  {i < categories.length - 1 && ", "}
-                </span>
-              ))}
+      {/* Book details */}
+      <div className="relative z-10 flex w-full flex-3 flex-col justify-center space-y-2">
+        {/* Categories */}
+        <div className="flex flex-wrap gap-2">
+          {categories.map((c) => (
+            <span
+              key={c.categoryId}
+              className="rounded-full border border-white/20 bg-black/10 px-3 py-1 text-xs font-medium tracking-widest backdrop-blur-sm"
+            >
+              {c.name}
             </span>
-          </p>
+          ))}
         </div>
 
-        <div className="mb-6 flex gap-6">
-          <div className="flex flex-col">
-            <span className="text-sm text-gray-500">Total books</span>
-            <span className="text-primary text-2xl font-bold">
+        {/* Title */}
+        <h1 className="text-4xl leading-tight font-bold tracking-tight lg:text-5xl">
+          {title}
+        </h1>
+
+        {/* Author */}
+        <p className="my-2 text-lg">
+          By <span className="text-primary font-semibold">{author}</span>
+        </p>
+
+        <div className="mb-6 h-px w-16 bg-gray-300" />
+
+        {/* Stats */}
+        <div className="flex gap-8">
+          <div className="flex flex-col gap-1">
+            <span className="text-xs font-medium tracking-widest uppercase">
+              Total Copies
+            </span>
+            <span className="text-primary text-3xl font-bold">
               {totalCopies}
             </span>
           </div>
 
-          <div className="h-auto w-px bg-gray-200" />
+          <div className="h-auto w-px" />
 
-          <div className="flex flex-col">
-            <span className="text-sm text-gray-500">Available</span>
-            <span className="text-2xl font-bold text-green-600">
+          <div className="flex flex-col gap-1">
+            <span className="text-xs font-medium tracking-widest uppercase">
+              Available
+            </span>
+            <span className="text-3xl font-bold text-emerald-400">
               {availableCopies}
             </span>
           </div>
         </div>
 
-        <p className="mb-6">{description}</p>
+        {/* Description */}
+        <p className="line-clamp-4 max-w-prose text-sm leading-relaxed">
+          {description}
+        </p>
 
-        <BorrowBookBtnAction bookId={bookId} bookTitle={title} />
+        <div className="flex gap-4 pt-2">
+          <BorrowBookBtnAction bookId={bookId} bookTitle={title} />
+          {isHome && (
+            <Link to={"/search"}>
+              <Button className="px-6 py-5" variant={"outline"}>
+                Discover all books
+              </Button>
+            </Link>
+          )}
+        </div>
       </div>
     </section>
   );

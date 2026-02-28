@@ -184,7 +184,7 @@ const TableWrapper = <
       </div>
 
       <div className="overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm">
-        <div className="hide-scrollbar overflow-auto md:max-h-96 lg:max-h-105 xl:max-h-112">
+        <div className="overflow-auto thin-scrollbar md:max-h-96 lg:max-h-105 xl:max-h-112">
           <DataTable
             type={type}
             table={table}

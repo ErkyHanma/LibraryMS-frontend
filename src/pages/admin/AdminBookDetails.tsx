@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 
 import { BookOpen, Calendar, Edit } from "lucide-react";
 import { Link, useParams } from "react-router";
-import BackButton from "./BackButton";
+import BackButton from "../../components/admin/BackButton";
 import { formatDate } from "@/lib/utils";
 import type { Category } from "@/types";
 import { useGetBookById } from "@/services/admin/queries";
@@ -56,7 +56,7 @@ const AdminBookDetails = () => {
             <div className="flex items-start justify-center lg:w-54">
               <div className="overflow-hidden rounded-lg shadow-lg ring-1 ring-black/5">
                 <img
-                  className="h-auto w-full max-w-70 object-cover lg:max-w-full"
+                  className="h-auto min-h-68 w-full max-w-70 object-cover lg:max-w-full"
                   src={coverUrl}
                   alt="Book cover"
                 />

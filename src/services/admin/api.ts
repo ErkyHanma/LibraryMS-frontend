@@ -739,9 +739,6 @@ export async function changeUserStatus(userId: string, status: UserStatus) {
     throw new ApiError(errorMessage, response.status);
   }
 
-  const data = await response.json();
-  console.log(data);
-
   return { success: true };
 }
 
@@ -764,7 +761,6 @@ export async function changeUserRole(userId: string, role: string) {
 
     try {
       const errorData = await response.json();
-      console.log(errorData);
 
       if (errorData.errors && typeof errorData.errors === "object") {
         const firstError = Object.values(errorData.errors)[0];
@@ -784,9 +780,6 @@ export async function changeUserRole(userId: string, role: string) {
 
     throw new ApiError(errorMessage, response.status);
   }
-
-  const data = await response.json();
-  console.log(data);
 
   return true;
 }

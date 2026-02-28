@@ -28,7 +28,9 @@ const Header = () => {
               fullname={user?.name + " " + (user?.lastName ?? "")}
               profileImageUrl={user?.profileImageUrl ?? ""}
             />
-            <p className="hidden font-medium md:flex">
+            <p
+              className={`hidden font-medium md:flex ${pathname === "/profile" && "text-primary hover:text-primary/90"}`}
+            >
               {user?.name + " " + (user?.lastName ?? "")}
             </p>
           </Link>
@@ -51,7 +53,7 @@ const Header = () => {
 
             <button
               onClick={logout}
-              className="cursor-pointer rounded-md p-1 hover:bg-red-100 "
+              className="cursor-pointer rounded-md p-1 hover:bg-red-100"
             >
               <img
                 className="h-7 transition-all duration-75 hover:scale-105"

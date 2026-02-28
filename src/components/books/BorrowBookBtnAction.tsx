@@ -52,10 +52,13 @@ const BorrowBookBtnAction = ({
     );
   };
 
+  const dueDate = new Date();
+  dueDate.setDate(dueDate.getDate() + 14);
+
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button className="form-btn mt-2 md:max-w-62.5">Borrow Book</Button>
+        <Button className="form-btn px-14 py-5">Borrow Book</Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-100">
         <DialogHeader className="flex flex-col items-center gap-4">
@@ -89,9 +92,7 @@ const BorrowBookBtnAction = ({
                 </span>
                 <span className="text-muted-foreground">→</span>
                 <span className="text-primary font-semibold">
-                  {new Date(
-                    Date.now() + 14 * 24 * 60 * 60 * 1000,
-                  ).toLocaleDateString("en-US", {
+                  {dueDate.toLocaleDateString("en-US", {
                     month: "short",
                     day: "numeric",
                     year: "numeric",

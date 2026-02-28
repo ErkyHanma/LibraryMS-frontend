@@ -22,7 +22,7 @@ const RecentBooksSection = () => {
       </div>
 
       <Link
-        to="/admin/books/new"
+        to="/admin/books/create"
         className="group hover:border-primary focus:ring-primary/40 relative mb-2 flex items-center gap-4 rounded-xl border border-dashed border-gray-200 bg-linear-to-br from-gray-50 to-white px-6 py-2 transition-all duration-200 hover:-translate-y-px hover:shadow-md focus:ring-2 focus:outline-none active:translate-y-0"
       >
         <div className="bg-primary/10 text-primary group-hover:bg-primary flex h-8 w-8 items-center justify-center rounded-full transition-colors group-hover:text-white">
@@ -51,7 +51,7 @@ const RecentBooksSection = () => {
                   <img
                     src={book.coverUrl}
                     alt={book.title}
-                    className="h-auto w-14 rounded object-cover shadow-sm"
+                    className="h-auto max-h-24 min-h-22 w-16 rounded object-cover shadow-sm"
                   />
                   <div className="relative flex-1">
                     <div className="flex items-start justify-between">

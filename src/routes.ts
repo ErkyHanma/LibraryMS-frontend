@@ -1,4 +1,4 @@
-import { createBrowserRouter } from "react-router";
+import { createBrowserRouter, redirect } from "react-router";
 import App from "./App.tsx";
 import AuthLayout from "./pages/auth/AuthLayout.tsx";
 import Login from "./pages/auth/Login.tsx";
@@ -27,6 +27,8 @@ const router = createBrowserRouter([
     Component: App,
     ErrorBoundary: ErrorBoundary,
     children: [
+      { index: true, loader: () => redirect("/auth/login") },
+
       {
         Component: AuthLayout,
         children: [
@@ -47,18 +49,18 @@ const router = createBrowserRouter([
         Component: AdminLayout,
         children: [
           { index: true, path: "/admin", Component: Dashboard },
-          { path: "/admin/users", Component: Users },
-          { path: "/admin/books", Component: Books },
-          { path: "/admin/books/:id", Component: AdminBookDetails },
-          { path: "/admin/books/create", Component: CreateBook },
-          { path: "/admin/books/edit/:id", Component: EditBook },
-          { path: "/admin/borrowed-books", Component: BorrowedBooks },
-          { path: "/admin/account-requests", Component: AccountRequest },
+          { path: "admin/users", Component: Users },
+          { path: "admin/books", Component: Books },
+          { path: "admin/books/:id", Component: AdminBookDetails },
+          { path: "admin/books/create", Component: CreateBook },
+          { path: "admin/books/edit/:id", Component: EditBook },
+          { path: "admin/borrowed-books", Component: BorrowedBooks },
+          { path: "admin/account-requests", Component: AccountRequest },
           {
-            path: "/admin/account-requests/:id",
+            path: "admin/account-requests/:id",
             Component: AccountRequestDetail,
           },
-          { path: "/admin/books/categories", Component: Categories },
+          { path: "admin/books/categories", Component: Categories },
         ],
       },
     ],
