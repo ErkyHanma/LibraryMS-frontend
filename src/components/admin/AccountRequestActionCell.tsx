@@ -65,7 +65,9 @@ const AccountRequestActionCell = ({
         type="SUCCESS"
         title="Approve Account Request"
         description="Approve the student's account request and grant access. A confirmation email will be sent upon approval."
-        btnText={isPending ? "Sending decision" : "Approve & Send Confirmation"}
+        btnText={
+          isPending ? "Sending decision..." : "Approve & Send Confirmation"
+        }
         onConfirm={() => handleStatusChange("APPROVED")}
         disabled={isPending}
       >

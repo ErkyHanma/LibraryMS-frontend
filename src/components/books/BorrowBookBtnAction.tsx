@@ -32,6 +32,9 @@ const BorrowBookBtnAction = ({
       toast.error(
         `You account hasn't been approved yet. An email will be sent upon your email when decison it's made`,
       );
+
+      setOpen(false);
+      return;
     }
 
     return borrowBook(
@@ -69,44 +72,50 @@ const BorrowBookBtnAction = ({
           </div>
 
           <DialogTitle>Confirm Book Borrowing</DialogTitle>
-          <DialogDescription className="space-y-3 text-center">
-            <p>
-              You are about to borrow{" "}
-              <span className="text-foreground font-semibold">
-                "{bookTitle}"
-              </span>
-              .
-            </p>
-
-            <div className="bg-muted/50 rounded-lg p-3 text-sm">
-              <p className="text-foreground mb-2 font-medium">
-                Borrowing Period:
-              </p>
-              <div className="flex items-center justify-center gap-2">
+          <DialogDescription asChild>
+            <div className="space-y-3 text-center">
+              <p>
+                You are about to borrow{" "}
                 <span className="text-foreground font-semibold">
-                  {new Date().toLocaleDateString("en-US", {
-                    month: "short",
-                    day: "numeric",
-                    year: "numeric",
-                  })}
+                  "{bookTitle}"
                 </span>
-                <span className="text-muted-foreground">→</span>
-                <span className="text-primary font-semibold">
-                  {dueDate.toLocaleDateString("en-US", {
-                    month: "short",
-                    day: "numeric",
-                    year: "numeric",
-                  })}
-                </span>
+                .
+              </p>
+
+              <div className="bg-muted/50 rounded-lg p-3 text-sm">
+                <p className="text-foreground mb-2 font-medium">
+                  Borrowing Period:
+                </p>
+
+                <div className="flex items-center justify-center gap-2">
+                  <span className="text-foreground font-semibold">
+                    {new Date().toLocaleDateString("en-US", {
+                      month: "short",
+                      day: "numeric",
+                      year: "numeric",
+                    })}
+                  </span>
+
+                  <span className="text-muted-foreground">→</span>
+
+                  <span className="text-primary font-semibold">
+                    {dueDate.toLocaleDateString("en-US", {
+                      month: "short",
+                      day: "numeric",
+                      year: "numeric",
+                    })}
+                  </span>
+                </div>
+
+                <p className="text-muted-foreground mt-2 text-xs">
+                  (14 days from today)
+                </p>
               </div>
-              <p className="text-muted-foreground mt-2 text-xs">
-                (14 days from today)
+
+              <p className="text-sm">
+                Please return the book by the due date to avoid late fees.
               </p>
             </div>
-
-            <p className="text-sm">
-              Please return the book by the due date to avoid late fees.
-            </p>
           </DialogDescription>
         </DialogHeader>
         <div className="flex w-full flex-col gap-2">

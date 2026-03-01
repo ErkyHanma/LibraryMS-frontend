@@ -84,8 +84,6 @@ const EditProfileDialog = ({
       ProfileImageFile: file ?? undefined,
     };
 
-    console.log(payload);
-
     editProfile(
       { userId: user.id, params: payload },
       {

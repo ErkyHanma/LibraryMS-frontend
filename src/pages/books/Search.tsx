@@ -129,6 +129,10 @@ const Search = () => {
     setIsModalOpen(false);
   };
 
+  const resetAllModalFilters = () => {
+    setTempCategories([]);
+  };
+
   const resetAllFilters = () => {
     const params = new URLSearchParams(searchParams);
     params.set("page", "1");
@@ -293,7 +297,7 @@ const Search = () => {
         open={isModalOpen}
         setOpen={setIsModalOpen}
         handleApplyFilters={applyModalFilters}
-        resetAllFilters={resetAllFilters}
+        resetAllFilters={resetAllModalFilters}
         setTempIsAvailable={setTempIsAvailable}
         toggleTempCategory={toggleTempCategory}
         tempCategories={tempCategories}

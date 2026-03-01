@@ -51,7 +51,7 @@ const BookFiltersModal = ({
           <h2 className="text-xl font-semibold">Filters</h2>
         </div>
         <button
-          onClick={resetAllFilters}
+          onClick={() => resetAllFilters()}
           className="cursor-pointer text-sm text-gray-400 transition-colors duration-75 hover:text-gray-600"
         >
           RESET

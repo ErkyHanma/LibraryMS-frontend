@@ -2,7 +2,8 @@ import { FormField } from "@/components/shared/FormField";
 import { Button } from "@/components/ui/button";
 import { signUpFormSchema } from "@/lib/validation";
 import { ApiError } from "@/services/apiError";
-import { signUp, type SignUpCredentials } from "@/services/auth/api";
+import { type SignUpCredentials } from "@/services/auth/api";
+import { useSignUp } from "@/services/auth/mutations";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router";
@@ -11,6 +12,7 @@ import z from "zod";
 
 const SignUp = () => {
   const navigate = useNavigate();
+  const { mutate: signUp, isPending } = useSignUp();
   const {
     register,
     handleSubmit,
@@ -38,11 +40,20 @@ const SignUp = () => {
         universityId: data.universityId,
       };
 
-      await signUp(payload);
-      toast.success("Account created successfully!", {
-        description: "You can now log in to access the library.",
+      signUp(payload, {
+        onSuccess: () => {
+          toast.success("Account created successfully!", {
+            description: "You can now log in to access the library.",
+          });
+
+          navigate("/auth/login");
+        },
+        onError: (error: Error) => {
+          toast.error("Error creating account", {
+            description: `Creation Failed ${error.message}`,
+          });
+        },
       });
-      navigate("/auth/login");
     } catch (error) {
       if (error instanceof ApiError) {
         toast.error(error.getUserMessage());
@@ -114,8 +125,8 @@ const SignUp = () => {
           error={errors.confirmPassword}
         />
 
-        <Button type="submit" className="form-btn">
-          Sign Up
+        <Button disabled={isPending} type="submit" className="form-btn">
+          {isPending ? "Processing..." : "Sign Up"}
         </Button>
       </form>
 

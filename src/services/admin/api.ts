@@ -602,8 +602,6 @@ export async function createCategory(category: CategoryParams) {
     body: JSON.stringify(category),
   });
 
-  console.log(response);
-
   if (!response.ok) {
     let errorMessage = "Something went wrong";
 
@@ -645,7 +643,6 @@ export async function editCategory(
 
     try {
       const errorData = await response.json();
-      console.log(errorData);
       errorMessage = errorData.detail || errorData.title || errorData.message;
     } catch {
       if (import.meta.env.DEV) {
@@ -830,9 +827,6 @@ export async function ChangeAccountRequestStatus(
 
     throw new ApiError(errorMessage, response.status);
   }
-
-  const data = await response.json();
-  console.log(data);
 
   return { success: true };
 }

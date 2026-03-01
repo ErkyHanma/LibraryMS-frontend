@@ -35,8 +35,6 @@ const AccountRequestDetail = () => {
     );
   }
 
-  console.log(data);
-
   const {
     user,
     status,

@@ -34,8 +34,6 @@ const DialogWrapper = ({
 
   const handleConfirm = () => {
     onConfirm();
-
-    if (!disabled) setOpen(false);
   };
 
   return (
