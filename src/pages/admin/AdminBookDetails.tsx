@@ -23,7 +23,7 @@ const AdminBookDetails = () => {
 
   if (!book) {
     return (
-      <div className="p-8">
+      <div className="pt-20 pb-8 lg:pt-8">
         <p>Book not found</p>
         <BackButton to="/admin/books" label="Go to Books" variant="ghost" />
       </div>

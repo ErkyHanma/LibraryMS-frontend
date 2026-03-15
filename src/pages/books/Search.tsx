@@ -5,7 +5,7 @@ import { ErrorState } from "@/components/shared/ErrorState";
 import { Input } from "@/components/ui/input";
 import { Spinner } from "@/components/ui/spinner";
 import useDebounce from "@/hooks/useDebounce";
-import type { ApiError } from "@/services/apiError";
+import { ApiError } from "@/services/apiError";
 import { useGetBooks } from "@/services/books/queries";
 import type { Book } from "@/types";
 import { useMemo, useState } from "react";
@@ -54,6 +54,7 @@ const Search = () => {
     isLoading,
     error,
     isFetching,
+    refetch,
   } = useGetBooks(debouncedSearchTerm, filters);
 
   // Calculation for active filter count for badge
@@ -151,7 +152,13 @@ const Search = () => {
   };
 
   if (error) {
-    return <ErrorState message={(error as ApiError).message} />;
+    return (
+      <ErrorState
+        status={error instanceof ApiError ? error.status : undefined}
+        onRetry={refetch}
+        message={error instanceof ApiError ? error.getUserMessage() : undefined}
+      />
+    );
   }
 
   if (isLoading) {

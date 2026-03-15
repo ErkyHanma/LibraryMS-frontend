@@ -2,7 +2,7 @@ import { Suspense } from "react";
 import BookOverview from "@/components/books/BookOverview";
 import { ErrorState } from "@/components/shared/ErrorState";
 import { Spinner } from "@/components/ui/spinner";
-import type { ApiError } from "@/services/apiError";
+import { ApiError } from "@/services/apiError";
 import { useGetBookById } from "@/services/books/queries";
 import { useParams } from "react-router";
 import SimilarBooks from "@/components/books/SimilarBooks";
@@ -16,7 +16,11 @@ const BookDetails = () => {
 
   if (error) {
     return (
-      <ErrorState onRetry={refetch} message={(error as ApiError).message} />
+      <ErrorState
+        status={error instanceof ApiError ? error.status : undefined}
+        onRetry={refetch}
+        message={error instanceof ApiError ? error.getUserMessage() : undefined}
+      />
     );
   }
 

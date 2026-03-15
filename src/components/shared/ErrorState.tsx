@@ -1,56 +1,86 @@
-import { AlertCircle, ArrowLeft, RefreshCw } from "lucide-react";
 import { useNavigate } from "react-router";
-import { Button } from "../ui/button";
+import { RefreshCw, ArrowLeft, Home, AlertCircle } from "lucide-react";
 
 interface ErrorStateProps {
+  status?: number | false;
   title?: string;
-  message: string;
+  message?: string;
   onRetry?: () => void;
   showBack?: boolean;
+  showHome?: boolean;
 }
 
 export function ErrorState({
+  status,
   title = "Something went wrong",
-  message,
+  message = "An unexpected error occurred. Please try again or contact support if the problem persists.",
   onRetry,
   showBack = true,
+  showHome = false,
 }: ErrorStateProps) {
   const navigate = useNavigate();
 
+  const isStatusKnow = status === 404 || status === 500;
+
   return (
-    <main className="mt-30 flex items-center justify-center p-4">
-      <div className="w-full max-w-2xl">
-        <div className="flex flex-col items-center justify-center p-8 md:p-12">
-          <div className="mb-6 flex justify-center">
-            <div className="rounded-full bg-red-100 p-4">
-              <AlertCircle className="h-16 w-16 text-red-600" strokeWidth={1.5} />
-            </div>
-          </div>
-
-          <h1 className="mb-4 text-center text-3xl font-bold text-gray-900 md:text-4xl">
-            {title}
+    <main className="flex min-h-[60vh] items-center justify-center p-6">
+      <div className="flex w-full max-w-md flex-col items-center justify-center text-center">
+        {/* Show status if well-known, otherwise show icon */}
+        {isStatusKnow ? (
+          <h1 className="text-destructive text-8xl leading-none font-bold md:text-9xl">
+            {status}
           </h1>
+        ) : (
+          <AlertCircle
+            className="text-destructive h-16 w-16"
+            strokeWidth={1.5}
+          />
+        )}
 
-          <p className="mb-8 text-center text-lg text-gray-600">{message}</p>
+        {/* Divider */}
+        <div className="bg-destructive my-5 h-1 w-16 rounded-full md:my-7" />
 
-          <div className="flex w-full max-w-112.5 flex-col gap-2">
-            {showBack && (
-              <button
-                onClick={() => navigate(-1)}
-                className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-lg bg-red-700 px-6 py-3 font-medium text-white shadow-sm transition-colors duration-100"
-              >
-                <ArrowLeft className="h-5 w-5" />
-                Go back
-              </button>
-            )}
+        {/* Title */}
+        <p className="text-foreground text-2xl font-bold md:text-3xl">
+          {status === 404 ? "Not Found" : title}
+        </p>
 
-            {onRetry && (
-              <Button variant="outline" onClick={onRetry} className="w-full gap-2">
-                <RefreshCw className="h-4 w-4" />
-                Try again
-              </Button>
-            )}
-          </div>
+        {/* Message */}
+        <p className="text-muted-foreground mt-4 max-w-sm text-sm md:text-base">
+          {message}
+        </p>
+
+        {/* Actions */}
+        <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
+          {showBack && (
+            <button
+              onClick={() => navigate(-1)}
+              className="bg-foreground text-background flex items-center gap-2 rounded-md px-6 py-2.5 text-sm font-medium transition-all duration-150 hover:opacity-90 active:scale-95"
+            >
+              <ArrowLeft className="h-4 w-4" />
+              Go back
+            </button>
+          )}
+
+          {showHome && (
+            <button
+              onClick={() => navigate("/")}
+              className="bg-foreground text-background flex items-center gap-2 rounded-md px-6 py-2.5 text-sm font-medium transition-all duration-150 hover:opacity-90 active:scale-95"
+            >
+              <Home className="h-4 w-4" />
+              Return home
+            </button>
+          )}
+
+          {onRetry && (
+            <button
+              onClick={onRetry}
+              className="border-border hover:bg-muted text-foreground flex items-center gap-2 rounded-md border px-6 py-2.5 text-sm font-medium transition-all duration-150 active:scale-95"
+            >
+              <RefreshCw className="h-4 w-4" />
+              Try again
+            </button>
+          )}
         </div>
       </div>
     </main>

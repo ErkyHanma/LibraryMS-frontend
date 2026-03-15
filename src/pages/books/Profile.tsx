@@ -25,6 +25,7 @@ import { useMemo, useState } from "react";
 
 import AppPagination from "@/components/books/AppPagination";
 import SortFilter from "@/components/shared/SortFilter";
+import { ApiError } from "@/services/apiError";
 
 type ActiveStatusTabsType = "ALL" | "BORROWED" | "RETURNED" | "OVERDUE";
 
@@ -52,12 +53,14 @@ const Profile = () => {
     data,
     isLoading,
     error: getProfileError,
+    refetch: refetchGetUserProfile,
   } = useGetUserProfile(user?.id ?? "");
 
   const {
     data: borrowedRecords,
     isFetching,
     error: getBorrowedRecordsError,
+    refetch: refetchGetBorrowedRecordsByUserId,
   } = useGetBorrowedRecordsByUserId(
     user?.id ?? "",
     debounceSearchTerm,
@@ -74,8 +77,39 @@ const Profile = () => {
     setPage(1);
   };
 
-  if (getProfileError || getBorrowedRecordsError)
-    return <ErrorState message="User not found" />;
+  if (getBorrowedRecordsError)
+    return (
+      <ErrorState
+        status={
+          getBorrowedRecordsError instanceof ApiError
+            ? getBorrowedRecordsError.status
+            : undefined
+        }
+        onRetry={refetchGetBorrowedRecordsByUserId}
+        message={
+          getBorrowedRecordsError instanceof ApiError
+            ? getBorrowedRecordsError.getUserMessage()
+            : undefined
+        }
+      />
+    );
+
+  if (getProfileError)
+    return (
+      <ErrorState
+        status={
+          getProfileError instanceof ApiError
+            ? getProfileError.status
+            : undefined
+        }
+        onRetry={refetchGetUserProfile}
+        message={
+          getProfileError instanceof ApiError
+            ? getProfileError.getUserMessage()
+            : undefined
+        }
+      />
+    );
 
   return (
     <div className="bg-gray-50">
