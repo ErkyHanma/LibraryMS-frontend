@@ -14,9 +14,14 @@ const App = () => {
       <Toaster
         position="top-right"
         expand={false}
-        richColors
         closeButton
         duration={4000}
+        toastOptions={{
+          classNames: {
+            error: "toast-error-custom",
+            success: "toast-success-custom",
+          },
+        }}
       />
     </>
   );

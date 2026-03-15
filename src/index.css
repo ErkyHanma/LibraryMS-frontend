@@ -85,6 +85,37 @@
   background-color: rgba(17, 25, 40, 0);
 }
 
+.toast-error-custom {
+  --normal-bg: light-dark(
+    var(--destructive),
+    color-mix(in oklab, var(--destructive) 60%, var(--background))
+  ) !important;
+  --normal-text: var(--color-white) !important;
+  --normal-border: transparent !important;
+}
+
+.toast-success-custom {
+  --normal-bg: light-dark(
+    var(--color-green-600),
+    var(--color-green-400)
+  ) !important;
+  --normal-text: var(--color-white) !important;
+  --normal-border: light-dark(
+    var(--color-green-600),
+    var(--color-green-400)
+  ) !important;
+}
+
+/* Error toast close button */
+.toast-error-custom [data-close-button] {
+  color: var(--color-white) !important;
+}
+
+/* Success toast close button */
+.toast-success-custom [data-close-button] {
+  color: var(--color-white) !important;
+}
+
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
