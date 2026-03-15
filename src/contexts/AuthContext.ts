@@ -5,7 +5,7 @@ import { createContext, useContext } from "react";
 type AuthContextType = {
   user: AuthUser | null;
   token: string | null;
-  login: (credentials: LoginCredentials) => Promise<LoginResponse>;
+  login: (credentials: LoginCredentials) => Promise<LoginResponse | null>;
   logout: () => void;
   isLoading: boolean;
   isAuthenticated: boolean;

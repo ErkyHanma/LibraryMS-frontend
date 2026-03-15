@@ -1,6 +1,8 @@
 import { AuthContext } from "@/contexts/AuthContext";
 import { ApiError } from "@/services/apiError";
+import { api } from "@/services/axiosInstance";
 import type { AuthUser } from "@/types";
+import axios from "axios";
 import { useState, useEffect, type ReactNode } from "react";
 import { toast } from "sonner";
 
@@ -12,6 +14,7 @@ export type LoginCredentials = {
 export type LoginResponse = {
   user: AuthUser;
   accessToken: string;
+  refreshToken: string;
 };
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
@@ -19,39 +22,17 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [token, setToken] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
-  const backendUrl = import.meta.env.VITE_BACKEND_URL;
+  const API_URL = import.meta.env.VITE_BACKEND_URL;
 
-  // Fetch current user
-  const fetchCurrentUser = async (
-    authToken: string,
-  ): Promise<AuthUser | null> => {
+  const fetchCurrentUser = async (): Promise<AuthUser | null> => {
     try {
-      const res = await fetch(`${backendUrl}/auth/me`, {
-        headers: {
-          Authorization: `Bearer ${authToken}`,
-        },
-      });
-
-      if (!res.ok) {
-        let errorMessage = "Failed to get user data";
-
-        try {
-          const errorData = await res.json();
-          errorMessage = errorData.detail || errorData.message || errorMessage;
-        } catch {
-          // If JSON parsing fails, use default message
-        }
-
-        throw new ApiError(errorMessage, res.status);
-      }
-
-      const userData = await res.json();
-      return userData;
+      const res = await api.get("/auth/me");
+      return res.data;
     } catch (error) {
       console.error("Failed to get user:", error);
       localStorage.removeItem("accessToken");
 
-      // Only show toast for non-401 errors
+      // Only show toast for non-401 errors (401 means token just expired)
       if (error instanceof ApiError && error.status !== 401) {
         toast.error(error.getUserMessage());
       }
@@ -63,13 +44,35 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     const initAuth = async () => {
       const storedToken = localStorage.getItem("accessToken");
+      const storedRefreshToken = localStorage.getItem("refreshToken");
 
       if (storedToken) {
-        const userData = await fetchCurrentUser(storedToken);
-
+        const userData = await fetchCurrentUser();
         if (userData) {
           setToken(storedToken);
           setUser(userData);
+        }
+      } else if (storedRefreshToken) {
+        // No access token but refresh token exists — try to get a new access token
+        try {
+          const res = await axios.post(`${API_URL}/auth/refresh-token`, {
+            refreshToken: storedRefreshToken,
+          });
+
+          localStorage.setItem("accessToken", res.data.accessToken);
+          localStorage.setItem("refreshToken", res.data.refreshToken);
+          setToken(res.data.accessToken);
+          setUser(res.data.user); // only if refresh endpoint returns the user
+
+          if (user?.role.toUpperCase() === "ADMIN") {
+            window.location.href = "/admin";
+          } else {
+            window.location.href = "/home";
+          }
+        } catch {
+          // Refresh token is invalid/expired — clear everything
+          localStorage.removeItem("accessToken");
+          localStorage.removeItem("refreshToken");
         }
       }
 
@@ -81,47 +84,17 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const login = async (
     credentials: LoginCredentials,
-  ): Promise<LoginResponse> => {
+  ): Promise<LoginResponse | null> => {
     try {
-      const res = await fetch(`${backendUrl}/auth/login`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(credentials),
-      });
+      const res = await api.post("/auth/login", credentials);
 
-      if (!res.ok) {
-        let errorMessage = "Login failed";
-
-        try {
-          const errorData = await res.json();
-
-          errorMessage =
-            errorData.detail ||
-            errorData.message ||
-            errorData.title ||
-            errorMessage;
-        } catch {
-          // If JSON parsing fails, rely on ApiError's getUserMessage
-        }
-
-        throw new ApiError(errorMessage, res.status);
-      }
-
-      const result: LoginResponse = await res.json();
-      // Validate response structure
-      if (!result.accessToken || !result.user) {
-        throw new ApiError("Invalid response from server", 500);
-      }
-
-      setToken(result.accessToken);
-      setUser(result.user);
-      localStorage.setItem("accessToken", result.accessToken);
+      setToken(res.data.accessToken);
+      setUser(res.data.user);
+      localStorage.setItem("accessToken", res.data.accessToken);
+      localStorage.setItem("refreshToken", res.data.refreshToken);
 
       toast.success("Logged in successfully");
-
-      return result;
+      return res.data;
     } catch (error) {
       if (error instanceof ApiError) {
         toast.error(error.getUserMessage());
@@ -131,15 +104,24 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         toast.error("An unexpected error occurred");
       }
 
-      throw error;
+      console.error("Login failed:", error);
+      return null;
     }
   };
 
-  const logout = () => {
-    setUser(null);
-    setToken(null);
-    localStorage.removeItem("accessToken");
-    toast.success("Logged out successfully");
+  const logout = async () => {
+    try {
+      await api.post("/auth/revoke");
+    } catch (error) {
+      // Log but don't block logout — always clear local state
+      console.error("Revoke request failed:", error);
+    } finally {
+      setUser(null);
+      setToken(null);
+      localStorage.removeItem("accessToken");
+      localStorage.removeItem("refreshToken");
+      toast.success("Logged out successfully");
+    }
   };
 
   const value = {

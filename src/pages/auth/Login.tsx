@@ -36,7 +36,9 @@ const Login = () => {
         navigate("/home");
       }
     } catch (err) {
-      console.log(err instanceof Error ? err.message : "Login failed");
+      if (import.meta.env.DEV) {
+        console.log(err instanceof Error ? err.message : "Login failed");
+      }
     }
   }
 
