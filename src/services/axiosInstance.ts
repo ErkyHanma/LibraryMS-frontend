@@ -22,6 +22,8 @@ api.interceptors.response.use(
     const status = error.response?.status;
     const originalRequest = error.config;
 
+    console.log(error.response);
+
     // If 401 and not already retried, attempt refresh
     if (
       status === 401 &&

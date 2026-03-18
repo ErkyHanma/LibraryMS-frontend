@@ -1,10 +1,12 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { BorrowBookAction, EditProfile, type EditProfileParams } from "./api";
+
 import {
   invalidateBooksQueries,
   invalidateBorrowedBooksQueries,
   invalidateUserQueries,
 } from "../admin/queryInvalidation";
+import { BorrowBookAction, EditProfile } from "./api";
+import type { EditProfileParams } from "@/types";
 
 export const useBorrowBookAction = () => {
   const queryClient = useQueryClient();

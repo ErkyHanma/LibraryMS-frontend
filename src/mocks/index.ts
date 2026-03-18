@@ -8,11 +8,21 @@ import {
 } from "../types/index";
 
 export const categories: Record<string, Category> = {
-  programming: { categoryId: 1, name: "Programming" },
-  interview: { categoryId: 2, name: "Interview Preparation" },
-  cs: { categoryId: 3, name: "Computer Science" },
-  design: { categoryId: 4, name: "Design" },
-  education: { categoryId: 5, name: "Education" },
+  programming: {
+    categoryId: 1,
+    name: "Programming",
+    createdAt: "",
+    booksCount: 9,
+  },
+  interview: {
+    categoryId: 2,
+    name: "Interview Preparation",
+    createdAt: "",
+    booksCount: 9,
+  },
+  cs: { categoryId: 3, name: "Computer Science", createdAt: "", booksCount: 9 },
+  design: { categoryId: 4, name: "Design", createdAt: "", booksCount: 9 },
+  education: { categoryId: 5, name: "Education", createdAt: "", booksCount: 9 },
 };
 
 export const mockBook: Book = {
@@ -345,8 +355,8 @@ export const mockTableAccountRequest: AccountRequest[] = [
   {
     accountRequestId: 2,
     status: "APPROVED",
-    reviewAt: "2025-01-12T14:22:00Z",
-    reviewBy: "admin@university.edu",
+    reviewedAt: "2025-01-12T14:22:00Z",
+    reviewedBy: mockUser1,
     createdAt: "2025-01-11T09:05:10Z",
     updateAt: "2025-01-12T14:22:00Z",
     user: mockUser3,
@@ -355,8 +365,8 @@ export const mockTableAccountRequest: AccountRequest[] = [
     accountRequestId: 3,
     status: "REJECTED",
     rejectionReason: "Incomplete documentation",
-    reviewAt: "2025-01-15T16:40:45Z",
-    reviewBy: "admin@university.edu",
+    reviewedAt: "2025-01-15T16:40:45Z",
+    reviewedBy: mockUser1,
     createdAt: "2025-01-14T08:30:00Z",
     updateAt: "2025-01-15T16:40:45Z",
     user: mockUser2,

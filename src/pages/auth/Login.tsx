@@ -30,7 +30,7 @@ const Login = () => {
     try {
       const result = await login({ email, password });
 
-      if (result.user.role.toUpperCase() === "ADMIN") {
+      if (result?.user.role.toUpperCase() === "ADMIN") {
         navigate("/admin");
       } else {
         navigate("/home");
