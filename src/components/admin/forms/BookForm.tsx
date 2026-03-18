@@ -176,14 +176,15 @@ const BookForm = ({ type = "CREATE", book }: BookFormProps) => {
             onValueChange={(value) => {
               if (!value) return;
               // value is the categoryId directly, not an event
-              if (!categoryList.includes(value)) {
-                setCategoryList((prev) => [...prev, value]);
+              const categoryId = value.categoryId;
+              if (!categoryList.includes(categoryId)) {
+                setCategoryList((prev) => [...prev, categoryId]);
               }
             }}
             items={categories}
             itemToStringValue={({ name }: Category) => name}
           >
-            <ComboboxInput placeholder="Select a framework" />
+            <ComboboxInput value={""} placeholder="Select a framework" />
             <ComboboxContent>
               <ComboboxEmpty>No items found.</ComboboxEmpty>
               <ComboboxList>
@@ -191,7 +192,7 @@ const BookForm = ({ type = "CREATE", book }: BookFormProps) => {
                   <ComboboxItem
                     className="flex justify-between px-2"
                     key={category.categoryId}
-                    value={category.categoryId}
+                    value={category}
                   >
                     {category.name}
                     {categoryList.includes(category.categoryId) && <Check />}
