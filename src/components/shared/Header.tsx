@@ -57,7 +57,7 @@ const Header = () => {
             >
               <img
                 className="h-7 transition-all duration-75 hover:scale-105"
-                src="/public/icons/Frame.svg"
+                src="/icons/Frame.svg"
                 alt="Leave icon"
               />
             </button>

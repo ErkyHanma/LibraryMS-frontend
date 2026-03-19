@@ -23,7 +23,7 @@ const AuthLayout = () => {
           <div className="w-full max-w-100 rounded-xl p-4">
             <img
               className="mb-3 h-auto w-14"
-              src="/public/images/Logo.png"
+              src="/images/Logo.png"
               alt="Logo"
             />
             <h1 className="text-2xl font-semibold">Welcome to the LibraryMS</h1>
@@ -33,7 +33,7 @@ const AuthLayout = () => {
         <section className="hidden h-full w-full lg:block lg:w-[50%]">
           <img
             className="h-full w-full"
-            src="/public/images/library.png"
+            src="/images/library.png"
             alt="Library image"
           />
         </section>

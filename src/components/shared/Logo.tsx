@@ -7,7 +7,7 @@ type LogoProps = {
 const Logo = ({ route }: LogoProps) => {
   return (
     <Link to={route} className="flex items-center gap-1">
-      <img className="h-auto w-8" src="/public/images/Logo.png" alt="Logo" />
+      <img className="h-auto w-8" src="/images/Logo.png" alt="Logo" />
       <p className="text-2xl font-semibold">LibraryMs</p>
     </Link>
   );
