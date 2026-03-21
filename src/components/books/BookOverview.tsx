@@ -100,7 +100,7 @@ const BookOverview = ({ book, isHome = false }: Props) => {
           <BorrowBookBtnAction bookId={bookId} bookTitle={title} />
           {isHome && (
             <Link to={"/search"}>
-              <Button className="px-6 py-5" variant={"outline"}>
+              <Button className="px-3 py-5 sm:px-6" variant={"outline"}>
                 Discover all books
               </Button>
             </Link>

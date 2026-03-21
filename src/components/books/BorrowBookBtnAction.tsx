@@ -23,10 +23,15 @@ const BorrowBookBtnAction = ({
 }) => {
   const { mutate: borrowBook, isPending } = useBorrowBookAction();
   const [open, setOpen] = useState(false);
-  const { user, isAuthenticated } = useAuth();
+  const { user, isAuthenticated, isDemo } = useAuth();
 
   const handleBorrowBook = () => {
     if (!user || !isAuthenticated) return;
+
+    if (isDemo)
+      return toast.error(
+        `Demo accounts cannot borrow books. Sign up for a full account to start borrowing.`,
+      );
 
     if (user.status.toUpperCase() !== "APPROVED") {
       toast.error(
@@ -61,7 +66,7 @@ const BorrowBookBtnAction = ({
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button className="form-btn px-14 py-5">Borrow Book</Button>
+        <Button className="form-btn px-6 sm:px-14 py-5">Borrow Book</Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-100">
         <DialogHeader className="flex flex-col items-center gap-4">
@@ -121,7 +126,7 @@ const BorrowBookBtnAction = ({
         <div className="flex w-full flex-col gap-2">
           <Button
             onClick={handleBorrowBook}
-            disabled={isPending}
+            disabled={isPending || isDemo}
             className="bg-primary hover:bg-primary/90 w-full text-white"
           >
             {isPending ? "Processing..." : "Confirm Borrowing"}

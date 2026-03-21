@@ -172,7 +172,7 @@ const Search = () => {
   const hasResults = books.data.length > 0;
 
   return (
-    <main className="w-full p-6 pt-10">
+    <main className="w-full p-6">
       <div className="mx-auto max-w-7xl">
         <section className="flex w-full max-w-2xl flex-col space-y-2">
           <h1 className="text-3xl font-bold">Browse Catalog</h1>

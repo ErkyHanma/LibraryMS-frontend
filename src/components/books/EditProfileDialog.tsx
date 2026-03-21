@@ -18,6 +18,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { editUserSchema } from "@/lib/validation";
 import type z from "zod";
 import { DialogTitle } from "@radix-ui/react-dialog";
+import { useAuth } from "@/contexts/AuthContext";
 
 const EditProfileDialog = ({
   user,
@@ -29,6 +30,7 @@ const EditProfileDialog = ({
   const [open, setOpen] = useState(false);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const { mutate: editProfile, isPending } = useEditProfile();
+  const { isDemo } = useAuth();
 
   const {
     register,
@@ -76,6 +78,10 @@ const EditProfileDialog = ({
   }, [open, reset, user.name, user.lastName, previewUrl]);
 
   function handleOnSubmit(data: z.infer<typeof editUserSchema>) {
+    if (isDemo)
+      return toast.error(
+        `You are on a demo account you cannot perform this action`,
+      );
     const file = data.profileImageFile?.[0];
 
     const payload: EditProfileParams = {
