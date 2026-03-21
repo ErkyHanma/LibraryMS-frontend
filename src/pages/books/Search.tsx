@@ -248,7 +248,7 @@ const Search = () => {
                 <Spinner className="size-8" />
               </div>
             ) : hasResults ? (
-              <div className="grid w-full grid-cols-2 gap-6 md:grid-cols-3">
+              <div className="grid w-full grid-cols-2 gap-3 sm:gap-6 md:grid-cols-3">
                 {books.data.map((book: Book) => (
                   <BookCard book={book} key={book.bookId} />
                 ))}

@@ -184,7 +184,7 @@ const BookForm = ({ type = "CREATE", book }: BookFormProps) => {
             items={categories}
             itemToStringValue={({ name }: Category) => name}
           >
-            <ComboboxInput value={""} placeholder="Select a framework" />
+            <ComboboxInput value={""} placeholder="Select Categories" />
             <ComboboxContent>
               <ComboboxEmpty>No items found.</ComboboxEmpty>
               <ComboboxList>

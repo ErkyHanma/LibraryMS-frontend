@@ -11,11 +11,18 @@ const BookList = ({ title, books }: BookList) => {
   return (
     <section className="w-full">
       <h1 className="text-2xl font-semibold">{title}</h1>
-      <div className="mt-4 grid grid-cols-2 gap-8 space-y-4 sm:flex sm:gap-6 lg:gap-6">
-        {/* Show only 5 books*/}
-        {books.slice(0, 5).map((book) => (
+      <div className="mt-4 grid grid-cols-2 gap-4 space-y-4 sm:flex sm:gap-2 lg:gap-6">
+        {/* Show only 4 books*/}
+        {books.slice(0, 4).map((book) => (
           <BookItem key={book.bookId} book={book} />
         ))}
+
+        {/* 5th book - visible on md screens AND below sm screens */}
+        {books.length > 5 && (
+          <div className="flex w-full sm:hidden md:flex">
+            <BookItem key={books[4].bookId} book={books[4]} />
+          </div>
+        )}
 
         {/* 6th book - only visible on large screens */}
         {books.length > 5 && (
