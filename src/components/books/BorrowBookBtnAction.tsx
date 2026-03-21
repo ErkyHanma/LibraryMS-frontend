@@ -66,7 +66,7 @@ const BorrowBookBtnAction = ({
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button className="form-btn px-14 py-5">Borrow Book</Button>
+        <Button className="form-btn px-6 sm:px-14 py-5">Borrow Book</Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-100">
         <DialogHeader className="flex flex-col items-center gap-4">
