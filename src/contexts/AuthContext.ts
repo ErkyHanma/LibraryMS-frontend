@@ -9,6 +9,7 @@ type AuthContextType = {
   logout: () => void;
   isLoading: boolean;
   isAuthenticated: boolean;
+  isDemo: boolean;
 };
 
 export const AuthContext = createContext<AuthContextType | undefined>(

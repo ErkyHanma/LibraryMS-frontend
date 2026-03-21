@@ -5,8 +5,11 @@ import UserAvatar from "../shared/UserAvatar";
 import { Button } from "../ui/button";
 
 import EditProfileDialog from "./EditProfileDialog";
+import { useAuth } from "@/contexts/AuthContext";
 
 const ProfileSidebar = ({ user }: { user: User }) => {
+  const { isDemo } = useAuth();
+
   const statusStyles = {
     approved: {
       bg: "bg-green-100",
@@ -48,6 +51,7 @@ const ProfileSidebar = ({ user }: { user: User }) => {
             <EditProfileDialog user={user}>
               <button
                 type="button"
+                disabled={isDemo}
                 className="bg-primary absolute -right-1 -bottom-1 flex h-7 w-7 cursor-pointer items-center justify-center rounded-full text-white shadow-md transition-all duration-200 hover:scale-110 hover:shadow-lg active:scale-95"
                 aria-label="Edit profile picture"
               >
@@ -98,7 +102,9 @@ const ProfileSidebar = ({ user }: { user: User }) => {
           <div className="border- mt-6 flex w-full space-y-4 border-t pt-6">
             <div className="flex w-full items-center justify-center">
               <EditProfileDialog user={user}>
-                <Button className="w-full">Edit Profile</Button>
+                <Button disabled={isDemo} className="w-full">
+                  Edit Profile
+                </Button>
               </EditProfileDialog>
             </div>
           </div>

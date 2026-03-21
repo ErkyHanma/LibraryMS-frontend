@@ -21,6 +21,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<AuthUser | null>(null);
   const [token, setToken] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [isDemo, setIsDemo] = useState(false);
 
   const API_URL = import.meta.env.VITE_BACKEND_URL;
 
@@ -37,6 +38,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         toast.error(error.getUserMessage());
       }
 
+      setIsDemo(false);
       return null;
     }
   };
@@ -49,6 +51,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       if (storedToken) {
         const userData = await fetchCurrentUser();
         if (userData) {
+          if (userData?.role.toUpperCase() === "DEMO") {
+            setIsDemo(true);
+          }
           setToken(storedToken);
           setUser(userData);
         }
@@ -59,12 +64,19 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
             refreshToken: storedRefreshToken,
           });
 
+          const refreshedUser = res.data.user;
+
           localStorage.setItem("accessToken", res.data.accessToken);
           localStorage.setItem("refreshToken", res.data.refreshToken);
           setToken(res.data.accessToken);
-          setUser(res.data.user); // only if refresh endpoint returns the user
+          setUser(refreshedUser); // only if refresh endpoint returns the user
 
-          if (user?.role.toUpperCase() === "ADMIN") {
+          const role = refreshedUser?.role.toUpperCase();
+
+          if (role === "DEMO") {
+            setIsDemo(true);
+            window.location.href = "/admin";
+          } else if (role === "ADMIN") {
             window.location.href = "/admin";
           } else {
             window.location.href = "/home";
@@ -87,6 +99,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   ): Promise<LoginResponse | null> => {
     try {
       const res = await api.post("/auth/login", credentials);
+
+      if (res.data.user?.role.toUpperCase() === "DEMO") setIsDemo(true);
 
       setToken(res.data.accessToken);
       setUser(res.data.user);
@@ -118,6 +132,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     } finally {
       setUser(null);
       setToken(null);
+      setIsDemo(false);
       localStorage.removeItem("accessToken");
       localStorage.removeItem("refreshToken");
       toast.success("Logged out successfully");
@@ -131,6 +146,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     logout,
     isLoading,
     isAuthenticated: Boolean(user && token),
+    isDemo,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
