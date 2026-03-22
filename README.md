@@ -178,7 +178,7 @@ The individual book detail panel within the admin interface, showing full metada
  
 Automated emails sent to users upon account review — notifying them whether their registration was **approved** or **rejected** by an administrator.
  
-<div style="display: flex; flex-wrap: wrap; justify-content: center; align-items: flex-start; gap: 16px;">
+<div align="center">
   <img src="/public/images/ApprovedEmail.png" alt="Account Approved Email" width="300">
   <img src="/public/images/RejectedEmail.png" alt="Account Rejected Email" width="300">
 </div>
