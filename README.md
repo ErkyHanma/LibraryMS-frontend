@@ -3,7 +3,7 @@
 # LibraryMS — A Modern University Library Management System (Frontend)
  
   <div>
-    <img src="https://img.shields.io/badge/-React_18-61DAFB?style=for-the-badge&logo=React&logoColor=black" />
+    <img src="https://img.shields.io/badge/-React_19-61DAFB?style=for-the-badge&logo=React&logoColor=black" />
     <img src="https://img.shields.io/badge/-TypeScript-3178C6?style=for-the-badge&logo=Typescript&logoColor=white" />
     <img src="https://img.shields.io/badge/-Vite-646CFF?style=for-the-badge&logo=Vite&logoColor=white" />
     <img src="https://img.shields.io/badge/-Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white" /> <br/>
@@ -26,6 +26,8 @@ LibraryMS is a full-stack web application for managing University Library operat
 This project was born from a real observation: back in high school, the library had no digital system to track borrowings — if someone took a book, there was no record of it. That got me thinking about how a modern university library system should work. LibraryMS is my answer to that question — a platform built for universities and educational institutions to efficiently manage their library, where students can explore the book catalog, borrow books, and track their borrowing history with real-time availability updates, while administrators can manage users (approve, block), maintain the full book catalog (add, update, delete), and oversee all borrowing activity. All of this wrapped in a clean, modern UI that keeps simplicity at its core.
 
 The system also includes an **email notification** layer — users are automatically notified whether their account registration was approved or rejected, along with other key account and borrowing events.
+
+<br />
 
 🌐 **Live Site:** [https://libraryms-zeta.vercel.app/](https://libraryms-zeta.vercel.app/)
 
@@ -176,9 +178,8 @@ The individual book detail panel within the admin interface, showing full metada
  
 Automated emails sent to users upon account review — notifying them whether their registration was **approved** or **rejected** by an administrator.
  
-<div align="center" items>
+<div style="display: flex; flex-wrap: wrap; justify-content: center; align-items: flex-start; gap: 16px;">
   <img src="/public/images/ApprovedEmail.png" alt="Account Approved Email" width="300">
-  &nbsp;&nbsp;&nbsp;&nbsp;
   <img src="/public/images/RejectedEmail.png" alt="Account Rejected Email" width="300">
 </div>
  
@@ -188,7 +189,7 @@ Automated emails sent to users upon account review — notifying them whether th
 
 | Component          | Technology                             | Notes                                                 |
 | :----------------- | :------------------------------------- | :---------------------------------------------------- |
-| **Frontend**       | `React 18`, `TypeScript`, `Vite + SWC` | Layout-based routing strategy via React Router v7     |
+| **Frontend**       | `React 19`, `TypeScript`, `Vite + SWC` | Layout-based routing strategy via React Router v7     |
 | **Styling**        | `Tailwind CSS`, `shadcn/ui`            | OKLCH color tokens, utility-first styling             |
 | **Data Fetching**  | `TanStack Query (React Query)`         | Server state management with caching and invalidation |
 | **Forms**          | `React Hook Form`, `Zod`               | Type-safe form validation schemas                     |
