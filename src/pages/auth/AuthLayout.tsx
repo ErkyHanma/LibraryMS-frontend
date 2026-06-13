@@ -32,8 +32,10 @@ const AuthLayout = () => {
         </section>
         <section className="hidden h-full w-full lg:block lg:w-[50%]">
           <img
+            loading="eager"
+            fetchPriority="high"
             className="h-full w-full"
-            src="/images/library.png"
+            src="/images/library.webp"
             alt="Library image"
           />
         </section>
