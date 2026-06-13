@@ -21,6 +21,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<AuthUser | null>(null);
   const [token, setToken] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [isLoggingIn, setIsLoggingIn] = useState(false);
   const [isDemo, setIsDemo] = useState(false);
 
   const API_URL = import.meta.env.VITE_BACKEND_URL;
@@ -97,6 +98,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const login = async (
     credentials: LoginCredentials,
   ): Promise<LoginResponse | null> => {
+    setIsLoggingIn(true);
     try {
       const res = await api.post("/auth/login", credentials);
 
@@ -120,6 +122,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
       console.error("Login failed:", error);
       return null;
+    } finally {
+      setIsLoggingIn(false);
     }
   };
 
@@ -145,6 +149,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     login,
     logout,
     isLoading,
+    isLoggingIn,
     isAuthenticated: Boolean(user && token),
     isDemo,
   };

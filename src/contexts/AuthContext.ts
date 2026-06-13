@@ -8,6 +8,7 @@ type AuthContextType = {
   login: (credentials: LoginCredentials) => Promise<LoginResponse | null>;
   logout: () => void;
   isLoading: boolean;
+  isLoggingIn: boolean;
   isAuthenticated: boolean;
   isDemo: boolean;
 };
