@@ -22,7 +22,7 @@ const Landing = () => {
   if (isLoggingIn) {
     return (
       <div className="bg-background text-foreground flex h-screen items-center justify-center">
-        <Spinner className="size-15" />
+        <Spinner className="size-15 text-primary" />
       </div>
     );
   }
