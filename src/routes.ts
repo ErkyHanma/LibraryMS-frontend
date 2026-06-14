@@ -1,4 +1,4 @@
-import { createBrowserRouter, redirect } from "react-router";
+import { createBrowserRouter } from "react-router";
 import App from "./App.tsx";
 import AuthLayout from "./pages/auth/AuthLayout.tsx";
 import Login from "./pages/auth/Login.tsx";

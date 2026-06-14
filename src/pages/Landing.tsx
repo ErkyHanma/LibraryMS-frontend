@@ -44,11 +44,11 @@ const Landing = () => {
   };
 
   return (
-    <main className="flex min-h-screen w-full flex-col">
+    <main className="flex min-h-screen w-full flex-col overflow-hidden">
       <PublicHeader />
-      <div className="w-full p-8 pt-16">
+      <div className="animate-fade-in w-full p-8 pt-16">
         <div className="mx-auto mt-6 flex max-w-6xl flex-col md:mt-18 lg:flex-row">
-          <section className="mt-6 flex flex-1 flex-col items-center space-y-2 md:mt-0 lg:mr-36 lg:items-start">
+          <section className="animate-slide-up mt-6 flex flex-1 flex-col items-center space-y-2 md:mt-0 lg:mr-36 lg:items-start">
             <h1 className="text-center text-5xl font-bold md:text-6xl lg:text-start xl:text-7xl">
               Empower Your Learning with LibraryMs
             </h1>
@@ -73,7 +73,7 @@ const Landing = () => {
 
             {/* Features Section */}
             <div className="hidden grid-cols-3 gap-3 pt-8 lg:grid">
-              <div className="space-y-3">
+              <div className="animate-slide-up space-y-3 opacity-0 [animation-delay:200ms]">
                 <BookOpen className="text-primary size-8" />
                 <h3 className="font-bold text-slate-900">Smart Search</h3>
                 <p className="text-sm text-slate-500">
@@ -81,7 +81,7 @@ const Landing = () => {
                   system.
                 </p>
               </div>
-              <div className="space-y-3">
+              <div className="animate-slide-up space-y-3 opacity-0 [animation-delay:400ms]">
                 <Search className="text-primary size-8" />
                 <h3 className="font-bold text-slate-900">Recommendations</h3>
                 <p className="text-sm text-slate-500">
@@ -89,7 +89,7 @@ const Landing = () => {
                   preferences.
                 </p>
               </div>
-              <div className="space-y-3">
+              <div className="animate-slide-up space-y-3 opacity-0 [animation-delay:600ms]">
                 <User className="text-primary size-8" />
                 <h3 className="font-bold text-slate-900">User Dashboard</h3>
                 <p className="text-sm text-slate-500">
@@ -101,7 +101,7 @@ const Landing = () => {
           </section>
 
           {/* Product Showcase Section */}
-          <section className="relative mt-12 flex flex-1 items-center justify-center">
+          <section className="animate-fade-in relative mt-12 flex flex-1 items-center justify-center opacity-0 [animation-delay:800ms]">
             {/* Background Glow */}
             <div className="bg-primary/20 absolute h-75 w-125 rounded-full blur-3xl" />
 
@@ -118,11 +118,10 @@ const Landing = () => {
 
             {/* Tablet Mockup */}
             <div className="relative z-10 overflow-hidden rounded-[2rem] border-12 border-black bg-black shadow-2xl transition-transform duration-300 hover:-translate-y-2 md:mt-0">
-              {/* Camera */}
               <div className="absolute top-3 left-1/2 z-20 h-2 w-16 -translate-x-1/2 rounded-full bg-zinc-700" />
 
               <img
-                src="public/images/HomePageBooksScreenshot.png"
+                src="/images/HomePageBooksScreenshot.png"
                 alt="LibraryMS Dashboard"
                 className="h-auto w-162.5 rounded-xl"
               />
