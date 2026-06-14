@@ -1,4 +1,5 @@
 import DemoBanner from "@/components/shared/DemoBanner";
+import Footer from "@/components/shared/Footer";
 import Header from "@/components/shared/Header";
 import { useAuth } from "@/contexts/AuthContext";
 import { Navigate, Outlet } from "react-router";
@@ -21,6 +22,7 @@ const MainLayout = () => {
         {isDemo && <DemoBanner />}
         <Outlet />
       </div>
+      <Footer />
     </>
   );
 };

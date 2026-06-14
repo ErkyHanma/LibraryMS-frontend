@@ -8,7 +8,7 @@ import { Link } from "react-router";
 
 const Home = () => {
   return (
-    <main className="w-full p-8 pt-14">
+    <main className="w-full p-8 pt-14 pb-16">
       <div className="mx-auto flex max-w-6xl flex-col space-y-4">
         <Suspense fallback={<BookOverviewSkeleton />}>
           <BookOverviewContainer bookId={49} />

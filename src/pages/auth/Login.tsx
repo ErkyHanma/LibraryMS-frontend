@@ -20,7 +20,7 @@ const Login = () => {
     },
   });
 
-  const { login } = useAuth();
+  const { login, isLoggingIn } = useAuth();
   const navigate = useNavigate();
 
   async function handleOnSubmit({
@@ -69,8 +69,8 @@ const Login = () => {
           placeholder="••••••••"
         />
 
-        <Button type="submit" className="form-btn">
-          Log In
+        <Button type="submit" className="form-btn" disabled={isLoggingIn}>
+          {isLoggingIn ? "Logging in..." : "Log In"}
         </Button>
       </form>
 

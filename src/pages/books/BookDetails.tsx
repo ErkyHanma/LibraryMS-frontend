@@ -38,7 +38,7 @@ const BookDetails = () => {
   const firstCategoryId = book?.categories?.[0]?.categoryId;
 
   return (
-    <main className="w-full p-8 pt-14">
+    <main className="w-full p-8 pt-14 pb-28">
       <div className="mx-auto flex max-w-6xl flex-col space-y-10">
         <div className="mb-20 w-full flex-3">
           <BookOverview book={book} />
