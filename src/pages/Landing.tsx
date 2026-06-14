@@ -121,9 +121,11 @@ const Landing = () => {
               <div className="absolute top-3 left-1/2 z-20 h-2 w-16 -translate-x-1/2 rounded-full bg-zinc-700" />
 
               <img
-                src="/images/HomePageBooksScreenshot.png"
+                src="public/images/books_feed.webp"
                 alt="LibraryMS Dashboard"
                 className="h-auto w-162.5 rounded-xl"
+                loading="eager"
+                fetchPriority="high"
               />
             </div>
           </section>
