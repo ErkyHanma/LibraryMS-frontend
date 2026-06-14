@@ -20,6 +20,7 @@ import EditBook from "./pages/admin/EditBook.tsx";
 import ErrorBoundary from "./components/shared/ErrorBoundary.tsx";
 import AccountRequestDetail from "./pages/admin/AccountRequestDetail.tsx";
 import Categories from "./pages/admin/Categories.tsx";
+import Landing from "./pages/Landing.tsx";
 
 const router = createBrowserRouter([
   {
@@ -27,7 +28,7 @@ const router = createBrowserRouter([
     Component: App,
     ErrorBoundary: ErrorBoundary,
     children: [
-      { index: true, loader: () => redirect("/auth/login") },
+      { index: true, path: "/", Component: Landing },
 
       {
         Component: AuthLayout,

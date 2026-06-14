@@ -6,7 +6,6 @@ import { loginFormSchema } from "@/lib/validation";
 import { Link, useNavigate } from "react-router";
 import { FormField } from "@/components/shared/FormField";
 import { useAuth } from "@/contexts/AuthContext";
-import { Spinner } from "@/components/ui/spinner";
 
 const Login = () => {
   const {
@@ -71,14 +70,7 @@ const Login = () => {
         />
 
         <Button type="submit" className="form-btn" disabled={isLoggingIn}>
-          {isLoggingIn ? (
-            <>
-              <Spinner className="mr-2 h-4 w-4" />
-              Logging in...
-            </>
-          ) : (
-            "Log In"
-          )}
+          {isLoggingIn ? "Logging in..." : "Log In"}
         </Button>
       </form>
 

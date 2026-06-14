@@ -11,6 +11,8 @@ type AuthContextType = {
   isLoggingIn: boolean;
   isAuthenticated: boolean;
   isDemo: boolean;
+  demoEmail: string;
+  demoPassword: string;
 };
 
 export const AuthContext = createContext<AuthContextType | undefined>(

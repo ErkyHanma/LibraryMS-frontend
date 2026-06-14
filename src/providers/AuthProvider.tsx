@@ -6,6 +6,9 @@ import axios from "axios";
 import { useState, useEffect, type ReactNode } from "react";
 import { toast } from "sonner";
 
+const DEMO_EMAIL = "demo@example.com";
+const DEMO_PASSWORD = "DemoPa$$word123";
+
 export type LoginCredentials = {
   email: string;
   password: string;
@@ -152,6 +155,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     isLoggingIn,
     isAuthenticated: Boolean(user && token),
     isDemo,
+    demoEmail: DEMO_EMAIL,
+    demoPassword: DEMO_PASSWORD,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
