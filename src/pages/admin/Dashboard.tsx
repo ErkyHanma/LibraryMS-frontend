@@ -20,7 +20,7 @@ const Dashboard = () => {
         {/* Stats card section */}
         <StatsSection />
 
-        <div className="flex flex-col justify-between gap-6 md:flex-row">
+        <div className="flex flex-col justify-between gap-6 lg:flex-row">
           <div className="flex w-full flex-col gap-4 lg:max-w-[60%]">
             {/* Borrowed Books section */}
             <BorrowedBooksSection />
