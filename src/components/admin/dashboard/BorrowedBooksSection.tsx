@@ -12,7 +12,7 @@ const BorrowedBooksSection = () => {
   });
 
   return (
-    <section className="flex h-100 max-h-100 w-full flex-col rounded-lg bg-white p-4 shadow-sm md:max-h-88 md:max-w-xl md:min-w-xl">
+    <section className="flex h-100 max-h-100 w-full flex-col rounded-lg bg-white p-4 shadow-sm md:max-h-88">
       <div className="mb-4 flex w-full shrink items-center justify-between">
         <h1 className="text-xl font-[550]">Borrowed Books</h1>
         <Link
@@ -87,10 +87,10 @@ const BorrowedBooksSection = () => {
               <BookOpen className="size-14 text-white" />
             </div>
             <h3 className="mt-2 mb-1 text-xl font-semibold text-gray-900">
-              No Pending Account Requests
+              No Borrowed Books
             </h3>
             <p className="text-sm text-gray-500">
-              There are currently no account requests awaiting approval.
+              There are currently no books borrowed.
             </p>
           </div>
         )}
